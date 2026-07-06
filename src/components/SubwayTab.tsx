@@ -15,12 +15,17 @@ export default function SubwayTab() {
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
+    const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
     const map = L.map(containerRef.current).setView(TOKYO_STATION, 13);
-    L.tileLayer('https://tile.memomaps.de/tilegen/{z}/{x}/{y}.png', {
-      attribution:
-        'Map <a href="https://memomaps.de/">memomaps.de</a> <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, data &copy; OpenStreetMap contributors',
-      maxZoom: 18,
-    }).addTo(map);
+    L.tileLayer(
+      `https://{s}.basemaps.cartocdn.com/rastertiles/${isDark ? 'dark_all' : 'voyager'}/{z}/{x}/{y}{r}.png`,
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20,
+      },
+    ).addTo(map);
     mapRef.current = map;
 
     return () => {
@@ -94,7 +99,7 @@ export default function SubwayTab() {
       </div>
 
       <p className="text-xs text-gray-400 text-center">
-        지도를 확대하면 도쿄 지하철·JR 노선이 표시돼요. 데이터: OpenStreetMap · memomaps.de
+        역/장소를 검색해서 위치를 확인하세요. 지도: CARTO · OpenStreetMap
       </p>
     </div>
   );
