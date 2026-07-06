@@ -71,4 +71,8 @@ export const defaultData: TripData = {
     { id: crypto.randomUUID(), name: '약국 파스/동전파스', category: '약/화장품', store: '', price: 0, bought: false, taxFree: true },
     { id: crypto.randomUUID(), name: '면세용 여권', category: '체크리스트', store: '', price: 0, bought: false, taxFree: false },
   ],
+  exchange: {
+    krwPer100Jpy: null,
+    fetchedAt: null,
+  },
 };

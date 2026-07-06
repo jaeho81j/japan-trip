@@ -12,12 +12,14 @@ import SubwayTab from './components/SubwayTab';
 import FoodTab from './components/FoodTab';
 import TranslatorTab from './components/TranslatorTab';
 import ShoppingTab from './components/ShoppingTab';
+import ExchangeTab from './components/ExchangeTab';
 
 const TABS = [
   { key: 'itinerary', label: '일정', icon: '🗺️' },
   { key: 'subway', label: '노선도', icon: '🚇' },
   { key: 'food', label: '맛집', icon: '🍜' },
   { key: 'shopping', label: '쇼핑', icon: '🛍️' },
+  { key: 'exchange', label: '환율', icon: '💱' },
   { key: 'weather', label: '날씨', icon: '⛅' },
   { key: 'translator', label: '번역기', icon: '💬' },
   { key: 'journal', label: '일지', icon: '📝' },
@@ -49,6 +51,9 @@ export default function App() {
             onChange={(shopping) => setData({ ...data, shopping })}
             currency={data.trip.currency}
           />
+        )}
+        {tab === 'exchange' && (
+          <ExchangeTab exchange={data.exchange} onChange={(exchange) => setData({ ...data, exchange })} />
         )}
         {tab === 'weather' && (
           <WeatherTab

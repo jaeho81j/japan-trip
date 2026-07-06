@@ -71,6 +71,11 @@ export type ShoppingItem = {
   taxFree: boolean;
 };
 
+export type ExchangeState = {
+  krwPer100Jpy: number | null;
+  fetchedAt: string | null;
+};
+
 export type TripData = {
   trip: TripInfo;
   itinerary: ItineraryDay[];
@@ -79,6 +84,7 @@ export type TripData = {
   budget: BudgetItem[];
   weather: WeatherState;
   shopping: ShoppingItem[];
+  exchange: ExchangeState;
 };
 
 export const MOODS = ['😄', '🙂', '😐', '😫', '🤩'] as const;
