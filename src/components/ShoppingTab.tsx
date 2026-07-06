@@ -1,0 +1,161 @@
+import { useState } from 'react';
+import type { ShoppingItem } from '../types';
+
+type Props = {
+  items: ShoppingItem[];
+  onChange: (items: ShoppingItem[]) => void;
+  currency: string;
+};
+
+export default function ShoppingTab({ items, onChange, currency }: Props) {
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('기타');
+
+  const categories = Array.from(new Set(items.map((i) => i.category)));
+
+  const add = () => {
+    if (!name.trim()) return;
+    onChange([
+      ...items,
+      {
+        id: crypto.randomUUID(),
+        name: name.trim(),
+        category: category.trim() || '기타',
+        store: '',
+        price: 0,
+        bought: false,
+        taxFree: false,
+      },
+    ]);
+    setName('');
+  };
+
+  const update = (id: string, patch: Partial<ShoppingItem>) =>
+    onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
+
+  const remove = (id: string) => onChange(items.filter((i) => i.id !== id));
+
+  const boughtCount = items.filter((i) => i.bought).length;
+  const totalSpent = items.filter((i) => i.bought).reduce((s, i) => s + i.price, 0);
+  const taxFreeSpent = items.filter((i) => i.bought && i.taxFree).reduce((s, i) => s + i.price, 0);
+
+  return (
+    <div className="p-4 space-y-4 pb-24">
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 grid grid-cols-2 gap-2 text-sm">
+        <div>
+          <p className="text-gray-400">구매 완료</p>
+          <p className="font-semibold text-gray-900 dark:text-gray-100">
+            {boughtCount} / {items.length}
+          </p>
+        </div>
+        <div>
+          <p className="text-gray-400">총 지출</p>
+          <p className="font-semibold text-gray-900 dark:text-gray-100">
+            {totalSpent.toLocaleString()} {currency}
+          </p>
+        </div>
+        <div className="col-span-2 text-xs text-gray-400">
+          면세 대상 구매액: {taxFreeSpent.toLocaleString()} {currency}
+          <span className="block mt-0.5">
+            💡 면세는 매장·구매액 기준이 다를 수 있으니 계산 전 여권을 꼭 지참하고 매장에서 확인하세요.
+          </span>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+        <div className="flex gap-2">
+          <input
+            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            placeholder="살 것"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && add()}
+          />
+          <input
+            className="w-20 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            placeholder="카테고리"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            list="shopping-categories"
+          />
+          <datalist id="shopping-categories">
+            {categories.map((c) => (
+              <option key={c} value={c} />
+            ))}
+          </datalist>
+          <button
+            onClick={add}
+            className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700"
+          >
+            추가
+          </button>
+        </div>
+      </div>
+
+      {items.length === 0 && (
+        <p className="text-center text-gray-400 text-sm py-4">아직 쇼핑 목록이 없어요.</p>
+      )}
+
+      {categories.map((cat) => (
+        <div key={cat} className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+          <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+            {cat}
+          </div>
+          <div className="divide-y divide-gray-100 dark:divide-gray-800">
+            {items
+              .filter((i) => i.category === cat)
+              .map((i) => (
+                <div key={i.id} className="px-3 py-2 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={i.bought}
+                      onChange={() => update(i.id, { bought: !i.bought })}
+                      className="w-4 h-4 accent-indigo-600 shrink-0"
+                    />
+                    <span
+                      className={`flex-1 min-w-0 truncate text-left text-sm ${i.bought ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-200'}`}
+                    >
+                      {i.name}
+                    </span>
+                    {i.taxFree && (
+                      <span className="shrink-0 text-xs bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-300 rounded-full px-2 py-0.5">
+                        면세
+                      </span>
+                    )}
+                    <button onClick={() => remove(i.id)} className="shrink-0 text-gray-300 hover:text-rose-500 text-sm">
+                      ✕
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs pl-6">
+                    <input
+                      className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-1.5 py-1 text-gray-500 dark:text-gray-400"
+                      placeholder="매장"
+                      value={i.store}
+                      onChange={(e) => update(i.id, { store: e.target.value })}
+                    />
+                    <input
+                      type="number"
+                      className="w-20 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-1.5 py-1 text-right"
+                      placeholder="가격"
+                      value={i.price || ''}
+                      onChange={(e) => update(i.id, { price: Number(e.target.value) })}
+                    />
+                    <label className="flex items-center gap-1 shrink-0 text-gray-400">
+                      <input
+                        type="checkbox"
+                        checked={i.taxFree}
+                        onChange={() => update(i.id, { taxFree: !i.taxFree })}
+                        className="w-3.5 h-3.5 accent-emerald-600"
+                      />
+                      면세
+                    </label>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
