@@ -78,6 +78,12 @@ export type ExchangeState = {
   fetchedAt: string | null;
 };
 
+export type QrState = {
+  // compressed data URLs of uploaded QR screenshots
+  visitJapan: string | null;
+  taxFree: string | null;
+};
+
 export type TripData = {
   trip: TripInfo;
   itinerary: ItineraryDay[];
@@ -87,6 +93,7 @@ export type TripData = {
   weather: WeatherState;
   shopping: ShoppingItem[];
   exchange: ExchangeState;
+  qr: QrState;
 };
 
 export const MOODS = ['😄', '🙂', '😐', '😫', '🤩'] as const;

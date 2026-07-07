@@ -75,4 +75,8 @@ export const defaultData: TripData = {
     krwPer100Jpy: null,
     fetchedAt: null,
   },
+  qr: {
+    visitJapan: null,
+    taxFree: null,
+  },
 };

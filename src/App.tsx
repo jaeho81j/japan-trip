@@ -14,9 +14,11 @@ import TranslatorTab from './components/TranslatorTab';
 import ShoppingTab from './components/ShoppingTab';
 import ExchangeTab from './components/ExchangeTab';
 import MoreTab from './components/MoreTab';
+import QrTab from './components/QrTab';
 
 const TABS = [
   { key: 'itinerary', label: '일정', icon: '🗺️' },
+  { key: 'qr', label: 'QR', icon: '🎫' },
   { key: 'subway', label: '노선도', icon: '🚇' },
   { key: 'food', label: '맛집', icon: '🍜' },
   { key: 'shopping', label: '쇼핑', icon: '🛍️' },
@@ -45,6 +47,7 @@ export default function App() {
         {tab === 'itinerary' && (
           <ItineraryTab days={data.itinerary} onChange={(itinerary) => setData({ ...data, itinerary })} />
         )}
+        {tab === 'qr' && <QrTab qr={data.qr} onChange={(qr) => setData({ ...data, qr })} />}
         {tab === 'subway' && <SubwayTab />}
         {tab === 'food' && <FoodTab />}
         {tab === 'shopping' && (

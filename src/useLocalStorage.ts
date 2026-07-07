@@ -11,7 +11,12 @@ export function useLocalStorage<T>(key: string, initial: T) {
   });
 
   useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // quota exceeded (e.g. very large QR images) — keep the app running;
+      // in-memory state still works for the session
+    }
   }, [key, value]);
 
   return [value, setValue] as const;
