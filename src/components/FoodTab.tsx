@@ -84,7 +84,7 @@ export default function FoodTab() {
     try {
       const results = await fetchNearbyPlaces(o.lat, o.lng, radius);
       setPlaces(results);
-      if (results.length === 0) setError('주변에서 결과를 찾지 못했어요. 반경을 넓혀보세요.');
+      if (results.length === 0) setError('주변에서 결과를 찾지 못했어요. 반경을 넓혀보세요. (지도 데이터가 일본은 풍부하지만 한국 등 일부 지역은 적을 수 있어요)');
     } catch {
       setError('검색에 실패했어요. 잠시 후 다시 시도해주세요.');
     } finally {

@@ -12,8 +12,10 @@ export type Place = {
 
 type OverpassElement = {
   id: number;
-  lat: number;
-  lon: number;
+  // nodes carry lat/lon directly; ways/relations carry a computed center
+  lat?: number;
+  lon?: number;
+  center?: { lat: number; lon: number };
   tags?: Record<string, string>;
 };
 
@@ -43,37 +45,57 @@ function categorize(tags: Record<string, string>): PlaceCategory | null {
   return null;
 }
 
+// Public Overpass instances; tried in order in case one is overloaded.
+const OVERPASS_ENDPOINTS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+];
+
 export async function fetchNearbyPlaces(lat: number, lng: number, radiusM: number): Promise<Place[]> {
+  // `nwr` matches nodes AND ways/relations — many shops are mapped as
+  // building outlines, so node-only queries miss a large share of places.
   const query = `[out:json][timeout:25];
 (
-  node["amenity"~"^(restaurant|cafe|fast_food|food_court|ice_cream)$"](around:${radiusM},${lat},${lng});
-  node["shop"~"^(bakery|confectionery)$"](around:${radiusM},${lat},${lng});
+  nwr["amenity"~"^(restaurant|cafe|fast_food|food_court|ice_cream)$"](around:${radiusM},${lat},${lng});
+  nwr["shop"~"^(bakery|confectionery)$"](around:${radiusM},${lat},${lng});
 );
-out body;`;
+out center tags;`;
 
-  const res = await fetch('https://overpass-api.de/api/interpreter', {
-    method: 'POST',
-    body: query,
-  });
-  if (!res.ok) throw new Error(`overpass fetch failed: ${res.status}`);
+  let data: OverpassResponse | null = null;
+  let lastError: unknown;
+  for (const endpoint of OVERPASS_ENDPOINTS) {
+    try {
+      const res = await fetch(endpoint, { method: 'POST', body: query });
+      if (!res.ok) throw new Error(`overpass fetch failed: ${res.status}`);
+      data = (await res.json()) as OverpassResponse;
+      break;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  if (!data) {
+    throw lastError instanceof Error ? lastError : new Error('overpass fetch failed');
+  }
 
-  const data = (await res.json()) as OverpassResponse;
   const places: Place[] = [];
 
   for (const el of data.elements) {
     const tags = el.tags ?? {};
-    const name = tags.name;
+    const name = tags['name:ko'] || tags.name || tags['name:en'];
     if (!name) continue;
     const category = categorize(tags);
     if (!category) continue;
+    const elLat = el.lat ?? el.center?.lat;
+    const elLng = el.lon ?? el.center?.lon;
+    if (elLat == null || elLng == null) continue;
     places.push({
       id: el.id,
       name,
       category,
       cuisine: tags.cuisine,
-      lat: el.lat,
-      lng: el.lon,
-      distanceM: Math.round(haversineMeters(lat, lng, el.lat, el.lon)),
+      lat: elLat,
+      lng: elLng,
+      distanceM: Math.round(haversineMeters(lat, lng, elLat, elLng)),
     });
   }
 
