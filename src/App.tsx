@@ -22,7 +22,7 @@ const TABS = [
   { key: 'subway', label: '노선도', icon: '🚇' },
   { key: 'food', label: '맛집', icon: '🍜' },
   { key: 'shopping', label: '쇼핑', icon: '🛍️' },
-  { key: 'exchange', label: '환율', icon: '💱' },
+  { key: 'exchange', label: '돈', icon: '💰' },
   { key: 'weather', label: '날씨', icon: '⛅' },
   { key: 'translator', label: '번역기', icon: '💬' },
   { key: 'journal', label: '일지', icon: '📝' },

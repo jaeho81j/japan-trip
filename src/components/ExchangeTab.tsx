@@ -8,12 +8,17 @@ type Props = {
 };
 
 const QUICK_AMOUNTS = [1000, 5000, 10000, 30000, 50000];
+const QUICK_DISCOUNTS = [5, 7, 10];
 
 export default function ExchangeTab({ exchange, onChange }: Props) {
   const [jpyInput, setJpyInput] = useState('10000');
   const [krwInput, setKrwInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // tax-free / discount calculator
+  const [priceInput, setPriceInput] = useState('');
+  const [taxRate, setTaxRate] = useState<10 | 8>(10);
+  const [discountInput, setDiscountInput] = useState('');
 
   const refresh = async () => {
     setLoading(true);
@@ -60,6 +65,17 @@ export default function ExchangeTab({ exchange, onChange }: Props) {
   const setQuickAmount = (yen: number) => {
     onJpyChange(String(yen));
   };
+
+  const toKrw = (jpy: number) =>
+    rate != null ? ` (약 ${Math.round(jpy * (rate / 100)).toLocaleString()}원)` : '';
+
+  // Japanese price tags show tax-included prices; tax-free shopping removes
+  // the consumption tax (10% general goods / 8% food & consumables).
+  const price = Number(priceInput) || 0;
+  const discount = Math.min(100, Math.max(0, Number(discountInput) || 0));
+  const taxFreePrice = Math.round(price / (1 + taxRate / 100));
+  const discountedPrice = Math.round(price * (1 - discount / 100));
+  const taxFreeDiscounted = Math.round(taxFreePrice * (1 - discount / 100));
 
   return (
     <div className="p-4 space-y-4 pb-24">
@@ -115,6 +131,110 @@ export default function ExchangeTab({ exchange, onChange }: Props) {
         {rate == null && (
           <p className="text-xs text-gray-400 text-center">환율을 조회하면 자동 계산돼요.</p>
         )}
+      </div>
+
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-3">
+        <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">🧾 면세·할인 계산기</p>
+
+        <div className="space-y-1">
+          <label className="text-xs text-gray-400">상품 가격 (엔, 세금 포함 표시가)</label>
+          <input
+            type="number"
+            min={0}
+            placeholder="예: 11000"
+            className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
+            value={priceInput}
+            onChange={(e) => setPriceInput(e.target.value)}
+          />
+        </div>
+
+        <div className="flex gap-2 text-xs">
+          <button
+            onClick={() => setTaxRate(10)}
+            className={`flex-1 rounded-lg py-1.5 border ${
+              taxRate === 10
+                ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300'
+                : 'border-gray-200 dark:border-gray-800 text-gray-400'
+            }`}
+          >
+            일반 상품 (소비세 10%)
+          </button>
+          <button
+            onClick={() => setTaxRate(8)}
+            className={`flex-1 rounded-lg py-1.5 border ${
+              taxRate === 8
+                ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300'
+                : 'border-gray-200 dark:border-gray-800 text-gray-400'
+            }`}
+          >
+            식품·소모품 (8%)
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label className="text-xs text-gray-400 shrink-0">할인 쿠폰</label>
+          <input
+            type="number"
+            min={0}
+            max={100}
+            placeholder="0"
+            className="w-16 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1 text-sm text-right"
+            value={discountInput}
+            onChange={(e) => setDiscountInput(e.target.value)}
+          />
+          <span className="text-xs text-gray-400">%</span>
+          {QUICK_DISCOUNTS.map((d) => (
+            <button
+              key={d}
+              onClick={() => setDiscountInput(String(d))}
+              className="rounded-full bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-300 text-xs px-2 py-1"
+            >
+              {d}%
+            </button>
+          ))}
+        </div>
+
+        {price > 0 ? (
+          <div className="rounded-lg bg-gray-50 dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800 text-sm">
+            <div className="flex items-center justify-between px-3 py-2">
+              <span className="text-gray-500 dark:text-gray-400">🛂 면세 적용가 (소비세 {taxRate}% 제외)</span>
+              <span className="font-semibold text-gray-900 dark:text-gray-100 text-right">
+                {taxFreePrice.toLocaleString()}엔{toKrw(taxFreePrice)}
+              </span>
+            </div>
+            {discount > 0 && (
+              <>
+                <div className="flex items-center justify-between px-3 py-2">
+                  <span className="text-gray-500 dark:text-gray-400">🎟️ 할인 {discount}%만 적용</span>
+                  <span className="font-semibold text-gray-900 dark:text-gray-100 text-right">
+                    {discountedPrice.toLocaleString()}엔{toKrw(discountedPrice)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between px-3 py-2">
+                  <span className="text-gray-500 dark:text-gray-400">💯 면세 + 할인 {discount}%</span>
+                  <span className="font-semibold text-emerald-600 dark:text-emerald-400 text-right">
+                    {taxFreeDiscounted.toLocaleString()}엔{toKrw(taxFreeDiscounted)}
+                  </span>
+                </div>
+              </>
+            )}
+            <div className="flex items-center justify-between px-3 py-2 text-xs">
+              <span className="text-gray-400">절약 금액</span>
+              <span className="text-rose-500 font-medium">
+                -{(price - (discount > 0 ? taxFreeDiscounted : taxFreePrice)).toLocaleString()}엔
+              </span>
+            </div>
+          </div>
+        ) : (
+          <p className="text-xs text-gray-400 text-center">
+            가격표 금액을 입력하면 면세가와 할인가를 계산해드려요.
+          </p>
+        )}
+
+        <p className="text-[11px] text-gray-400">
+          💡 면세는 보통 같은 매장에서 5,000엔 이상 구매 시 가능하고 여권이 필요해요. 매장·조건에 따라
+          다를 수 있으니 계산 전 확인하세요.
+        </p>
       </div>
     </div>
   );
