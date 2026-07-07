@@ -46,7 +46,13 @@ export default function App() {
       <TripHeader trip={data.trip} onChange={(trip) => setData({ ...data, trip })} />
 
       <main className="flex-1 overflow-y-auto">
-        {tab === 'home' && <HomeTab data={data} onNavigate={(k) => setTab(k as TabKey)} />}
+        {tab === 'home' && (
+          <HomeTab
+            data={data}
+            onNavigate={(k) => setTab(k as TabKey)}
+            onFlightsChange={(flights) => setData({ ...data, flights })}
+          />
+        )}
         {tab === 'itinerary' && (
           <ItineraryTab days={data.itinerary} onChange={(itinerary) => setData({ ...data, itinerary })} />
         )}

@@ -84,4 +84,8 @@ export const defaultData: TripData = {
     members: [],
     expenses: [],
   },
+  flights: {
+    outbound: { flightNo: '', from: '인천(ICN)', to: '', date: '', departTime: '', arriveTime: '' },
+    inbound: { flightNo: '', from: '', to: '인천(ICN)', date: '', departTime: '', arriveTime: '' },
+  },
 };

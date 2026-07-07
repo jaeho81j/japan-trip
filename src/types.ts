@@ -104,6 +104,20 @@ export type SplitState = {
   expenses: SplitExpense[];
 };
 
+export type FlightInfo = {
+  flightNo: string;
+  from: string; // e.g. 인천(ICN)
+  to: string;
+  date: string;
+  departTime: string;
+  arriveTime: string;
+};
+
+export type FlightsState = {
+  outbound: FlightInfo;
+  inbound: FlightInfo;
+};
+
 export type TripData = {
   trip: TripInfo;
   itinerary: ItineraryDay[];
@@ -116,6 +130,7 @@ export type TripData = {
   qr: QrState;
   documents: TravelDocument[];
   split: SplitState;
+  flights: FlightsState;
 };
 
 export const MOODS = ['😄', '🙂', '😐', '😫', '🤩'] as const;
