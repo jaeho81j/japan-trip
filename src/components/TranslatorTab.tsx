@@ -1,7 +1,30 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LANGUAGES, PHRASEBOOK, translateText, type LangCode } from '../translate';
 
 type ScanPhase = 'idle' | 'ocr' | 'translating' | 'done';
+
+const BCP47: Record<LangCode, string> = { ko: 'ko-KR', ja: 'ja-JP', en: 'en-US' };
+
+type SpeechRecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onresult: ((event: { results: { 0: { 0: { transcript: string } } } }) => void) | null;
+  onerror: ((event: { error?: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+};
+
+function createRecognition(): SpeechRecognitionLike | null {
+  const w = window as unknown as {
+    SpeechRecognition?: new () => SpeechRecognitionLike;
+    webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+  };
+  const Ctor = w.SpeechRecognition ?? w.webkitSpeechRecognition;
+  return Ctor ? new Ctor() : null;
+}
 
 export default function TranslatorTab() {
   const [source, setSource] = useState<LangCode>('ko');
@@ -10,6 +33,8 @@ export default function TranslatorTab() {
   const [output, setOutput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
   const scanFileRef = useRef<HTMLInputElement>(null);
   const [scanPhase, setScanPhase] = useState<ScanPhase>('idle');
@@ -18,6 +43,8 @@ export default function TranslatorTab() {
   const [scanResult, setScanResult] = useState('');
   const [scanError, setScanError] = useState<string | null>(null);
 
+  useEffect(() => () => recognitionRef.current?.abort(), []);
+
   const swap = () => {
     setSource(target);
     setTarget(source);
@@ -25,18 +52,62 @@ export default function TranslatorTab() {
     setOutput(input);
   };
 
-  const translate = async () => {
-    if (!input.trim()) return;
+  const translateNow = async (text: string) => {
+    if (!text.trim()) return;
     setLoading(true);
     setError(null);
     try {
-      const result = await translateText(input, source, target);
+      const result = await translateText(text, source, target);
       setOutput(result);
     } catch {
       setError('번역에 실패했어요. 잠시 후 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const translate = () => translateNow(input);
+
+  const toggleListening = () => {
+    if (listening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+    const recognition = createRecognition();
+    if (!recognition) {
+      setError('이 브라우저는 음성인식을 지원하지 않아요. (안드로이드 크롬 권장)');
+      return;
+    }
+    recognitionRef.current = recognition;
+    recognition.lang = BCP47[source];
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(transcript);
+      translateNow(transcript);
+    };
+    recognition.onerror = (event) => {
+      setListening(false);
+      setError(
+        event.error === 'not-allowed'
+          ? '마이크 권한을 허용해주세요.'
+          : '음성을 인식하지 못했어요. 다시 말해보세요.',
+      );
+    };
+    recognition.onend = () => setListening(false);
+    setError(null);
+    setListening(true);
+    recognition.start();
+  };
+
+  const speak = (text: string, lang: LangCode) => {
+    if (!('speechSynthesis' in window) || !text) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = BCP47[lang];
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
   };
 
   const scan = async (file: File) => {
@@ -115,19 +186,37 @@ export default function TranslatorTab() {
           onChange={(e) => setInput(e.target.value)}
         />
 
-        <button
-          onClick={translate}
-          disabled={loading || !input.trim()}
-          className="w-full rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
-        >
-          {loading ? '번역중…' : '번역하기'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={toggleListening}
+            className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium border ${
+              listening
+                ? 'bg-rose-500 border-rose-500 text-white animate-pulse'
+                : 'border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300'
+            }`}
+          >
+            {listening ? '🔴 듣는 중… (탭하면 중지)' : '🎤 말하기'}
+          </button>
+          <button
+            onClick={translate}
+            disabled={loading || !input.trim()}
+            className="flex-1 rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+          >
+            {loading ? '번역중…' : '번역하기'}
+          </button>
+        </div>
 
         {error && <p className="text-xs text-rose-500">{error}</p>}
 
         {output && (
-          <div className="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 text-left whitespace-pre-wrap">
-            {output}
+          <div className="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-3 py-2 text-left space-y-1.5">
+            <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{output}</p>
+            <button
+              onClick={() => speak(output, target)}
+              className="text-xs text-indigo-500 hover:text-indigo-600 font-medium"
+            >
+              🔊 소리내어 읽기 ({LANGUAGES.find((l) => l.code === target)?.label})
+            </button>
           </div>
         )}
       </div>
