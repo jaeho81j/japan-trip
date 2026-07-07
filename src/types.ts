@@ -6,6 +6,8 @@ export type Activity = {
   notes: string;
   lat: number | null;
   lng: number | null;
+  // JPY spent on this activity; optional so data saved before this field existed still loads
+  cost?: number;
 };
 
 export type ItineraryDay = {

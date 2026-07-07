@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import type { BudgetItem } from '../types';
+import type { BudgetItem, ItineraryDay } from '../types';
 
 type Props = {
   items: BudgetItem[];
   onChange: (items: BudgetItem[]) => void;
   currency: string;
   onCurrencyChange: (currency: string) => void;
+  itineraryDays: ItineraryDay[];
 };
 
 const CURRENCIES = ['JPY', 'KRW', 'USD'];
@@ -14,7 +15,7 @@ function format(n: number, currency: string) {
   return `${n.toLocaleString()} ${currency}`;
 }
 
-export default function BudgetTab({ items, onChange, currency, onCurrencyChange }: Props) {
+export default function BudgetTab({ items, onChange, currency, onCurrencyChange, itineraryDays }: Props) {
   const [category, setCategory] = useState('식비');
   const [description, setDescription] = useState('');
   const [planned, setPlanned] = useState('');
@@ -41,7 +42,11 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange 
   const remove = (id: string) => onChange(items.filter((i) => i.id !== id));
 
   const totalPlanned = items.reduce((s, i) => s + i.planned, 0);
-  const totalActual = items.reduce((s, i) => s + i.actual, 0);
+  const itinerarySpent = itineraryDays.reduce(
+    (s, d) => s + d.activities.reduce((a, act) => a + (act.cost || 0), 0),
+    0,
+  );
+  const totalActual = items.reduce((s, i) => s + i.actual, 0) + itinerarySpent;
 
   return (
     <div className="p-4 space-y-4 pb-24">
@@ -58,6 +63,11 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange 
             {format(totalActual, currency)}
           </p>
         </div>
+        {itinerarySpent > 0 && (
+          <p className="col-span-2 text-xs text-gray-400">
+            🗺️ 일정 탭 활동 비용 {format(itinerarySpent, currency)} 포함
+          </p>
+        )}
         <div className="col-span-2 flex items-center gap-2 text-xs text-gray-400">
           통화
           <select

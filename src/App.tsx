@@ -13,6 +13,7 @@ import FoodTab from './components/FoodTab';
 import TranslatorTab from './components/TranslatorTab';
 import ShoppingTab from './components/ShoppingTab';
 import ExchangeTab from './components/ExchangeTab';
+import MoreTab from './components/MoreTab';
 
 const TABS = [
   { key: 'itinerary', label: '일정', icon: '🗺️' },
@@ -25,6 +26,7 @@ const TABS = [
   { key: 'journal', label: '일지', icon: '📝' },
   { key: 'packing', label: '짐목록', icon: '🎒' },
   { key: 'budget', label: '예산', icon: '💴' },
+  { key: 'more', label: '더보기', icon: '⚙️' },
 ] as const;
 
 type TabKey = (typeof TABS)[number]['key'];
@@ -75,7 +77,11 @@ export default function App() {
             onChange={(budget) => setData({ ...data, budget })}
             currency={data.trip.currency}
             onCurrencyChange={(currency) => setData({ ...data, trip: { ...data.trip, currency } })}
+            itineraryDays={data.itinerary}
           />
+        )}
+        {tab === 'more' && (
+          <MoreTab data={data} onImport={(imported) => setData({ ...defaultData, ...imported })} />
         )}
       </main>
 

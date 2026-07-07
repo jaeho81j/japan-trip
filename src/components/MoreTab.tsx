@@ -1,0 +1,148 @@
+import { useRef, useState } from 'react';
+import type { TripData } from '../types';
+
+type Props = {
+  data: TripData;
+  onImport: (data: TripData) => void;
+};
+
+const EMERGENCY_CONTACTS = [
+  { category: '일본 긴급전화', items: [
+    { name: '경찰', value: '110', tel: '110' },
+    { name: '구급차·화재', value: '119', tel: '119' },
+    { name: '해상 사고', value: '118', tel: '118' },
+    { name: 'Japan Visitor Hotline (JNTO, 24시간·다국어)', value: '050-3816-2787', tel: '05038162787' },
+  ]},
+  { category: '대한민국 영사 지원', items: [
+    { name: '외교부 영사콜센터 (24시간)', value: '+82-2-3210-0404', tel: '+8223210 0404' },
+    { name: '주일본 대한민국 대사관 (도쿄)', value: '+81-3-3452-7611', tel: '+81334527611' },
+    { name: '해외안전여행 사이트', value: '0404.go.kr', href: 'https://www.0404.go.kr' },
+  ]},
+];
+
+function todayStamp() {
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+}
+
+export default function MoreTab({ data, onImport }: Props) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [message, setMessage] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null);
+
+  const exportData = () => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `japan-trip-backup-${todayStamp()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMessage({ kind: 'ok', text: '백업 파일을 다운로드했어요. 안전한 곳에 보관하세요.' });
+  };
+
+  const importData = async (file: File) => {
+    try {
+      const parsed = JSON.parse(await file.text()) as Partial<TripData>;
+      if (!parsed || typeof parsed !== 'object' || !('trip' in parsed) || !('itinerary' in parsed)) {
+        setMessage({ kind: 'error', text: '이 앱의 백업 파일이 아닌 것 같아요.' });
+        return;
+      }
+      if (!window.confirm('현재 데이터를 백업 파일 내용으로 덮어쓸까요? 이 작업은 되돌릴 수 없어요.')) {
+        return;
+      }
+      onImport(parsed as TripData);
+      setMessage({ kind: 'ok', text: '백업을 불러왔어요!' });
+    } catch {
+      setMessage({ kind: 'error', text: '파일을 읽지 못했어요. 올바른 백업 파일인지 확인해주세요.' });
+    }
+  };
+
+  return (
+    <div className="p-4 space-y-4 pb-24">
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+          🆘 긴급 정보
+        </div>
+        <div className="divide-y divide-gray-100 dark:divide-gray-800">
+          {EMERGENCY_CONTACTS.map((group) => (
+            <div key={group.category} className="px-3 py-2 space-y-1.5">
+              <p className="text-xs font-semibold text-gray-400">{group.category}</p>
+              {group.items.map((item) => (
+                <div key={item.name} className="flex items-center gap-2 text-sm">
+                  <span className="flex-1 min-w-0 text-left text-gray-700 dark:text-gray-300">{item.name}</span>
+                  {'tel' in item && item.tel ? (
+                    <a
+                      href={`tel:${item.tel.replace(/[^+\d]/g, '')}`}
+                      className="shrink-0 font-semibold text-indigo-600 dark:text-indigo-400"
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <a
+                      href={'href' in item ? item.href : undefined}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 font-semibold text-indigo-600 dark:text-indigo-400"
+                    >
+                      {item.value}
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <p className="px-3 py-1.5 text-[11px] text-gray-400 border-t border-gray-100 dark:border-gray-800">
+          이 카드는 오프라인에서도 열려요. 전화번호는 출국 전 한 번 확인해두는 걸 권장해요.
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+          💾 데이터 백업/복원
+        </div>
+        <div className="p-3 space-y-2">
+          <p className="text-xs text-gray-400 text-left">
+            여행 데이터는 이 브라우저에만 저장돼요. 폰을 바꾸거나 브라우저 데이터를 지우면 사라지니,
+            백업 파일을 만들어두세요.
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={exportData}
+              className="flex-1 rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700"
+            >
+              ⬇️ 백업 파일 내려받기
+            </button>
+            <button
+              onClick={() => fileRef.current?.click()}
+              className="flex-1 rounded-lg border border-indigo-300 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 py-2 text-sm font-medium"
+            >
+              ⬆️ 백업 불러오기
+            </button>
+          </div>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) importData(file);
+              e.target.value = '';
+            }}
+          />
+          {message && (
+            <p className={`text-xs ${message.kind === 'ok' ? 'text-emerald-600' : 'text-rose-500'}`}>
+              {message.text}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <p className="text-center text-xs text-gray-400">
+        일본 여행일지 · 오프라인 지원 · 데이터는 내 기기에만 저장
+      </p>
+    </div>
+  );
+}

@@ -223,6 +223,18 @@ export default function ItineraryTab({ days, onChange }: Props) {
                     value={act.notes}
                     onChange={(e) => updateActivity(day.id, act.id, { notes: e.target.value })}
                   />
+                  <div className="flex items-center gap-1 text-xs text-gray-400">
+                    <span>💴 비용</span>
+                    <input
+                      type="number"
+                      min={0}
+                      className="w-24 min-w-0 bg-transparent outline-none text-right border border-gray-200 dark:border-gray-800 rounded px-1.5 py-0.5"
+                      placeholder="0"
+                      value={act.cost || ''}
+                      onChange={(e) => updateActivity(day.id, act.id, { cost: Number(e.target.value) || 0 })}
+                    />
+                    <span>엔 (예산 탭에 자동 합산)</span>
+                  </div>
                 </div>
                 <button
                   onClick={() => removeActivity(day.id, act.id)}
