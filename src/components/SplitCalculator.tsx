@@ -4,7 +4,8 @@ import type { SplitState } from '../types';
 type Props = {
   split: SplitState;
   onChange: (split: SplitState) => void;
-  toKrw: (jpy: number) => string;
+  // KRW per 100 JPY from the exchange card; null until fetched
+  rate: number | null;
 };
 
 function computeSettlement(split: SplitState) {
@@ -40,7 +41,8 @@ function computeSettlement(split: SplitState) {
   return { total, share, balances, transfers };
 }
 
-export default function SplitCalculator({ split, onChange, toKrw }: Props) {
+export default function SplitCalculator({ split, onChange, rate }: Props) {
+  const krwOf = (jpy: number) => (rate != null ? Math.round(jpy * (rate / 100)) : null);
   const [memberName, setMemberName] = useState('');
   const [payer, setPayer] = useState('');
   const [description, setDescription] = useState('');
@@ -96,7 +98,7 @@ export default function SplitCalculator({ split, onChange, toKrw }: Props) {
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-3">
-      <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">➗ 와리깡 (더치페이)</p>
+      <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">➗ 1/N 계산기</p>
 
       <div className="flex gap-2">
         <input
@@ -191,21 +193,36 @@ export default function SplitCalculator({ split, onChange, toKrw }: Props) {
               <div className="flex items-center justify-between px-3 py-1.5 text-xs">
                 <span className="text-gray-400">
                   총 {total.toLocaleString()}엔 · 1인당 {Math.round(share).toLocaleString()}엔
-                  {toKrw(Math.round(share))}
+                  {krwOf(Math.round(share)) != null &&
+                    ` (약 ${krwOf(Math.round(share))!.toLocaleString()}원)`}
                 </span>
               </div>
             </div>
           )}
 
           {transfers.length > 0 && (
-            <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-900 px-3 py-2 space-y-1">
+            <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-900 px-3 py-2 space-y-1.5">
               <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">정산 방법</p>
-              {transfers.map((t, i) => (
-                <p key={i} className="text-sm text-gray-800 dark:text-gray-200">
-                  {t.from} → {t.to}: <b>{t.amount.toLocaleString()}엔</b>
-                  {toKrw(t.amount)}
-                </p>
-              ))}
+              {transfers.map((t, i) => {
+                const krw = krwOf(t.amount);
+                return (
+                  <div key={i} className="text-sm text-gray-800 dark:text-gray-200">
+                    <p>
+                      {t.from} → {t.to}: <b>{t.amount.toLocaleString()}엔</b>
+                    </p>
+                    {krw != null && (
+                      <p className="text-emerald-700 dark:text-emerald-300">
+                        🇰🇷 원화로 정산 시 <b>{krw.toLocaleString()}원</b> 보내기
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+              <p className="text-[11px] text-emerald-600/70 dark:text-emerald-400/70 border-t border-emerald-100 dark:border-emerald-900 pt-1">
+                {rate != null
+                  ? `적용 환율: 100엔 = ${rate.toLocaleString(undefined, { maximumFractionDigits: 2 })}원 (위 환율 카드 기준) · 한국에 돌아와서 계좌이체할 때 원화 금액을 쓰세요`
+                  : '위 환율 카드에서 환율을 조회하면 원화 정산 금액도 함께 표시돼요'}
+              </p>
             </div>
           )}
 

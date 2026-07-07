@@ -240,7 +240,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
         </p>
       </div>
 
-      <SplitCalculator split={split} onChange={onSplitChange} toKrw={toKrw} />
+      <SplitCalculator split={split} onChange={onSplitChange} rate={rate} />
     </div>
   );
 }
