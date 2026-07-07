@@ -2,15 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import '../leafletSetup';
 import { searchPlace } from '../geocode';
+import { googleMapsTransitUrl } from '../googleMaps';
 
 const TOKYO_STATION: [number, number] = [35.681236, 139.767125];
 
-// Bilingual (EN/JP) Tokyo subway schematic map by Comicinker, Wikimedia Commons, CC BY-SA 3.0.
+// Tokyo Metro + Toei + JR Yamanote schematic map, Wikimedia Commons, CC BY-SA 3.0.
 // Special:FilePath always resolves to the current file without needing the hashed upload path.
 const SUBWAY_MAP_IMAGE_URL =
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Tokyo_subway_map_en_jp.svg';
-const SUBWAY_MAP_SOURCE_URL =
-  'https://commons.wikimedia.org/wiki/File:Tokyo_subway_map_en_jp.svg';
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Tokyo_subway_map.PNG';
+const SUBWAY_MAP_SOURCE_URL = 'https://commons.wikimedia.org/wiki/File:Tokyo_subway_map.PNG';
+// Official always-up-to-date maps (link out; these are copyrighted so we don't embed them)
+const OFFICIAL_METRO_MAP_KR = 'https://www.tokyometro.jp/kr/subwaymap/index.html';
+const OFFICIAL_JR_MAP = 'https://www.jreast.co.jp/e/downloads/pdf/routemap_majorrailsub.pdf';
 
 export default function SubwayTab() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +22,20 @@ export default function SubwayTab() {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [routeFrom, setRouteFrom] = useState('');
+  const [routeTo, setRouteTo] = useState('');
+
+  const asStation = (name: string) =>
+    /(역|駅|station)$/i.test(name) ? `${name} 일본` : `${name}역 일본`;
+
+  const searchRoute = () => {
+    const from = routeFrom.trim();
+    const to = routeTo.trim();
+    if (!from || !to) return;
+    // Google Maps transit directions show duration, transfers, and fares.
+    // Korean station names work fine for Japan (e.g. "신주쿠역").
+    window.open(googleMapsTransitUrl(asStation(from), asStation(to)), '_blank', 'noopener');
+  };
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -75,6 +92,46 @@ export default function SubwayTab() {
 
   return (
     <div className="p-4 space-y-3 pb-24">
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+        <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">🔀 환승/경로 검색</p>
+        <div className="flex items-center gap-2">
+          <input
+            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            placeholder="출발역 (예: 신주쿠)"
+            value={routeFrom}
+            onChange={(e) => setRouteFrom(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              setRouteFrom(routeTo);
+              setRouteTo(routeFrom);
+            }}
+            title="출발/도착 바꾸기"
+            className="shrink-0 text-gray-400 hover:text-indigo-500"
+          >
+            ⇄
+          </button>
+          <input
+            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            placeholder="도착역 (예: 아사쿠사)"
+            value={routeTo}
+            onChange={(e) => setRouteTo(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && searchRoute()}
+          />
+        </div>
+        <button
+          onClick={searchRoute}
+          disabled={!routeFrom.trim() || !routeTo.trim()}
+          className="w-full rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+        >
+          🧭 소요시간·환승 검색 (구글맵)
+        </button>
+        <p className="text-[11px] text-gray-400">
+          구글맵 대중교통 길찾기가 열려서 소요시간, 환승 노선, 요금까지 바로 확인할 수 있어요.
+          한국어 역 이름 그대로 입력해도 돼요.
+        </p>
+      </div>
+
       <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
         <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300 flex items-center justify-between">
           <span>🚇 도쿄 지하철 노선도</span>
@@ -90,14 +147,33 @@ export default function SubwayTab() {
         <div className="overflow-auto bg-white p-2 max-h-[50vh]">
           <img
             src={SUBWAY_MAP_IMAGE_URL}
-            alt="도쿄 지하철 노선도 (영문/일문 병기)"
+            alt="도쿄 지하철 노선도 (메트로·도에이·JR 야마노테선)"
             className="min-w-[600px] w-full"
           />
         </div>
+        <div className="px-3 py-2 border-t border-gray-100 dark:border-gray-800 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+          <a
+            href={OFFICIAL_METRO_MAP_KR}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-indigo-500 hover:text-indigo-600 font-medium"
+          >
+            📄 도쿄메트로 공식 노선도 (한국어)
+          </a>
+          <a
+            href={OFFICIAL_JR_MAP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-indigo-500 hover:text-indigo-600 font-medium"
+          >
+            📄 JR 동일본 노선도 (PDF)
+          </a>
+        </div>
         <p className="px-3 py-1.5 text-[11px] text-gray-400 border-t border-gray-100 dark:border-gray-800">
+          위 요약 지도는 메트로·도에이·야마노테선만 표시돼요. 전체 노선은 공식 노선도 링크에서 확인하세요.
           지도:{' '}
           <a href={SUBWAY_MAP_SOURCE_URL} target="_blank" rel="noopener noreferrer" className="underline">
-            Comicinker, Wikimedia Commons
+            Wikimedia Commons
           </a>{' '}
           (CC BY-SA 3.0)
         </p>
