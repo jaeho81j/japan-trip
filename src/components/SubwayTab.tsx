@@ -3,6 +3,7 @@ import L from 'leaflet';
 import '../leafletSetup';
 import { searchPlace } from '../geocode';
 import { googleMapsTransitUrl } from '../googleMaps';
+import { TOKYO_LINES, type Station } from '../tokyoLines';
 
 const TOKYO_STATION: [number, number] = [35.681236, 139.767125];
 
@@ -24,6 +25,9 @@ export default function SubwayTab() {
   const [error, setError] = useState<string | null>(null);
   const [routeFrom, setRouteFrom] = useState('');
   const [routeTo, setRouteTo] = useState('');
+  const [selectedLineId, setSelectedLineId] = useState<string | null>(null);
+
+  const selectedLine = TOKYO_LINES.find((l) => l.id === selectedLineId) ?? null;
 
   const asStation = (name: string) =>
     /(역|駅|station)$/i.test(name) ? `${name} 일본` : `${name}역 일본`;
@@ -63,13 +67,11 @@ export default function SubwayTab() {
     mapRef.current?.flyTo(TOKYO_STATION, 13);
   };
 
-  const search = async () => {
-    const q = query.trim();
-    if (!q) return;
+  const searchOnMap = async (searchTerm: string) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await searchPlace(`${q} station Tokyo`);
+      const result = await searchPlace(searchTerm);
       if (!result) {
         setError('위치를 찾을 수 없어요.');
         return;
@@ -88,6 +90,16 @@ export default function SubwayTab() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const search = () => {
+    const q = query.trim();
+    if (q) searchOnMap(`${q} station Tokyo`);
+  };
+
+  const showStationOnMap = (station: Station) => {
+    // Japanese name gives Nominatim the most reliable match
+    searchOnMap(`${station.ja}駅 東京`);
   };
 
   return (
@@ -177,6 +189,70 @@ export default function SubwayTab() {
           </a>{' '}
           (CC BY-SA 3.0)
         </p>
+      </div>
+
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+          🚈 노선별 역 목록 (오프라인)
+        </div>
+        <div className="p-3 space-y-2">
+          <div className="flex flex-wrap gap-1.5">
+            {TOKYO_LINES.map((line) => (
+              <button
+                key={line.id}
+                onClick={() => setSelectedLineId(selectedLineId === line.id ? null : line.id)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
+                  selectedLineId === line.id
+                    ? 'border-transparent text-white'
+                    : 'border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300'
+                }`}
+                style={selectedLineId === line.id ? { backgroundColor: line.color } : undefined}
+              >
+                <span
+                  className="inline-block w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: selectedLineId === line.id ? '#ffffff' : line.color }}
+                />
+                {line.nameKo}
+              </button>
+            ))}
+          </div>
+
+          {selectedLine ? (
+            <div>
+              <p className="text-xs text-gray-400 mb-1">
+                {selectedLine.operator} {selectedLine.nameKo} ({selectedLine.nameJa}) ·{' '}
+                {selectedLine.stations.length}개 역 · 역을 탭하면 지도에 표시돼요
+              </p>
+              <ol className="max-h-[38vh] overflow-y-auto divide-y divide-gray-100 dark:divide-gray-800 border border-gray-100 dark:border-gray-800 rounded-lg">
+                {selectedLine.stations.map((st, i) => (
+                  <li key={`${st.romaji}-${i}`}>
+                    <button
+                      onClick={() => showStationOnMap(st)}
+                      className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left hover:bg-gray-50 dark:hover:bg-gray-900"
+                    >
+                      <span
+                        className="shrink-0 w-5 h-5 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
+                        style={{ backgroundColor: selectedLine.color }}
+                      >
+                        {i + 1}
+                      </span>
+                      <span className="flex-1 min-w-0 text-sm text-gray-800 dark:text-gray-200 truncate">
+                        {st.ko}
+                      </span>
+                      <span className="shrink-0 text-xs text-gray-400">
+                        {st.ja} · {st.romaji}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ) : (
+            <p className="text-xs text-gray-400">
+              노선을 선택하면 전체 역 목록을 한국어·일본어·로마자로 볼 수 있어요. 인터넷 없이도 열려요.
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">

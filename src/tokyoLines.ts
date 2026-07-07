@@ -1,0 +1,153 @@
+// Offline station lists for the Tokyo lines tourists use most.
+// Concept from jaeho81j/tokyo-stations-API (kanji/kana/romaji station data);
+// that project's hosted API is gone, so the data lives here as a static bundle.
+
+export type Station = {
+  ko: string;
+  ja: string;
+  romaji: string;
+};
+
+export type TrainLine = {
+  id: string;
+  nameKo: string;
+  nameJa: string;
+  color: string; // official-ish line color for the badge
+  operator: string;
+  stations: Station[];
+};
+
+export const TOKYO_LINES: TrainLine[] = [
+  {
+    id: 'yamanote',
+    nameKo: '야마노테선',
+    nameJa: '山手線',
+    color: '#9acd32',
+    operator: 'JR',
+    stations: [
+      { ko: '도쿄', ja: '東京', romaji: 'Tokyo' },
+      { ko: '칸다', ja: '神田', romaji: 'Kanda' },
+      { ko: '아키하바라', ja: '秋葉原', romaji: 'Akihabara' },
+      { ko: '오카치마치', ja: '御徒町', romaji: 'Okachimachi' },
+      { ko: '우에노', ja: '上野', romaji: 'Ueno' },
+      { ko: '우구이스다니', ja: '鶯谷', romaji: 'Uguisudani' },
+      { ko: '닛포리', ja: '日暮里', romaji: 'Nippori' },
+      { ko: '니시닛포리', ja: '西日暮里', romaji: 'Nishi-Nippori' },
+      { ko: '타바타', ja: '田端', romaji: 'Tabata' },
+      { ko: '코마고메', ja: '駒込', romaji: 'Komagome' },
+      { ko: '스가모', ja: '巣鴨', romaji: 'Sugamo' },
+      { ko: '오츠카', ja: '大塚', romaji: 'Otsuka' },
+      { ko: '이케부쿠로', ja: '池袋', romaji: 'Ikebukuro' },
+      { ko: '메지로', ja: '目白', romaji: 'Mejiro' },
+      { ko: '타카다노바바', ja: '高田馬場', romaji: 'Takadanobaba' },
+      { ko: '신오쿠보', ja: '新大久保', romaji: 'Shin-Okubo' },
+      { ko: '신주쿠', ja: '新宿', romaji: 'Shinjuku' },
+      { ko: '요요기', ja: '代々木', romaji: 'Yoyogi' },
+      { ko: '하라주쿠', ja: '原宿', romaji: 'Harajuku' },
+      { ko: '시부야', ja: '渋谷', romaji: 'Shibuya' },
+      { ko: '에비스', ja: '恵比寿', romaji: 'Ebisu' },
+      { ko: '메구로', ja: '目黒', romaji: 'Meguro' },
+      { ko: '고탄다', ja: '五反田', romaji: 'Gotanda' },
+      { ko: '오사키', ja: '大崎', romaji: 'Osaki' },
+      { ko: '시나가와', ja: '品川', romaji: 'Shinagawa' },
+      { ko: '타카나와 게이트웨이', ja: '高輪ゲートウェイ', romaji: 'Takanawa Gateway' },
+      { ko: '타마치', ja: '田町', romaji: 'Tamachi' },
+      { ko: '하마마츠초', ja: '浜松町', romaji: 'Hamamatsucho' },
+      { ko: '신바시', ja: '新橋', romaji: 'Shimbashi' },
+      { ko: '유라쿠초', ja: '有楽町', romaji: 'Yurakucho' },
+    ],
+  },
+  {
+    id: 'ginza',
+    nameKo: '긴자선',
+    nameJa: '銀座線',
+    color: '#ff9500',
+    operator: '도쿄메트로',
+    stations: [
+      { ko: '시부야', ja: '渋谷', romaji: 'Shibuya' },
+      { ko: '오모테산도', ja: '表参道', romaji: 'Omote-sando' },
+      { ko: '가이엔마에', ja: '外苑前', romaji: 'Gaiemmae' },
+      { ko: '아오야마잇초메', ja: '青山一丁目', romaji: 'Aoyama-itchome' },
+      { ko: '아카사카미츠케', ja: '赤坂見附', romaji: 'Akasaka-mitsuke' },
+      { ko: '타메이케산노', ja: '溜池山王', romaji: 'Tameike-sanno' },
+      { ko: '토라노몬', ja: '虎ノ門', romaji: 'Toranomon' },
+      { ko: '신바시', ja: '新橋', romaji: 'Shimbashi' },
+      { ko: '긴자', ja: '銀座', romaji: 'Ginza' },
+      { ko: '쿄바시', ja: '京橋', romaji: 'Kyobashi' },
+      { ko: '니혼바시', ja: '日本橋', romaji: 'Nihombashi' },
+      { ko: '미츠코시마에', ja: '三越前', romaji: 'Mitsukoshimae' },
+      { ko: '칸다', ja: '神田', romaji: 'Kanda' },
+      { ko: '스에히로초', ja: '末広町', romaji: 'Suehirocho' },
+      { ko: '우에노히로코지', ja: '上野広小路', romaji: 'Ueno-hirokoji' },
+      { ko: '우에노', ja: '上野', romaji: 'Ueno' },
+      { ko: '이나리초', ja: '稲荷町', romaji: 'Inaricho' },
+      { ko: '타와라마치', ja: '田原町', romaji: 'Tawaramachi' },
+      { ko: '아사쿠사', ja: '浅草', romaji: 'Asakusa' },
+    ],
+  },
+  {
+    id: 'marunouchi',
+    nameKo: '마루노우치선',
+    nameJa: '丸ノ内線',
+    color: '#f62e36',
+    operator: '도쿄메트로',
+    stations: [
+      { ko: '오기쿠보', ja: '荻窪', romaji: 'Ogikubo' },
+      { ko: '미나미아사가야', ja: '南阿佐ケ谷', romaji: 'Minami-Asagaya' },
+      { ko: '신코엔지', ja: '新高円寺', romaji: 'Shin-Koenji' },
+      { ko: '히가시코엔지', ja: '東高円寺', romaji: 'Higashi-Koenji' },
+      { ko: '신나카노', ja: '新中野', romaji: 'Shin-Nakano' },
+      { ko: '나카노사카우에', ja: '中野坂上', romaji: 'Nakano-sakaue' },
+      { ko: '니시신주쿠', ja: '西新宿', romaji: 'Nishi-Shinjuku' },
+      { ko: '신주쿠', ja: '新宿', romaji: 'Shinjuku' },
+      { ko: '신주쿠산초메', ja: '新宿三丁目', romaji: 'Shinjuku-sanchome' },
+      { ko: '신주쿠교엔마에', ja: '新宿御苑前', romaji: 'Shinjuku-gyoemmae' },
+      { ko: '요츠야산초메', ja: '四谷三丁目', romaji: 'Yotsuya-sanchome' },
+      { ko: '요츠야', ja: '四ツ谷', romaji: 'Yotsuya' },
+      { ko: '아카사카미츠케', ja: '赤坂見附', romaji: 'Akasaka-mitsuke' },
+      { ko: '콧카이기지도마에(국회의사당앞)', ja: '国会議事堂前', romaji: 'Kokkai-gijidomae' },
+      { ko: '카스미가세키', ja: '霞ケ関', romaji: 'Kasumigaseki' },
+      { ko: '긴자', ja: '銀座', romaji: 'Ginza' },
+      { ko: '도쿄', ja: '東京', romaji: 'Tokyo' },
+      { ko: '오테마치', ja: '大手町', romaji: 'Otemachi' },
+      { ko: '아와지초', ja: '淡路町', romaji: 'Awajicho' },
+      { ko: '오차노미즈', ja: '御茶ノ水', romaji: 'Ochanomizu' },
+      { ko: '혼고산초메', ja: '本郷三丁目', romaji: 'Hongo-sanchome' },
+      { ko: '코라쿠엔', ja: '後楽園', romaji: 'Korakuen' },
+      { ko: '묘가다니', ja: '茗荷谷', romaji: 'Myogadani' },
+      { ko: '신오츠카', ja: '新大塚', romaji: 'Shin-Otsuka' },
+      { ko: '이케부쿠로', ja: '池袋', romaji: 'Ikebukuro' },
+    ],
+  },
+  {
+    id: 'hibiya',
+    nameKo: '히비야선',
+    nameJa: '日比谷線',
+    color: '#b5b5ac',
+    operator: '도쿄메트로',
+    stations: [
+      { ko: '나카메구로', ja: '中目黒', romaji: 'Naka-Meguro' },
+      { ko: '에비스', ja: '恵比寿', romaji: 'Ebisu' },
+      { ko: '히로오', ja: '広尾', romaji: 'Hiroo' },
+      { ko: '롯폰기', ja: '六本木', romaji: 'Roppongi' },
+      { ko: '카미야초', ja: '神谷町', romaji: 'Kamiyacho' },
+      { ko: '토라노몬힐즈', ja: '虎ノ門ヒルズ', romaji: 'Toranomon Hills' },
+      { ko: '카스미가세키', ja: '霞ケ関', romaji: 'Kasumigaseki' },
+      { ko: '히비야', ja: '日比谷', romaji: 'Hibiya' },
+      { ko: '긴자', ja: '銀座', romaji: 'Ginza' },
+      { ko: '히가시긴자', ja: '東銀座', romaji: 'Higashi-Ginza' },
+      { ko: '츠키지', ja: '築地', romaji: 'Tsukiji' },
+      { ko: '핫초보리', ja: '八丁堀', romaji: 'Hatchobori' },
+      { ko: '카야바초', ja: '茅場町', romaji: 'Kayabacho' },
+      { ko: '닌교초', ja: '人形町', romaji: 'Ningyocho' },
+      { ko: '코덴마초', ja: '小伝馬町', romaji: 'Kodemmacho' },
+      { ko: '아키하바라', ja: '秋葉原', romaji: 'Akihabara' },
+      { ko: '나카오카치마치', ja: '仲御徒町', romaji: 'Naka-Okachimachi' },
+      { ko: '우에노', ja: '上野', romaji: 'Ueno' },
+      { ko: '이리야', ja: '入谷', romaji: 'Iriya' },
+      { ko: '미노와', ja: '三ノ輪', romaji: 'Minowa' },
+      { ko: '미나미센주', ja: '南千住', romaji: 'Minami-Senju' },
+      { ko: '키타센주', ja: '北千住', romaji: 'Kita-Senju' },
+    ],
+  },
+];
