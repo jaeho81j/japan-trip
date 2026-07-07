@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
-import type { QrState } from '../types';
+import type { QrState, TravelDocument } from '../types';
+import { compressImage } from '../imageUtils';
 
 type Props = {
   qr: QrState;
   onChange: (qr: QrState) => void;
+  documents: TravelDocument[];
+  onDocumentsChange: (documents: TravelDocument[]) => void;
 };
 
 type SlotKey = keyof QrState;
@@ -22,43 +25,14 @@ const SLOTS: { key: SlotKey; title: string; hint: string; link?: { label: string
   },
 ];
 
-// Downscale + recompress so two screenshots comfortably fit in localStorage.
-async function compressImage(file: File, maxDim = 1200, quality = 0.85): Promise<string> {
-  const dataUrl = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
-
-  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-    const el = new Image();
-    el.onload = () => resolve(el);
-    el.onerror = () => reject(new Error('image load failed'));
-    el.src = dataUrl;
-  });
-
-  const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
-  const w = Math.round(img.width * scale);
-  const h = Math.round(img.height * scale);
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return dataUrl;
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, w, h);
-  ctx.drawImage(img, 0, 0, w, h);
-  return canvas.toDataURL('image/jpeg', quality);
-}
-
-export default function QrTab({ qr, onChange }: Props) {
+export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Props) {
   const fileRefs = {
     visitJapan: useRef<HTMLInputElement>(null),
     taxFree: useRef<HTMLInputElement>(null),
   };
+  const docFileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
-  const [zoomed, setZoomed] = useState<SlotKey | null>(null);
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const upload = async (slot: SlotKey, file: File) => {
     setError(null);
@@ -76,13 +50,33 @@ export default function QrTab({ qr, onChange }: Props) {
     }
   };
 
-  if (zoomed && qr[zoomed]) {
+  const addDocument = async (file: File) => {
+    setError(null);
+    try {
+      const image = await compressImage(file, 1400, 0.8);
+      const title = file.name.replace(/\.[^.]+$/, '') || '문서';
+      onDocumentsChange([...documents, { id: crypto.randomUUID(), title, image }]);
+    } catch {
+      setError('이미지를 불러오지 못했어요. 다른 파일로 시도해주세요.');
+    }
+  };
+
+  const renameDocument = (id: string, title: string) =>
+    onDocumentsChange(documents.map((d) => (d.id === id ? { ...d, title } : d)));
+
+  const removeDocument = (id: string) => {
+    if (window.confirm('이 문서를 삭제할까요?')) {
+      onDocumentsChange(documents.filter((d) => d.id !== id));
+    }
+  };
+
+  if (zoomedImage) {
     return (
       <button
         className="fixed inset-0 z-[2000] bg-white flex items-center justify-center p-2"
-        onClick={() => setZoomed(null)}
+        onClick={() => setZoomedImage(null)}
       >
-        <img src={qr[zoomed]!} alt="QR 확대" className="max-w-full max-h-full object-contain" />
+        <img src={zoomedImage} alt="확대 보기" className="max-w-full max-h-full object-contain" />
         <span className="absolute bottom-4 left-0 right-0 text-center text-xs text-gray-400">
           화면을 탭하면 돌아가요 · 밝기를 최대로 올리면 스캔이 잘 돼요
         </span>
@@ -110,7 +104,7 @@ export default function QrTab({ qr, onChange }: Props) {
 
           {qr[slot.key] ? (
             <div className="bg-white">
-              <button className="w-full" onClick={() => setZoomed(slot.key)}>
+              <button className="w-full" onClick={() => setZoomedImage(qr[slot.key])}>
                 <img
                   src={qr[slot.key]!}
                   alt={`${slot.title} 이미지`}
@@ -119,7 +113,7 @@ export default function QrTab({ qr, onChange }: Props) {
               </button>
               <div className="flex divide-x divide-gray-100 dark:divide-gray-800 border-t border-gray-100 dark:border-gray-800">
                 <button
-                  onClick={() => setZoomed(slot.key)}
+                  onClick={() => setZoomedImage(qr[slot.key])}
                   className="flex-1 py-2 text-sm text-indigo-600 dark:text-indigo-500 font-medium"
                 >
                   🔍 크게 보기
@@ -160,9 +154,78 @@ export default function QrTab({ qr, onChange }: Props) {
         </div>
       ))}
 
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 flex items-center justify-between">
+          <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
+            📄 문서 보관함 (e티켓·바우처)
+          </span>
+          <button
+            onClick={() => docFileRef.current?.click()}
+            className="text-xs text-indigo-500 hover:text-indigo-600 font-medium"
+          >
+            + 문서 추가
+          </button>
+        </div>
+
+        {documents.length === 0 ? (
+          <button
+            onClick={() => docFileRef.current?.click()}
+            className="w-full py-8 flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-500"
+          >
+            <span className="text-2xl">➕</span>
+            <span className="text-sm">항공권·숙소 바우처 스크린샷 등록</span>
+            <span className="text-xs">오프라인에서도 바로 꺼내볼 수 있어요 (5~10장 권장)</span>
+          </button>
+        ) : (
+          <div className="divide-y divide-gray-100 dark:divide-gray-800">
+            {documents.map((doc) => (
+              <div key={doc.id} className="flex items-center gap-2 px-3 py-2">
+                <button className="shrink-0" onClick={() => setZoomedImage(doc.image)}>
+                  <img
+                    src={doc.image}
+                    alt={doc.title}
+                    className="w-14 h-14 object-cover rounded border border-gray-200 dark:border-gray-800 bg-white"
+                  />
+                </button>
+                <input
+                  className="flex-1 min-w-0 bg-transparent outline-none text-sm text-gray-800 dark:text-gray-200"
+                  value={doc.title}
+                  onChange={(e) => renameDocument(doc.id, e.target.value)}
+                  placeholder="문서 이름"
+                />
+                <button
+                  onClick={() => setZoomedImage(doc.image)}
+                  className="shrink-0 text-sm text-indigo-500"
+                >
+                  🔍
+                </button>
+                <button
+                  onClick={() => removeDocument(doc.id)}
+                  className="shrink-0 text-sm text-gray-300 hover:text-rose-500"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <input
+          ref={docFileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) addDocument(file);
+            e.target.value = '';
+          }}
+        />
+      </div>
+
       {error && <p className="text-xs text-rose-500">{error}</p>}
       <p className="text-center text-xs text-gray-400">
-        등록한 QR은 이 기기에만 저장되고 오프라인에서도 열려요. 공항에서는 🔍 크게 보기로 띄워서 스캔받으세요.
+        등록한 QR·문서는 이 기기에만 저장되고 오프라인에서도 열려요. 공항에서는 🔍 크게 보기로 띄워서 스캔받으세요.
       </p>
     </div>
   );

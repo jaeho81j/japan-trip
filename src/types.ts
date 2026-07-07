@@ -22,6 +22,8 @@ export type JournalEntry = {
   date: string;
   text: string;
   mood: string;
+  // compressed data URLs; optional so entries saved before this field still load
+  photos?: string[];
 };
 
 export type PackingItem = {
@@ -84,6 +86,24 @@ export type QrState = {
   taxFree: string | null;
 };
 
+export type TravelDocument = {
+  id: string;
+  title: string;
+  image: string; // compressed data URL
+};
+
+export type SplitExpense = {
+  id: string;
+  payer: string;
+  description: string;
+  amount: number; // JPY
+};
+
+export type SplitState = {
+  members: string[];
+  expenses: SplitExpense[];
+};
+
 export type TripData = {
   trip: TripInfo;
   itinerary: ItineraryDay[];
@@ -94,6 +114,8 @@ export type TripData = {
   shopping: ShoppingItem[];
   exchange: ExchangeState;
   qr: QrState;
+  documents: TravelDocument[];
+  split: SplitState;
 };
 
 export const MOODS = ['😄', '🙂', '😐', '😫', '🤩'] as const;

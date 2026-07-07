@@ -6,6 +6,20 @@ type Props = {
   onImport: (data: TripData) => void;
 };
 
+const TRAVEL_TIPS: { icon: string; title: string; body: string }[] = [
+  { icon: '💴', title: '팁 문화 없음', body: '팁을 주면 오히려 당황해요. 계산은 표시된 금액 그대로.' },
+  { icon: '🔌', title: '콘센트는 11자(A타입)', body: '한국 둥근 플러그는 안 들어가요. 돼지코 어댑터 필수! 전압은 100V라 프리볼트(100-240V) 기기만 그대로 사용.' },
+  { icon: '🛗', title: '에스컬레이터 서는 방향', body: '도쿄는 왼쪽에 서고 오른쪽을 비워요. 오사카는 반대(오른쪽 서기).' },
+  { icon: '🗑️', title: '길에 쓰레기통이 거의 없음', body: '작은 봉투를 들고 다니다가 편의점·역·자판기 옆 수거함을 이용하세요.' },
+  { icon: '💵', title: '현금 아직 중요', body: '작은 식당·신사·시장은 현금만 받는 곳이 많아요. 1만엔권은 편의점에서 미리 잔돈으로.' },
+  { icon: '🤫', title: '전철에서는 조용히', body: '전화 통화는 금물, 휴대폰은 매너모드. 우선석 근처에선 특히 조심.' },
+  { icon: '🍜', title: '오토시(자릿세)', body: '이자카야에서 시키지 않은 안주가 나오면 1인당 300~500엔쯤의 자릿세예요. 상술이 아니니 당황하지 마세요.' },
+  { icon: '♨️', title: '온천·센토 문신 규정', body: '문신이 있으면 입장 제한하는 곳이 있어요. 커버 스티커를 준비하거나 문신 OK 온천을 미리 검색.' },
+  { icon: '🚶', title: '보행·차량 좌측통행', body: '차가 오른쪽에서 와요. 길 건널 때 습관적으로 왼쪽만 보지 말 것!' },
+  { icon: '🚬', title: '길거리 흡연 금지', body: '지정 흡연소에서만. 걷면서 피우면 과태료 지역이 많아요.' },
+  { icon: '🧾', title: '편의점 결제 매너', body: '돈은 점원 손이 아니라 계산대 트레이에 올려놓는 게 기본이에요.' },
+];
+
 const EMERGENCY_CONTACTS = [
   { category: '일본 긴급전화', items: [
     { name: '경찰', value: '110', tel: '110' },
@@ -95,6 +109,25 @@ export default function MoreTab({ data, onImport }: Props) {
         </div>
         <p className="px-3 py-1.5 text-[11px] text-gray-400 border-t border-gray-100 dark:border-gray-800">
           이 카드는 오프라인에서도 열려요. 전화번호는 출국 전 한 번 확인해두는 걸 권장해요.
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+          🍶 일본 여행 팁
+        </div>
+        <div className="divide-y divide-gray-100 dark:divide-gray-800">
+          {TRAVEL_TIPS.map((tip) => (
+            <div key={tip.title} className="px-3 py-2 text-left">
+              <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {tip.icon} {tip.title}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{tip.body}</p>
+            </div>
+          ))}
+        </div>
+        <p className="px-3 py-1.5 text-[11px] text-gray-400 border-t border-gray-100 dark:border-gray-800">
+          오프라인에서도 열려요.
         </p>
       </div>
 

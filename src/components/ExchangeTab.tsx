@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
-import type { ExchangeState } from '../types';
+import type { ExchangeState, SplitState } from '../types';
 import { fetchExchangeRate } from '../exchange';
+import SplitCalculator from './SplitCalculator';
 
 type Props = {
   exchange: ExchangeState;
   onChange: (exchange: ExchangeState) => void;
+  split: SplitState;
+  onSplitChange: (split: SplitState) => void;
 };
 
 const QUICK_AMOUNTS = [1000, 5000, 10000, 30000, 50000];
 const QUICK_DISCOUNTS = [5, 7, 10];
 
-export default function ExchangeTab({ exchange, onChange }: Props) {
+export default function ExchangeTab({ exchange, onChange, split, onSplitChange }: Props) {
   const [jpyInput, setJpyInput] = useState('10000');
   const [krwInput, setKrwInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -236,6 +239,8 @@ export default function ExchangeTab({ exchange, onChange }: Props) {
           다를 수 있으니 계산 전 확인하세요.
         </p>
       </div>
+
+      <SplitCalculator split={split} onChange={onSplitChange} toKrw={toKrw} />
     </div>
   );
 }

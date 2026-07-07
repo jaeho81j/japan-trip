@@ -79,4 +79,9 @@ export const defaultData: TripData = {
     visitJapan: null,
     taxFree: null,
   },
+  documents: [],
+  split: {
+    members: [],
+    expenses: [],
+  },
 };

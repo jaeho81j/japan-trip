@@ -15,10 +15,12 @@ import ShoppingTab from './components/ShoppingTab';
 import ExchangeTab from './components/ExchangeTab';
 import MoreTab from './components/MoreTab';
 import QrTab from './components/QrTab';
+import HomeTab from './components/HomeTab';
 
 const TABS = [
+  { key: 'home', label: '홈', icon: '🏠' },
   { key: 'itinerary', label: '일정', icon: '🗺️' },
-  { key: 'qr', label: 'QR', icon: '🎫' },
+  { key: 'qr', label: '지갑', icon: '🎫' },
   { key: 'subway', label: '노선도', icon: '🚇' },
   { key: 'food', label: '맛집', icon: '🍜' },
   { key: 'shopping', label: '쇼핑', icon: '🛍️' },
@@ -37,17 +39,25 @@ export default function App() {
   const [stored, setStored] = useLocalStorage<TripData>('japan-travel-journal', defaultData);
   const data: TripData = { ...defaultData, ...stored };
   const setData = (next: TripData) => setStored(next);
-  const [tab, setTab] = useState<TabKey>('itinerary');
+  const [tab, setTab] = useState<TabKey>('home');
 
   return (
     <div className="min-h-svh bg-gray-50 dark:bg-gray-950 flex flex-col max-w-md mx-auto">
       <TripHeader trip={data.trip} onChange={(trip) => setData({ ...data, trip })} />
 
       <main className="flex-1 overflow-y-auto">
+        {tab === 'home' && <HomeTab data={data} onNavigate={(k) => setTab(k as TabKey)} />}
         {tab === 'itinerary' && (
           <ItineraryTab days={data.itinerary} onChange={(itinerary) => setData({ ...data, itinerary })} />
         )}
-        {tab === 'qr' && <QrTab qr={data.qr} onChange={(qr) => setData({ ...data, qr })} />}
+        {tab === 'qr' && (
+          <QrTab
+            qr={data.qr}
+            onChange={(qr) => setData({ ...data, qr })}
+            documents={data.documents}
+            onDocumentsChange={(documents) => setData({ ...data, documents })}
+          />
+        )}
         {tab === 'subway' && <SubwayTab />}
         {tab === 'food' && <FoodTab />}
         {tab === 'shopping' && (
@@ -58,7 +68,12 @@ export default function App() {
           />
         )}
         {tab === 'exchange' && (
-          <ExchangeTab exchange={data.exchange} onChange={(exchange) => setData({ ...data, exchange })} />
+          <ExchangeTab
+            exchange={data.exchange}
+            onChange={(exchange) => setData({ ...data, exchange })}
+            split={data.split}
+            onSplitChange={(split) => setData({ ...data, split })}
+          />
         )}
         {tab === 'weather' && (
           <WeatherTab
