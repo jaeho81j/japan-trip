@@ -190,6 +190,7 @@ export default function App() {
               onChange={(qr) => setData({ ...data, qr })}
               documents={data.documents}
               onDocumentsChange={(documents) => setData({ ...data, documents })}
+              flights={data.flights}
             />
           )}
           {tab === 'money' && (

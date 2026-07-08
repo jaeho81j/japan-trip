@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react';
-import type { QrState, TravelDocument } from '../types';
+import type { FlightsState, QrState, TravelDocument } from '../types';
 import { compressImage } from '../imageUtils';
+import BoardingPass from './BoardingPass';
 
 type Props = {
   qr: QrState;
   onChange: (qr: QrState) => void;
   documents: TravelDocument[];
   onDocumentsChange: (documents: TravelDocument[]) => void;
+  flights: FlightsState;
 };
 
 type SlotKey = keyof QrState;
@@ -25,7 +27,7 @@ const SLOTS: { key: SlotKey; title: string; hint: string; link?: { label: string
   },
 ];
 
-export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Props) {
+export default function QrTab({ qr, onChange, documents, onDocumentsChange, flights }: Props) {
   const fileRefs = {
     visitJapan: useRef<HTMLInputElement>(null),
     taxFree: useRef<HTMLInputElement>(null),
@@ -86,6 +88,8 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
 
   return (
     <div className="p-4 space-y-3 pb-24">
+      <BoardingPass flights={flights} />
+
       {SLOTS.map((slot) => (
         <div key={slot.key} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
           <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
