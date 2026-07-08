@@ -17,7 +17,7 @@ type Props = {
 
 const SUBS = [
   { key: 'subway', label: '노선도' },
-  { key: 'food', label: '맛집' },
+  { key: 'food', label: '주변찾기' },
   { key: 'translator', label: '번역' },
   { key: 'weather', label: '날씨' },
 ] as const;

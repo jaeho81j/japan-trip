@@ -88,4 +88,17 @@ export const defaultData: TripData = {
     outbound: { flightNo: '', from: '인천(ICN)', to: '', date: '', departTime: '', arriveTime: '' },
     inbound: { flightNo: '', from: '', to: '인천(ICN)', date: '', departTime: '', arriveTime: '' },
   },
+  lodgings: [],
+  prep: [
+    { id: crypto.randomUUID(), when: 'D-30', task: '항공권·숙소 예약 확정', done: false },
+    { id: crypto.randomUUID(), when: 'D-14', task: '여행자보험 가입', done: false },
+    { id: crypto.randomUUID(), when: 'D-14', task: '해외 유심/이심 or 포켓와이파이 예약', done: false },
+    { id: crypto.randomUUID(), when: 'D-7', task: '엔화 환전 (또는 트래블카드 충전)', done: false },
+    { id: crypto.randomUUID(), when: 'D-7', task: 'JR패스/교통패스·입장권 예매', done: false },
+    { id: crypto.randomUUID(), when: 'D-3', task: 'Visit Japan Web 등록 (입국심사·세관 QR)', done: false },
+    { id: crypto.randomUUID(), when: 'D-1', task: '온라인 체크인·좌석 지정', done: false },
+    { id: crypto.randomUUID(), when: 'D-1', task: '짐 싸기 (짐목록 체크)', done: false },
+    { id: crypto.randomUUID(), when: 'D-1', task: '여권·카드·충전기 최종 확인', done: false },
+    { id: crypto.randomUUID(), when: '당일', task: '공항 3시간 전 도착', done: false },
+  ],
 };

@@ -32,7 +32,7 @@ export default function App() {
   const [tab, setTab] = useState<TabKey>('home');
   const [planSub, setPlanSub] = useState<PlanSub>('itinerary');
   const [moneySub, setMoneySub] = useState<MoneySub>('exchange');
-  const [listsSub, setListsSub] = useState<ChecklistSub>('packing');
+  const [listsSub, setListsSub] = useState<ChecklistSub>('prep');
   const [guideSub, setGuideSub] = useState<GuideSub>('subway');
 
   // 홈 바로가기 등에서 탭 + 하위 탭으로 이동
@@ -59,6 +59,7 @@ export default function App() {
             data={data}
             onNavigate={navigate}
             onFlightsChange={(flights) => setData({ ...data, flights })}
+            onLodgingsChange={(lodgings) => setData({ ...data, lodgings })}
           />
         )}
         {tab === 'plan' && (
@@ -102,6 +103,8 @@ export default function App() {
             onPackingChange={(packing) => setData({ ...data, packing })}
             shopping={data.shopping}
             onShoppingChange={(shopping) => setData({ ...data, shopping })}
+            prep={data.prep}
+            onPrepChange={(prep) => setData({ ...data, prep })}
             currency={data.trip.currency}
           />
         )}

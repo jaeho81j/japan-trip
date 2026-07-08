@@ -1,11 +1,13 @@
-import type { FlightsState, TripData } from '../types';
+import type { FlightsState, LodgingInfo, TripData } from '../types';
 import { weatherIcon } from '../weather';
 import FlightsCard from './FlightsCard';
+import LodgingCard from './LodgingCard';
 
 type Props = {
   data: TripData;
   onNavigate: (tab: string, sub?: string) => void;
   onFlightsChange: (flights: FlightsState) => void;
+  onLodgingsChange: (lodgings: LodgingInfo[]) => void;
 };
 
 function localToday(): string {
@@ -38,7 +40,7 @@ const SHORTCUTS = [
   { tab: 'settings', sub: undefined, icon: '🆘', label: '긴급정보' },
 ];
 
-export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
+export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsChange }: Props) {
   const today = localToday();
   const dday = dDayLabel(data.trip.startDate, data.trip.endDate);
 
@@ -62,6 +64,8 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
       </div>
 
       <FlightsCard flights={data.flights} onChange={onFlightsChange} />
+
+      <LodgingCard lodgings={data.lodgings} onChange={onLodgingsChange} />
 
       <div className="grid grid-cols-2 gap-3">
         <button

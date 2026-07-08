@@ -1,4 +1,12 @@
-export type PlaceCategory = 'meal' | 'cafe' | 'dessert';
+export type PlaceCategory =
+  | 'meal'
+  | 'cafe'
+  | 'dessert'
+  | 'convenience'
+  | 'atm'
+  | 'pharmacy'
+  | 'toilet'
+  | 'locker';
 
 export type Place = {
   id: number;
@@ -42,6 +50,11 @@ function categorize(tags: Record<string, string>): PlaceCategory | null {
   if (tags.amenity === 'ice_cream' || tags.shop === 'bakery' || tags.shop === 'confectionery') {
     return 'dessert';
   }
+  if (tags.shop === 'convenience') return 'convenience';
+  if (tags.amenity === 'atm' || (tags.amenity === 'bank' && tags.atm === 'yes')) return 'atm';
+  if (tags.amenity === 'pharmacy' || tags.shop === 'chemist') return 'pharmacy';
+  if (tags.amenity === 'toilets') return 'toilet';
+  if (tags.amenity === 'locker' || tags.amenity === 'luggage_locker') return 'locker';
   return null;
 }
 
@@ -56,8 +69,8 @@ export async function fetchNearbyPlaces(lat: number, lng: number, radiusM: numbe
   // building outlines, so node-only queries miss a large share of places.
   const query = `[out:json][timeout:25];
 (
-  nwr["amenity"~"^(restaurant|cafe|fast_food|food_court|ice_cream)$"](around:${radiusM},${lat},${lng});
-  nwr["shop"~"^(bakery|confectionery)$"](around:${radiusM},${lat},${lng});
+  nwr["amenity"~"^(restaurant|cafe|fast_food|food_court|ice_cream|atm|bank|pharmacy|toilets|locker|luggage_locker)$"](around:${radiusM},${lat},${lng});
+  nwr["shop"~"^(bakery|confectionery|convenience|chemist)$"](around:${radiusM},${lat},${lng});
 );
 out center tags;`;
 
@@ -79,12 +92,21 @@ out center tags;`;
 
   const places: Place[] = [];
 
+  // ATMs, toilets, and lockers are frequently unnamed — fall back to a category label
+  const FALLBACK_NAME: Partial<Record<PlaceCategory, string>> = {
+    atm: 'ATM',
+    toilet: '화장실',
+    locker: '코인 로커',
+    pharmacy: '약국',
+    convenience: '편의점',
+  };
+
   for (const el of data.elements) {
     const tags = el.tags ?? {};
-    const name = tags['name:ko'] || tags.name || tags['name:en'];
-    if (!name) continue;
     const category = categorize(tags);
     if (!category) continue;
+    const name = tags['name:ko'] || tags.name || tags['name:en'] || FALLBACK_NAME[category];
+    if (!name) continue;
     const elLat = el.lat ?? el.center?.lat;
     const elLng = el.lon ?? el.center?.lon;
     if (elLat == null || elLng == null) continue;

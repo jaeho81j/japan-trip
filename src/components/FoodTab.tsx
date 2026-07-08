@@ -9,7 +9,14 @@ const CATEGORY_META: Record<PlaceCategory, { label: string; emoji: string }> = {
   meal: { label: '식사', emoji: '🍽️' },
   cafe: { label: '카페', emoji: '☕' },
   dessert: { label: '디저트', emoji: '🍰' },
+  convenience: { label: '편의점', emoji: '🏪' },
+  atm: { label: 'ATM', emoji: '🏧' },
+  pharmacy: { label: '약국', emoji: '💊' },
+  toilet: { label: '화장실', emoji: '🚻' },
+  locker: { label: '코인락커', emoji: '🧳' },
 };
+
+const FOOD_CATEGORIES: PlaceCategory[] = ['meal', 'cafe', 'dessert'];
 
 const RADIUS_OPTIONS = [500, 1000, 2000];
 
@@ -194,12 +201,12 @@ export default function FoodTab() {
           )}
         </div>
 
-        <div className="flex gap-2 text-xs">
+        <div className="flex flex-wrap gap-1.5 text-xs">
           {(Object.keys(CATEGORY_META) as PlaceCategory[]).map((cat) => (
             <button
               key={cat}
               onClick={() => toggleCategory(cat)}
-              className={`flex-1 rounded-lg py-1.5 border ${
+              className={`rounded-full px-2.5 py-1 border ${
                 categories.has(cat)
                   ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
                   : 'border-gray-200 dark:border-gray-800 text-gray-400'
@@ -219,7 +226,7 @@ export default function FoodTab() {
 
       {places.length === 0 && !loading && (
         <p className="text-center text-gray-400 text-sm py-4">
-          위치를 검색하거나 내 위치를 사용해서 주변 식사·카페·디저트를 찾아보세요.
+          위치를 검색하거나 내 위치를 사용해서 주변 맛집·편의점·ATM·약국·화장실·코인락커를 찾아보세요.
         </p>
       )}
 
@@ -243,14 +250,16 @@ export default function FoodTab() {
               >
                 구글맵
               </a>
-              <a
-                href={tabelogSearchUrl(p.name, origin?.label)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-rose-500 hover:text-rose-600"
-              >
-                타베로그
-              </a>
+              {FOOD_CATEGORIES.includes(p.category) && (
+                <a
+                  href={tabelogSearchUrl(p.name, origin?.label)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-rose-500 hover:text-rose-600"
+                >
+                  타베로그
+                </a>
+              )}
             </div>
           </div>
         ))}

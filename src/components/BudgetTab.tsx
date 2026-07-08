@@ -48,6 +48,15 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
   );
   const totalActual = items.reduce((s, i) => s + i.actual, 0) + itinerarySpent;
 
+  // Category-wise actual spending (budget items + itinerary activity costs)
+  const byCategory = new Map<string, number>();
+  for (const i of items) {
+    if (i.actual > 0) byCategory.set(i.category, (byCategory.get(i.category) || 0) + i.actual);
+  }
+  if (itinerarySpent > 0) byCategory.set('일정 활동', (byCategory.get('일정 활동') || 0) + itinerarySpent);
+  const categoryRows = [...byCategory.entries()].sort((a, b) => b[1] - a[1]);
+  const maxCategory = categoryRows.length ? categoryRows[0][1] : 0;
+
   return (
     <div className="p-4 space-y-4 pb-24">
       <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 grid grid-cols-2 gap-2 text-sm">
@@ -83,6 +92,29 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
           </select>
         </div>
       </div>
+
+      {categoryRows.length > 0 && (
+        <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+          <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">📊 지출 요약</p>
+          {categoryRows.map(([cat, amount]) => (
+            <div key={cat} className="space-y-0.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-600 dark:text-gray-300">{cat}</span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  {format(amount, currency)}
+                  <span className="text-gray-400"> · {Math.round((amount / totalActual) * 100)}%</span>
+                </span>
+              </div>
+              <div className="h-2 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-accent-500"
+                  style={{ width: `${maxCategory ? (amount / maxCategory) * 100 : 0}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
         <div className="flex gap-2">

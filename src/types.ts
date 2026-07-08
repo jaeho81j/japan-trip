@@ -118,6 +118,22 @@ export type FlightsState = {
   inbound: FlightInfo;
 };
 
+export type LodgingInfo = {
+  id: string;
+  name: string;
+  addressJa: string; // Japanese address to show taxi drivers
+  checkIn: string; // date
+  checkOut: string; // date
+  confirmation: string;
+};
+
+export type PrepItem = {
+  id: string;
+  when: string; // e.g. D-14, D-7, D-1
+  task: string;
+  done: boolean;
+};
+
 export type TripData = {
   trip: TripInfo;
   itinerary: ItineraryDay[];
@@ -131,6 +147,8 @@ export type TripData = {
   documents: TravelDocument[];
   split: SplitState;
   flights: FlightsState;
+  lodgings: LodgingInfo[];
+  prep: PrepItem[];
 };
 
 export const MOODS = ['😄', '🙂', '😐', '😫', '🤩'] as const;
