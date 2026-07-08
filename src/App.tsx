@@ -11,15 +11,26 @@ import MoneyTab, { type MoneySub } from './components/MoneyTab';
 import ChecklistTab, { type ChecklistSub } from './components/ChecklistTab';
 import GuideTab, { type GuideSub } from './components/GuideTab';
 import SettingsTab from './components/SettingsTab';
+import { NavIcon } from './components/Icons';
 
 const TABS = [
-  { key: 'home', label: '홈', icon: '🏠' },
-  { key: 'plan', label: '일정', icon: '🗺️' },
-  { key: 'wallet', label: '지갑', icon: '🎫' },
-  { key: 'money', label: '돈', icon: '💴' },
-  { key: 'lists', label: '체크', icon: '✅' },
-  { key: 'guide', label: '가이드', icon: '🧭' },
+  { key: 'home', label: '홈' },
+  { key: 'plan', label: '일정' },
+  { key: 'wallet', label: '지갑' },
+  { key: 'money', label: '돈' },
+  { key: 'lists', label: '체크' },
+  { key: 'guide', label: '가이드' },
 ] as const;
+
+const TITLES: Record<string, string> = {
+  home: '홈',
+  plan: '일정',
+  wallet: '지갑',
+  money: '돈',
+  lists: '체크',
+  guide: '가이드',
+  settings: '설정',
+};
 
 type TabKey = (typeof TABS)[number]['key'] | 'settings';
 
@@ -47,8 +58,7 @@ export default function App() {
   return (
     <div className="min-h-svh bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
       <TripHeader
-        trip={data.trip}
-        onChange={(trip) => setData({ ...data, trip })}
+        title={TITLES[tab] ?? '홈'}
         settingsActive={tab === 'settings'}
         onOpenSettings={() => setTab('settings')}
       />
@@ -121,6 +131,8 @@ export default function App() {
           <SettingsTab
             settings={settings}
             onSettingsChange={setSettings}
+            trip={data.trip}
+            onTripChange={(trip) => setData({ ...data, trip })}
             data={data}
             onImport={(imported) => setData({ ...defaultData, ...imported })}
           />
@@ -128,24 +140,21 @@ export default function App() {
       </main>
 
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto border-t border-black/[0.06] dark:border-white/[0.08] bg-white/80 dark:bg-[#1C1C1E]/75 backdrop-blur-xl flex pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] z-20">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={`flex-1 flex flex-col items-center gap-1 text-[10.5px] transition-colors ${
-              tab === t.key ? 'text-accent-600 dark:text-accent-400 font-semibold' : 'text-gray-400 dark:text-gray-500'
-            }`}
-          >
-            <span
-              className={`h-6 w-9 rounded-full flex items-center justify-center text-[17px] leading-none transition-colors ${
-                tab === t.key ? 'bg-accent-500/15' : ''
+        {TABS.map((t) => {
+          const active = tab === t.key;
+          return (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`flex-1 flex flex-col items-center gap-1 text-[10.5px] transition-colors ${
+                active ? 'text-accent-600 dark:text-accent-400 font-semibold' : 'text-gray-400 dark:text-gray-500'
               }`}
             >
-              {t.icon}
-            </span>
-            {t.label}
-          </button>
-        ))}
+              <NavIcon name={t.key} active={active} className="h-6 w-6" />
+              {t.label}
+            </button>
+          );
+        })}
       </nav>
     </div>
   );

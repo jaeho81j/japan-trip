@@ -1,7 +1,7 @@
 // 화면에 표시되는 앱 버전. 새 디자인/기능을 배포할 때마다 숫자를 올린다.
 // 이 값이 기기 화면에 그대로 보이면 = 최신 버전을 받은 것.
-export const APP_VERSION = 'r60';
-export const APP_VERSION_LABEL = 'r60 · 새 디자인';
+export const APP_VERSION = 'r61';
+export const APP_VERSION_LABEL = 'r61 · 새 디자인';
 
 // 서비스워커/캐시를 모두 지우고 새로고침한다. (localStorage 여행 데이터는 건드리지 않음)
 export async function forceUpdate(): Promise<void> {

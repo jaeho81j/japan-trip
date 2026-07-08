@@ -1,4 +1,4 @@
-import type { TripData } from '../types';
+import type { TripData, TripInfo } from '../types';
 import type { AppSettings } from '../settings';
 import {
   ACCENTS,
@@ -14,6 +14,8 @@ import { APP_VERSION_LABEL, forceUpdate } from '../version';
 type Props = {
   settings: AppSettings;
   onSettingsChange: (settings: AppSettings) => void;
+  trip: TripInfo;
+  onTripChange: (trip: TripInfo) => void;
   data: TripData;
   onImport: (data: TripData) => void;
 };
@@ -51,14 +53,47 @@ function OptionRow<K extends string>({
   );
 }
 
-export default function SettingsTab({ settings, onSettingsChange, data, onImport }: Props) {
+export default function SettingsTab({ settings, onSettingsChange, trip, onTripChange, data, onImport }: Props) {
   const set = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) =>
     onSettingsChange({ ...settings, [key]: value });
+  const setTrip = <K extends keyof TripInfo>(key: K, value: TripInfo[K]) =>
+    onTripChange({ ...trip, [key]: value });
 
   return (
     <div className="pb-24">
       <div className="p-4 pb-0 space-y-4">
-        <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden bg-white dark:bg-[#1C1C1E]">
+        <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
+            ✈️ 여행 정보
+          </div>
+          <div className="px-3 py-2.5 flex items-center gap-3 border-b border-gray-100 dark:border-gray-800">
+            <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">여행지</p>
+            <input
+              className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2.5 py-1.5 text-sm"
+              value={trip.destination}
+              onChange={(e) => setTrip('destination', e.target.value)}
+              placeholder="예: 도쿄 · 오사카"
+            />
+          </div>
+          <div className="px-3 py-2.5 flex items-center gap-3">
+            <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">날짜</p>
+            <input
+              type="date"
+              className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
+              value={trip.startDate}
+              onChange={(e) => setTrip('startDate', e.target.value)}
+            />
+            <span className="text-gray-400 text-sm">~</span>
+            <input
+              type="date"
+              className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
+              value={trip.endDate}
+              onChange={(e) => setTrip('endDate', e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
           <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
             🎨 디자인 설정
           </div>
