@@ -22,7 +22,16 @@ function emptyActivity(): Activity {
 }
 
 export default function ItineraryTab({ days, onChange }: Props) {
+  const [closedDays, setClosedDays] = useState<Set<string>>(new Set());
   const [mapOpenDays, setMapOpenDays] = useState<Set<string>>(new Set());
+
+  const toggleDay = (dayId: string) =>
+    setClosedDays((prev) => {
+      const next = new Set(prev);
+      if (next.has(dayId)) next.delete(dayId);
+      else next.add(dayId);
+      return next;
+    });
   const [geocodingIds, setGeocodingIds] = useState<Set<string>>(new Set());
   const [geocodeErrors, setGeocodeErrors] = useState<Record<string, string>>({});
 
@@ -143,9 +152,10 @@ export default function ItineraryTab({ days, onChange }: Props) {
               value={day.date}
               onChange={(e) => updateDay(day.id, { date: e.target.value })}
             />
+            <span className="ml-auto shrink-0 text-xs text-gray-400">{day.activities.length}개</span>
             <button
               onClick={() => toggleMap(day.id)}
-              className={`ml-auto shrink-0 whitespace-nowrap text-sm ${mapOpenDays.has(day.id) ? 'text-accent-600 dark:text-accent-400 font-medium' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
+              className={`shrink-0 whitespace-nowrap text-sm ${mapOpenDays.has(day.id) ? 'text-accent-600 dark:text-accent-400 font-medium' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
             >
               🗺️ 지도
             </button>
@@ -155,8 +165,17 @@ export default function ItineraryTab({ days, onChange }: Props) {
             >
               삭제
             </button>
+            <button
+              aria-label={closedDays.has(day.id) ? '펼치기' : '접기'}
+              onClick={() => toggleDay(day.id)}
+              className="shrink-0 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-xs w-5 text-center"
+            >
+              <span className={`inline-block transition-transform ${closedDays.has(day.id) ? '' : 'rotate-90'}`}>›</span>
+            </button>
           </div>
 
+          {!closedDays.has(day.id) && (
+          <div className="anim-pop-open">
           {mapOpenDays.has(day.id) && (
             <DayMap
               activities={day.activities}
@@ -251,6 +270,8 @@ export default function ItineraryTab({ days, onChange }: Props) {
               + 활동 추가
             </button>
           </div>
+          </div>
+          )}
         </div>
       ))}
 

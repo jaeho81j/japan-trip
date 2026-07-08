@@ -16,6 +16,7 @@ type Props = {
   onSettingsChange: (settings: AppSettings) => void;
   trip: TripInfo;
   onTripChange: (trip: TripInfo) => void;
+  onReplayOnboarding: () => void;
   data: TripData;
   onImport: (data: TripData) => void;
 };
@@ -53,7 +54,7 @@ function OptionRow<K extends string>({
   );
 }
 
-export default function SettingsTab({ settings, onSettingsChange, trip, onTripChange, data, onImport }: Props) {
+export default function SettingsTab({ settings, onSettingsChange, trip, onTripChange, onReplayOnboarding, data, onImport }: Props) {
   const set = <K extends keyof AppSettings>(key: K, value: AppSettings[K]) =>
     onSettingsChange({ ...settings, [key]: value });
   const setTrip = <K extends keyof TripInfo>(key: K, value: TripInfo[K]) =>
@@ -119,6 +120,34 @@ export default function SettingsTab({ settings, onSettingsChange, trip, onTripCh
             </div>
           </div>
 
+          {/* 채도 · 명도 */}
+          <div className="px-3 py-2.5 space-y-2 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center gap-3">
+              <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">채도</p>
+              <input
+                type="range"
+                min={40}
+                max={140}
+                value={settings.satPct}
+                onChange={(e) => set('satPct', Number(e.target.value))}
+                className="flex-1 accent-accent-600"
+              />
+              <span className="w-10 text-right text-xs text-gray-400 tabular-nums">{settings.satPct}%</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">명도</p>
+              <input
+                type="range"
+                min={60}
+                max={130}
+                value={settings.lightPct}
+                onChange={(e) => set('lightPct', Number(e.target.value))}
+                className="flex-1 accent-accent-600"
+              />
+              <span className="w-10 text-right text-xs text-gray-400 tabular-nums">{settings.lightPct}%</span>
+            </div>
+          </div>
+
           <div className="divide-y divide-gray-100 dark:divide-gray-800">
             <OptionRow
               label="화면 모드"
@@ -179,6 +208,13 @@ export default function SettingsTab({ settings, onSettingsChange, trip, onTripCh
           <p className="px-4 pb-3 text-[11px] text-gray-400 leading-relaxed">
             새 디자인이 안 보이면 이 버튼을 누르세요. 캐시만 비우고 새로고침하며, 저장한 여행 데이터는 그대로 유지됩니다.
           </p>
+          <button
+            onClick={onReplayOnboarding}
+            className="w-full px-4 py-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-left"
+          >
+            <span className="text-sm text-gray-800 dark:text-gray-200">온보딩 다시 보기</span>
+            <span className="text-gray-300 dark:text-gray-600">›</span>
+          </button>
         </div>
       </div>
 

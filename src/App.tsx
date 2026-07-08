@@ -11,6 +11,7 @@ import MoneyTab, { type MoneySub } from './components/MoneyTab';
 import ChecklistTab, { type ChecklistSub } from './components/ChecklistTab';
 import GuideTab, { type GuideSub } from './components/GuideTab';
 import SettingsTab from './components/SettingsTab';
+import Onboarding from './components/Onboarding';
 import { NavIcon } from './components/Icons';
 
 const TABS = [
@@ -44,6 +45,7 @@ export default function App() {
   const data: TripData = { ...defaultData, ...stored };
   const setData = (next: TripData) => setStored(next);
   const [settings, setSettings] = useSettings();
+  const [onboardingDone, setOnboardingDone] = useLocalStorage<boolean>('japan-onboarding-done', false);
 
   const [tab, setTab] = useState<TabKey>('home');
   const [planSub, setPlanSub] = useState<PlanSub>('itinerary');
@@ -146,6 +148,7 @@ export default function App() {
 
   return (
     <div className="min-h-svh bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
+      {!onboardingDone && <Onboarding trip={data.trip} onDone={() => setOnboardingDone(true)} />}
       <TripHeader
         title={TITLES[tab] ?? '홈'}
         headerAnim={slideDir === 'right' ? 'anim-hdr-right' : 'anim-hdr-left'}
@@ -232,6 +235,7 @@ export default function App() {
               onSettingsChange={setSettings}
               trip={data.trip}
               onTripChange={(trip) => setData({ ...data, trip })}
+              onReplayOnboarding={() => setOnboardingDone(false)}
               data={data}
               onImport={(imported) => setData({ ...defaultData, ...imported })}
             />

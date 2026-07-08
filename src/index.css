@@ -109,6 +109,12 @@ main::-webkit-scrollbar {
 }
 .anim-tab-pop { animation: tabPop 0.44s cubic-bezier(0.34, 1.5, 0.5, 1); }
 
+/* 온보딩 닫힘 */
+@keyframes obOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.04); }
+}
+
 /* 아코디언·펼침 팝오픈 */
 @keyframes popOpen {
   0% { opacity: 0; transform: scale(0.95) translateY(-5px); }

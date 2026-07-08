@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 
-export type AccentKey = 'indigo' | 'rose' | 'emerald' | 'amber' | 'sky' | 'violet' | 'stone';
+export type AccentKey = 'blue' | 'indigo' | 'rose' | 'emerald' | 'amber' | 'sky' | 'violet' | 'stone';
 export type DarkMode = 'system' | 'light' | 'dark';
 export type FontSize = 'sm' | 'md' | 'lg';
 export type FontKey = 'pretendard' | 'system' | 'serif';
@@ -13,19 +13,29 @@ export type AppSettings = {
   fontSize: FontSize;
   font: FontKey;
   radius: RadiusKey;
+  // 포인트 컬러 채도(40–140) · 명도(60–130) 조정 (%)
+  satPct: number;
+  lightPct: number;
 };
 
 export const defaultSettings: AppSettings = {
-  accent: 'indigo',
+  accent: 'blue',
   darkMode: 'system',
   fontSize: 'md',
   font: 'pretendard',
   radius: 'normal',
+  satPct: 100,
+  lightPct: 100,
 };
 
 type Palette = Record<50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950, string>;
 
 export const ACCENTS: { key: AccentKey; label: string; palette: Palette }[] = [
+  {
+    key: 'blue',
+    label: '블루',
+    palette: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#8fc2ff', 400: '#4d9dff', 500: '#0a84ff', 600: '#0071e3', 700: '#0059b8', 800: '#004a96', 900: '#003c78', 950: '#00274d' },
+  },
   {
     key: 'indigo',
     label: '인디고',
@@ -103,15 +113,66 @@ export const RADIUS_OPTIONS: { key: RadiusKey; label: string }[] = [
   { key: 'round', label: '둥글게' },
 ];
 
+// #rrggbb → [h(0-360), s(0-100), l(0-100)]
+function hexToHsl(hex: string): [number, number, number] {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  let h = 0;
+  let sat = 0;
+  const d = max - min;
+  if (d !== 0) {
+    sat = d / (1 - Math.abs(2 * l - 1));
+    if (max === r) h = ((g - b) / d) % 6;
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  return [h, sat * 100, l * 100];
+}
+function hslToHex(h: number, s: number, l: number): string {
+  s /= 100;
+  l /= 100;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  if (h < 60) [r, g, b] = [c, x, 0];
+  else if (h < 120) [r, g, b] = [x, c, 0];
+  else if (h < 180) [r, g, b] = [0, c, x];
+  else if (h < 240) [r, g, b] = [0, x, c];
+  else if (h < 300) [r, g, b] = [x, 0, c];
+  else [r, g, b] = [c, 0, x];
+  const to = (v: number) =>
+    Math.round((v + m) * 255)
+      .toString(16)
+      .padStart(2, '0');
+  return `#${to(r)}${to(g)}${to(b)}`;
+}
+const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+
 function applySettings(s: AppSettings, systemDark: boolean) {
   const root = document.documentElement;
 
-  // 포인트 컬러
+  // 포인트 컬러 (+ 채도·명도 조정)
   const accent = ACCENTS.find((a) => a.key === s.accent) ?? ACCENTS[0];
+  const satF = (s.satPct ?? 100) / 100;
+  const lightF = (s.lightPct ?? 100) / 100;
+  const adjust = (hex: string) => {
+    if (satF === 1 && lightF === 1) return hex;
+    const [h, sv, lv] = hexToHsl(hex);
+    return hslToHex(h, clamp(sv * satF, 0, 100), clamp(lv * lightF, 0, 100));
+  };
   for (const [shade, hex] of Object.entries(accent.palette)) {
-    root.style.setProperty(`--accent-${shade}`, hex);
+    root.style.setProperty(`--accent-${shade}`, adjust(hex));
   }
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', accent.palette[600]);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', adjust(accent.palette[600]));
 
   // 다크모드
   const dark = s.darkMode === 'dark' || (s.darkMode === 'system' && systemDark);
@@ -137,7 +198,7 @@ export function useSettings() {
     mq.addEventListener('change', apply);
     return () => mq.removeEventListener('change', apply);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [merged.accent, merged.darkMode, merged.fontSize, merged.font, merged.radius]);
+  }, [merged.accent, merged.darkMode, merged.fontSize, merged.font, merged.radius, merged.satPct, merged.lightPct]);
 
   return [merged, setSettings] as const;
 }
