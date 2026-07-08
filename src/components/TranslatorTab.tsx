@@ -163,7 +163,7 @@ export default function TranslatorTab() {
               </option>
             ))}
           </select>
-          <button onClick={swap} className="shrink-0 text-gray-400 hover:text-indigo-500 text-lg" title="방향 전환">
+          <button onClick={swap} className="shrink-0 text-gray-400 hover:text-accent-500 text-lg" title="방향 전환">
             ⇄
           </button>
           <select
@@ -200,7 +200,7 @@ export default function TranslatorTab() {
           <button
             onClick={translate}
             disabled={loading || !input.trim()}
-            className="flex-1 rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+            className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             {loading ? '번역중…' : '번역하기'}
           </button>
@@ -213,7 +213,7 @@ export default function TranslatorTab() {
             <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{output}</p>
             <button
               onClick={() => speak(output, target)}
-              className="text-xs text-indigo-500 hover:text-indigo-600 font-medium"
+              className="text-xs text-accent-500 hover:text-accent-600 font-medium"
             >
               🔊 소리내어 읽기 ({LANGUAGES.find((l) => l.code === target)?.label})
             </button>
@@ -228,7 +228,7 @@ export default function TranslatorTab() {
             href="https://lens.google.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-indigo-500 hover:text-indigo-600"
+            className="text-xs text-accent-500 hover:text-accent-600"
           >
             구글 렌즈 ↗
           </a>
@@ -237,7 +237,7 @@ export default function TranslatorTab() {
         <button
           onClick={() => scanFileRef.current?.click()}
           disabled={scanPhase === 'ocr' || scanPhase === 'translating'}
-          className="w-full rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-indigo-400 hover:text-indigo-500 disabled:opacity-50"
+          className="w-full rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500 disabled:opacity-50"
         >
           {scanPhase === 'ocr'
             ? `📖 글자 인식 중… ${scanProgress}%`
@@ -265,8 +265,8 @@ export default function TranslatorTab() {
           </div>
         )}
         {scanResult && (
-          <div className="rounded-lg bg-indigo-50 dark:bg-indigo-950 border border-indigo-200 dark:border-indigo-900 px-3 py-2 text-left space-y-1">
-            <p className="text-xs text-indigo-400">한국어 번역</p>
+          <div className="rounded-lg bg-accent-50 dark:bg-accent-950 border border-accent-200 dark:border-accent-900 px-3 py-2 text-left space-y-1">
+            <p className="text-xs text-accent-400">한국어 번역</p>
             <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{scanResult}</p>
           </div>
         )}
@@ -287,7 +287,7 @@ export default function TranslatorTab() {
               {PHRASEBOOK.filter((p) => p.category === cat).map((p) => (
                 <div key={p.ko} className="px-3 py-2 text-sm text-left">
                   <p className="text-gray-800 dark:text-gray-200">{p.ko}</p>
-                  <p className="text-indigo-500 dark:text-indigo-400">{p.ja}</p>
+                  <p className="text-accent-500 dark:text-accent-400">{p.ja}</p>
                   <p className="text-xs text-gray-400">{p.romaji}</p>
                 </div>
               ))}

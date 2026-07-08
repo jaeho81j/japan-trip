@@ -67,7 +67,7 @@ export default function JournalTab({ entries, onChange }: Props) {
               <button
                 key={m}
                 onClick={() => setMood(m)}
-                className={`text-xl px-1 rounded ${mood === m ? 'bg-indigo-100 dark:bg-indigo-900' : ''}`}
+                className={`text-xl px-1 rounded ${mood === m ? 'bg-accent-100 dark:bg-accent-900' : ''}`}
               >
                 {m}
               </button>
@@ -107,7 +107,7 @@ export default function JournalTab({ entries, onChange }: Props) {
           </button>
           <button
             onClick={add}
-            className="flex-1 rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700"
+            className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700"
           >
             기록 남기기
           </button>

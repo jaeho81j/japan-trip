@@ -155,7 +155,7 @@ export default function FoodTab() {
           <button
             onClick={searchLocation}
             disabled={loading}
-            className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             검색
           </button>
@@ -176,7 +176,7 @@ export default function FoodTab() {
               onClick={() => setRadius(r)}
               className={`rounded-full px-2 py-1 ${
                 radius === r
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-accent-600 text-white'
                   : 'bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400'
               }`}
             >
@@ -187,7 +187,7 @@ export default function FoodTab() {
             <button
               onClick={() => runSearch(origin)}
               disabled={loading}
-              className="ml-auto text-indigo-500 hover:text-indigo-600 disabled:opacity-50"
+              className="ml-auto text-accent-500 hover:text-accent-600 disabled:opacity-50"
             >
               🔄 다시 검색
             </button>
@@ -201,7 +201,7 @@ export default function FoodTab() {
               onClick={() => toggleCategory(cat)}
               className={`flex-1 rounded-lg py-1.5 border ${
                 categories.has(cat)
-                  ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300'
+                  ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
                   : 'border-gray-200 dark:border-gray-800 text-gray-400'
               }`}
             >
@@ -239,7 +239,7 @@ export default function FoodTab() {
                 href={googleMapsSearchUrlForCoords(p.lat, p.lng)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-indigo-500 hover:text-indigo-600"
+                className="text-accent-500 hover:text-accent-600"
               >
                 구글맵
               </a>

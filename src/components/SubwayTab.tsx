@@ -119,7 +119,7 @@ export default function SubwayTab() {
               setRouteTo(routeFrom);
             }}
             title="출발/도착 바꾸기"
-            className="shrink-0 text-gray-400 hover:text-indigo-500"
+            className="shrink-0 text-gray-400 hover:text-accent-500"
           >
             ⇄
           </button>
@@ -134,7 +134,7 @@ export default function SubwayTab() {
         <button
           onClick={searchRoute}
           disabled={!routeFrom.trim() || !routeTo.trim()}
-          className="w-full rounded-lg bg-indigo-600 text-white py-2 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+          className="w-full rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
         >
           🧭 소요시간·환승 검색 (구글맵)
         </button>
@@ -151,7 +151,7 @@ export default function SubwayTab() {
             href={SUBWAY_MAP_IMAGE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-normal text-indigo-500 hover:text-indigo-600"
+            className="text-xs font-normal text-accent-500 hover:text-accent-600"
           >
             원본 크게 보기
           </a>
@@ -168,7 +168,7 @@ export default function SubwayTab() {
             href={OFFICIAL_METRO_MAP_KR}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-500 hover:text-indigo-600 font-medium"
+            className="text-accent-500 hover:text-accent-600 font-medium"
           >
             📄 도쿄메트로 공식 노선도 (한국어)
           </a>
@@ -176,7 +176,7 @@ export default function SubwayTab() {
             href={OFFICIAL_JR_MAP}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-500 hover:text-indigo-600 font-medium"
+            className="text-accent-500 hover:text-accent-600 font-medium"
           >
             📄 JR 동일본 노선도 (PDF)
           </a>
@@ -268,7 +268,7 @@ export default function SubwayTab() {
           <button
             onClick={search}
             disabled={loading}
-            className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             {loading ? '검색중…' : '검색'}
           </button>

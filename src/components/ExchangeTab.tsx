@@ -93,7 +93,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
               ? `업데이트 ${new Date(exchange.fetchedAt).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`
               : '아직 조회 전이에요'}
           </span>
-          <button onClick={refresh} disabled={loading} className="text-indigo-500 hover:text-indigo-600">
+          <button onClick={refresh} disabled={loading} className="text-accent-500 hover:text-accent-600">
             🔄 새로고침
           </button>
         </div>
@@ -156,7 +156,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             onClick={() => setTaxRate(10)}
             className={`flex-1 rounded-lg py-1.5 border ${
               taxRate === 10
-                ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300'
+                ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
                 : 'border-gray-200 dark:border-gray-800 text-gray-400'
             }`}
           >
@@ -166,7 +166,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             onClick={() => setTaxRate(8)}
             className={`flex-1 rounded-lg py-1.5 border ${
               taxRate === 8
-                ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300'
+                ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
                 : 'border-gray-200 dark:border-gray-800 text-gray-400'
             }`}
           >

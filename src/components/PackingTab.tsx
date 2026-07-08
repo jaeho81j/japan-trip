@@ -56,7 +56,7 @@ export default function PackingTab({ items, onChange }: Props) {
           </datalist>
           <button
             onClick={add}
-            className="rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700"
+            className="rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700"
           >
             추가
           </button>
@@ -82,7 +82,7 @@ export default function PackingTab({ items, onChange }: Props) {
                     type="checkbox"
                     checked={i.packed}
                     onChange={() => toggle(i.id)}
-                    className="w-4 h-4 accent-indigo-600"
+                    className="w-4 h-4 accent-accent-600"
                   />
                   <span
                     className={`flex-1 text-sm text-left ${i.packed ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-200'}`}

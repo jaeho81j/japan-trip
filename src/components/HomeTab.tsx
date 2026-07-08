@@ -4,7 +4,7 @@ import FlightsCard from './FlightsCard';
 
 type Props = {
   data: TripData;
-  onNavigate: (tab: string) => void;
+  onNavigate: (tab: string, sub?: string) => void;
   onFlightsChange: (flights: FlightsState) => void;
 };
 
@@ -32,10 +32,10 @@ function dDayLabel(startDate: string, endDate: string): { label: string; sub: st
 }
 
 const SHORTCUTS = [
-  { tab: 'qr', icon: '🎫', label: 'QR·문서' },
-  { tab: 'translator', icon: '💬', label: '번역기' },
-  { tab: 'subway', icon: '🚇', label: '환승검색' },
-  { tab: 'more', icon: '🆘', label: '긴급정보' },
+  { tab: 'wallet', sub: undefined, icon: '🎫', label: 'QR·문서' },
+  { tab: 'guide', sub: 'translator', icon: '💬', label: '번역기' },
+  { tab: 'guide', sub: 'subway', icon: '🚇', label: '환승검색' },
+  { tab: 'settings', sub: undefined, icon: '🆘', label: '긴급정보' },
 ];
 
 export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
@@ -53,9 +53,9 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
 
   return (
     <div className="p-4 space-y-3 pb-24">
-      <div className="rounded-xl bg-indigo-600 text-white p-4 text-center space-y-0.5">
+      <div className="rounded-xl bg-accent-600 text-white p-4 text-center space-y-0.5">
         <p className="text-3xl font-bold">{dday ? dday.label : '🗾 일본 여행'}</p>
-        <p className="text-xs text-indigo-200">
+        <p className="text-xs text-accent-200">
           {dday ? dday.sub : '여행 날짜를 상단에서 설정해보세요'}
           {data.trip.startDate && ` · ${data.trip.startDate} ~ ${data.trip.endDate || '?'}`}
         </p>
@@ -65,7 +65,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
 
       <div className="grid grid-cols-2 gap-3">
         <button
-          onClick={() => onNavigate('weather')}
+          onClick={() => onNavigate('guide', 'weather')}
           className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 text-left"
         >
           <p className="text-xs text-gray-400">오늘 {data.weather.city} 날씨</p>
@@ -75,7 +75,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
               <span className="text-sm text-gray-400"> / {Math.round(todayWeather.tempMin)}°</span>
             </p>
           ) : (
-            <p className="text-sm text-gray-400 mt-1">날씨 탭에서 조회 →</p>
+            <p className="text-sm text-gray-400 mt-1">가이드 탭에서 조회 →</p>
           )}
           {todayWeather && (
             <p className="text-xs text-sky-500">💧 강수확률 {todayWeather.precipitationProb}%</p>
@@ -83,7 +83,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
         </button>
 
         <button
-          onClick={() => onNavigate('exchange')}
+          onClick={() => onNavigate('money', 'exchange')}
           className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 text-left"
         >
           <p className="text-xs text-gray-400">100엔</p>
@@ -99,7 +99,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
       </div>
 
       <button
-        onClick={() => onNavigate('itinerary')}
+        onClick={() => onNavigate('plan', 'itinerary')}
         className="w-full rounded-xl border border-gray-200 dark:border-gray-800 p-3 text-left"
       >
         <p className="text-xs text-gray-400">
@@ -126,7 +126,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange }: Props) {
         {SHORTCUTS.map((s) => (
           <button
             key={s.tab}
-            onClick={() => onNavigate(s.tab)}
+            onClick={() => onNavigate(s.tab, s.sub)}
             className="rounded-xl border border-gray-200 dark:border-gray-800 py-3 flex flex-col items-center gap-1"
           >
             <span className="text-xl">{s.icon}</span>

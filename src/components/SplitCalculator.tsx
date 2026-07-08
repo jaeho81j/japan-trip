@@ -110,7 +110,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
         />
         <button
           onClick={addMember}
-          className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700"
+          className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700"
         >
           추가
         </button>
@@ -165,7 +165,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
             <button
               onClick={addExpense}
               disabled={!payer || !Number(amount)}
-              className="shrink-0 rounded-lg border border-indigo-300 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 px-2.5 text-sm font-medium disabled:opacity-40"
+              className="shrink-0 rounded-lg border border-accent-300 dark:border-accent-800 text-accent-600 dark:text-accent-400 px-2.5 text-sm font-medium disabled:opacity-40"
             >
               기록
             </button>

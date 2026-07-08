@@ -108,7 +108,7 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
           />
           <button
             onClick={add}
-            className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700"
+            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700"
           >
             추가
           </button>

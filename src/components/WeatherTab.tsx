@@ -73,7 +73,7 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
           <button
             onClick={searchCity}
             disabled={loading}
-            className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             {loading ? '검색중…' : '검색'}
           </button>
@@ -85,7 +85,7 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
               : '아직 조회 전이에요'}
           </span>
           {weather.lat != null && (
-            <button onClick={refresh} disabled={loading} className="text-indigo-500 hover:text-indigo-600">
+            <button onClick={refresh} disabled={loading} className="text-accent-500 hover:text-accent-600">
               🔄 새로고침
             </button>
           )}
@@ -110,7 +110,7 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
             </span>
             <span className="w-14 shrink-0 text-right text-xs text-sky-500">💧{d.precipitationProb}%</span>
             {tripDates.has(d.date) && (
-              <span className="shrink-0 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 rounded-full px-2 py-0.5">
+              <span className="shrink-0 text-xs bg-accent-100 dark:bg-accent-900/50 text-accent-600 dark:text-accent-300 rounded-full px-2 py-0.5">
                 일정
               </span>
             )}

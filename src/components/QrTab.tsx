@@ -95,7 +95,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
                 href={slot.link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-indigo-500 hover:text-indigo-600"
+                className="text-xs text-accent-500 hover:text-accent-600"
               >
                 {slot.link.label} ↗
               </a>
@@ -114,7 +114,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
               <div className="flex divide-x divide-gray-100 dark:divide-gray-800 border-t border-gray-100 dark:border-gray-800">
                 <button
                   onClick={() => setZoomedImage(qr[slot.key])}
-                  className="flex-1 py-2 text-sm text-indigo-600 dark:text-indigo-500 font-medium"
+                  className="flex-1 py-2 text-sm text-accent-600 dark:text-accent-500 font-medium"
                 >
                   🔍 크게 보기
                 </button>
@@ -132,7 +132,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
           ) : (
             <button
               onClick={() => fileRefs[slot.key].current?.click()}
-              className="w-full h-[26vh] flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-indigo-500"
+              className="w-full h-[26vh] flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-accent-500"
             >
               <span className="text-3xl">➕</span>
               <span className="text-sm">QR 스크린샷 등록</span>
@@ -161,7 +161,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
           </span>
           <button
             onClick={() => docFileRef.current?.click()}
-            className="text-xs text-indigo-500 hover:text-indigo-600 font-medium"
+            className="text-xs text-accent-500 hover:text-accent-600 font-medium"
           >
             + 문서 추가
           </button>
@@ -170,7 +170,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
         {documents.length === 0 ? (
           <button
             onClick={() => docFileRef.current?.click()}
-            className="w-full py-8 flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-500"
+            className="w-full py-8 flex flex-col items-center gap-1 text-gray-400 hover:text-accent-500"
           >
             <span className="text-2xl">➕</span>
             <span className="text-sm">항공권·숙소 바우처 스크린샷 등록</span>
@@ -195,7 +195,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
                 />
                 <button
                   onClick={() => setZoomedImage(doc.image)}
-                  className="shrink-0 text-sm text-indigo-500"
+                  className="shrink-0 text-sm text-accent-500"
                 >
                   🔍
                 </button>

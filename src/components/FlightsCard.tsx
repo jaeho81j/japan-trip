@@ -71,7 +71,7 @@ function FlightForm({ flight, onSave }: { flight: FlightInfo; onSave: (f: Flight
       </div>
       <button
         onClick={() => onSave(draft)}
-        className="w-full rounded-lg bg-indigo-600 text-white py-1.5 text-sm font-medium hover:bg-indigo-700"
+        className="w-full rounded-lg bg-accent-600 text-white py-1.5 text-sm font-medium hover:bg-accent-700"
       >
         저장
       </button>
@@ -117,7 +117,7 @@ export default function FlightsCard({ flights, onChange }: Props) {
                     {flight.date && <span className="text-xs text-gray-400">{flight.date}</span>}
                     <button
                       onClick={() => setEditing(leg)}
-                      className="ml-auto text-xs text-gray-400 hover:text-indigo-500"
+                      className="ml-auto text-xs text-gray-400 hover:text-accent-500"
                     >
                       수정
                     </button>
@@ -132,7 +132,7 @@ export default function FlightsCard({ flights, onChange }: Props) {
                       href={liveStatusUrl(flight.flightNo)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-500 hover:text-indigo-600 font-medium"
+                      className="text-accent-500 hover:text-accent-600 font-medium"
                     >
                       🔎 실시간 현황
                     </a>
@@ -140,7 +140,7 @@ export default function FlightsCard({ flights, onChange }: Props) {
                       href={fr24Url(flight.flightNo)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-500 hover:text-indigo-600"
+                      className="text-accent-500 hover:text-accent-600"
                     >
                       Flightradar24
                     </a>
@@ -149,7 +149,7 @@ export default function FlightsCard({ flights, onChange }: Props) {
               ) : (
                 <button
                   onClick={() => setEditing(leg)}
-                  className="w-full text-left text-sm text-gray-400 hover:text-indigo-500 py-1"
+                  className="w-full text-left text-sm text-gray-400 hover:text-accent-500 py-1"
                 >
                   {meta.icon} {meta.label} 등록 (편명·시간 입력) +
                 </button>

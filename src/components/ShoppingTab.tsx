@@ -85,7 +85,7 @@ export default function ShoppingTab({ items, onChange, currency }: Props) {
           </datalist>
           <button
             onClick={add}
-            className="shrink-0 rounded-lg bg-indigo-600 text-white px-3 text-sm font-medium hover:bg-indigo-700"
+            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700"
           >
             추가
           </button>
@@ -111,7 +111,7 @@ export default function ShoppingTab({ items, onChange, currency }: Props) {
                       type="checkbox"
                       checked={i.bought}
                       onChange={() => update(i.id, { bought: !i.bought })}
-                      className="w-4 h-4 accent-indigo-600 shrink-0"
+                      className="w-4 h-4 accent-accent-600 shrink-0"
                     />
                     <span
                       className={`flex-1 min-w-0 truncate text-left text-sm ${i.bought ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-200'}`}

@@ -145,7 +145,7 @@ export default function ItineraryTab({ days, onChange }: Props) {
             />
             <button
               onClick={() => toggleMap(day.id)}
-              className={`ml-auto shrink-0 whitespace-nowrap text-sm ${mapOpenDays.has(day.id) ? 'text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
+              className={`ml-auto shrink-0 whitespace-nowrap text-sm ${mapOpenDays.has(day.id) ? 'text-accent-600 dark:text-accent-400 font-medium' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
             >
               🗺️ 지도
             </button>
@@ -246,7 +246,7 @@ export default function ItineraryTab({ days, onChange }: Props) {
             ))}
             <button
               onClick={() => addActivity(day.id)}
-              className="w-full text-left px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950"
+              className="w-full text-left px-3 py-2 text-sm text-accent-600 dark:text-accent-400 hover:bg-accent-50 dark:hover:bg-accent-950"
             >
               + 활동 추가
             </button>
@@ -256,7 +256,7 @@ export default function ItineraryTab({ days, onChange }: Props) {
 
       <button
         onClick={addDay}
-        className="w-full rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-gray-500 dark:text-gray-400 hover:border-indigo-400 hover:text-indigo-500"
+        className="w-full rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500"
       >
         + 날짜 추가
       </button>
