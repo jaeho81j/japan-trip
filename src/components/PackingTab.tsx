@@ -33,17 +33,17 @@ export default function PackingTab({ items, onChange }: Props) {
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex gap-2">
           <input
-            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="짐 이름"
             value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && add()}
           />
           <input
-            className="w-24 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="w-24 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="카테고리"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -56,7 +56,7 @@ export default function PackingTab({ items, onChange }: Props) {
           </datalist>
           <button
             onClick={add}
-            className="rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700"
+            className="rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] px-3 text-sm font-medium hover:bg-accent-700"
           >
             추가
           </button>
@@ -69,8 +69,8 @@ export default function PackingTab({ items, onChange }: Props) {
       </div>
 
       {categories.map((cat) => (
-        <div key={cat} className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-          <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+        <div key={cat} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
             {cat}
           </div>
           <div className="divide-y divide-gray-100 dark:divide-gray-800">
@@ -92,7 +92,7 @@ export default function PackingTab({ items, onChange }: Props) {
                   <input
                     type="number"
                     min={1}
-                    className="w-12 bg-transparent outline-none text-sm text-right border border-gray-200 dark:border-gray-800 rounded"
+                    className="w-12 bg-transparent outline-none text-sm text-right border border-black/[0.06] dark:border-white/[0.1] rounded"
                     value={i.qty}
                     onChange={(e) => setQty(i.id, Number(e.target.value))}
                   />

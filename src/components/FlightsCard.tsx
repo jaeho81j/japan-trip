@@ -26,28 +26,28 @@ function FlightForm({ flight, onSave }: { flight: FlightInfo; onSave: (f: Flight
     <div className="space-y-2 px-3 py-2">
       <div className="flex gap-2">
         <input
-          className="w-24 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+          className="w-24 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
           placeholder="편명 (KE703)"
           value={draft.flightNo}
           onChange={(e) => set({ flightNo: e.target.value.toUpperCase() })}
         />
         <input
           type="date"
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
           value={draft.date}
           onChange={(e) => set({ date: e.target.value })}
         />
       </div>
       <div className="flex items-center gap-2">
         <input
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
           placeholder="출발지 (인천 ICN)"
           value={draft.from}
           onChange={(e) => set({ from: e.target.value })}
         />
         <span className="text-gray-300">→</span>
         <input
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
           placeholder="도착지 (나리타 NRT)"
           value={draft.to}
           onChange={(e) => set({ to: e.target.value })}
@@ -57,21 +57,21 @@ function FlightForm({ flight, onSave }: { flight: FlightInfo; onSave: (f: Flight
         <label className="text-xs text-gray-400 shrink-0">출발</label>
         <input
           type="time"
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
           value={draft.departTime}
           onChange={(e) => set({ departTime: e.target.value })}
         />
         <label className="text-xs text-gray-400 shrink-0">도착</label>
         <input
           type="time"
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
           value={draft.arriveTime}
           onChange={(e) => set({ arriveTime: e.target.value })}
         />
       </div>
       <button
         onClick={() => onSave(draft)}
-        className="w-full rounded-lg bg-accent-600 text-white py-1.5 text-sm font-medium hover:bg-accent-700"
+        className="w-full rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-1.5 text-sm font-medium hover:bg-accent-700"
       >
         저장
       </button>
@@ -83,8 +83,8 @@ export default function FlightsCard({ flights, onChange }: Props) {
   const [editing, setEditing] = useState<Leg | null>(null);
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-      <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+    <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+      <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
         ✈️ 내 항공편
       </div>
       <div className="divide-y divide-gray-100 dark:divide-gray-800">

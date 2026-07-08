@@ -150,10 +150,10 @@ export default function FoodTab() {
 
   return (
     <div className="p-4 space-y-3 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex gap-2">
           <input
-            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="위치 검색 (예: 신주쿠역)"
             value={locationQuery}
             onChange={(e) => setLocationQuery(e.target.value)}
@@ -162,14 +162,14 @@ export default function FoodTab() {
           <button
             onClick={searchLocation}
             disabled={loading}
-            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
+            className="shrink-0 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             검색
           </button>
           <button
             onClick={useMyLocation}
             disabled={loading}
-            className="shrink-0 rounded-lg border border-gray-200 dark:border-gray-800 px-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-50"
+            className="shrink-0 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-50"
           >
             📍 내 위치
           </button>
@@ -184,7 +184,7 @@ export default function FoodTab() {
               className={`rounded-full px-2 py-1 ${
                 radius === r
                   ? 'bg-accent-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400'
+                  : 'bg-black/[0.05] dark:bg-white/[0.08] text-gray-500 dark:text-gray-400'
               }`}
             >
               {r >= 1000 ? `${r / 1000}km` : `${r}m`}
@@ -209,7 +209,7 @@ export default function FoodTab() {
               className={`rounded-full px-2.5 py-1 border ${
                 categories.has(cat)
                   ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
-                  : 'border-gray-200 dark:border-gray-800 text-gray-400'
+                  : 'border-black/[0.06] dark:border-white/[0.1] text-gray-400'
               }`}
             >
               {CATEGORY_META[cat].emoji} {CATEGORY_META[cat].label}
@@ -220,7 +220,7 @@ export default function FoodTab() {
         {error && <p className="text-xs text-rose-500">{error}</p>}
       </div>
 
-      <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+      <div className="rounded-xl overflow-hidden border border-black/[0.06] dark:border-white/[0.1]">
         <div ref={containerRef} className="h-52 w-full" />
       </div>
 
@@ -230,7 +230,7 @@ export default function FoodTab() {
         </p>
       )}
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
         {shown.map((p) => (
           <div key={p.id} className="px-3 py-2 text-sm space-y-1">
             <div className="flex items-center gap-2">

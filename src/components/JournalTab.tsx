@@ -54,11 +54,11 @@ export default function JournalTab({ entries, onChange }: Props) {
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center gap-2">
           <input
             type="date"
-            className="bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1 text-sm"
+            className="bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1 text-sm"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
@@ -75,7 +75,7 @@ export default function JournalTab({ entries, onChange }: Props) {
           </div>
         </div>
         <textarea
-          className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-2 text-sm min-h-20 text-gray-900 dark:text-gray-100"
+          className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-2 text-sm min-h-20 text-gray-900 dark:text-gray-100"
           placeholder="오늘 하루는 어땠나요?"
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -101,13 +101,13 @@ export default function JournalTab({ entries, onChange }: Props) {
           <button
             onClick={() => photoRef.current?.click()}
             disabled={photos.length >= MAX_PHOTOS}
-            className="shrink-0 rounded-lg border border-gray-200 dark:border-gray-800 px-3 py-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-40"
+            className="shrink-0 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-3 py-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-40"
           >
             📷 사진 ({photos.length}/{MAX_PHOTOS})
           </button>
           <button
             onClick={add}
-            className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700"
+            className="flex-1 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-2 text-sm font-medium hover:bg-accent-700"
           >
             기록 남기기
           </button>
@@ -131,7 +131,7 @@ export default function JournalTab({ entries, onChange }: Props) {
 
       <div className="space-y-3">
         {sorted.map((e) => (
-          <div key={e.id} className="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
+          <div key={e.id} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3">
             <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-1">
               <span>
                 {e.mood} {e.date || '날짜 미지정'}

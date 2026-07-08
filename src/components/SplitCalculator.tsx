@@ -97,12 +97,12 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
   const { total, share, balances, transfers } = computeSettlement(split);
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-3">
+    <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
       <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">➗ 1/N 계산기</p>
 
       <div className="flex gap-2">
         <input
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
           placeholder="동행 이름 추가 (예: 나, 철수)"
           value={memberName}
           onChange={(e) => setMemberName(e.target.value)}
@@ -110,7 +110,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
         />
         <button
           onClick={addMember}
-          className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700"
+          className="shrink-0 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] px-3 text-sm font-medium hover:bg-accent-700"
         >
           추가
         </button>
@@ -121,7 +121,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
           {split.members.map((m) => (
             <span
               key={m}
-              className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 text-xs px-2.5 py-1"
+              className="inline-flex items-center gap-1 rounded-full bg-black/[0.05] dark:bg-white/[0.08] text-gray-700 dark:text-gray-300 text-xs px-2.5 py-1"
             >
               {m}
               <button onClick={() => removeMember(m)} className="text-gray-400 hover:text-rose-500">
@@ -136,7 +136,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
         <>
           <div className="flex gap-2">
             <select
-              className="w-20 shrink-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-1 py-1.5 text-sm"
+              className="w-20 shrink-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-1 py-1.5 text-sm"
               value={payer}
               onChange={(e) => setPayer(e.target.value)}
             >
@@ -148,7 +148,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
               ))}
             </select>
             <input
-              className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+              className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
               placeholder="내용 (예: 점심)"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -156,7 +156,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
             <input
               type="number"
               min={0}
-              className="w-20 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm text-right"
+              className="w-20 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm text-right"
               placeholder="엔"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -165,14 +165,14 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
             <button
               onClick={addExpense}
               disabled={!payer || !Number(amount)}
-              className="shrink-0 rounded-lg border border-accent-300 dark:border-accent-800 text-accent-600 dark:text-accent-400 px-2.5 text-sm font-medium disabled:opacity-40"
+              className="shrink-0 rounded-xl bg-accent-50 dark:bg-accent-500/15 border-0 text-accent-600 dark:text-accent-400 px-2.5 text-sm font-medium disabled:opacity-40"
             >
               기록
             </button>
           </div>
 
           {split.expenses.length > 0 && (
-            <div className="rounded-lg bg-gray-50 dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800 text-sm">
+            <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.04] divide-y divide-gray-100 dark:divide-gray-800 text-sm">
               {split.expenses.map((e) => (
                 <div key={e.id} className="flex items-center gap-2 px-3 py-1.5">
                   <span className="text-xs text-gray-400 w-12 shrink-0 truncate">{e.payer}</span>

@@ -104,11 +104,11 @@ export default function SubwayTab() {
 
   return (
     <div className="p-4 space-y-3 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">🔀 환승/경로 검색</p>
         <div className="flex items-center gap-2">
           <input
-            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="출발역 (예: 신주쿠)"
             value={routeFrom}
             onChange={(e) => setRouteFrom(e.target.value)}
@@ -124,7 +124,7 @@ export default function SubwayTab() {
             ⇄
           </button>
           <input
-            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="도착역 (예: 아사쿠사)"
             value={routeTo}
             onChange={(e) => setRouteTo(e.target.value)}
@@ -134,7 +134,7 @@ export default function SubwayTab() {
         <button
           onClick={searchRoute}
           disabled={!routeFrom.trim() || !routeTo.trim()}
-          className="w-full rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
+          className="w-full rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
         >
           🧭 소요시간·환승 검색 (구글맵)
         </button>
@@ -144,8 +144,8 @@ export default function SubwayTab() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300 flex items-center justify-between">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300 flex items-center justify-between">
           <span>🚇 도쿄 지하철 노선도</span>
           <a
             href={SUBWAY_MAP_IMAGE_URL}
@@ -191,8 +191,8 @@ export default function SubwayTab() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
           🚈 노선별 역 목록 (오프라인)
         </div>
         <div className="p-3 space-y-2">
@@ -204,7 +204,7 @@ export default function SubwayTab() {
                 className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
                   selectedLineId === line.id
                     ? 'border-transparent text-white'
-                    : 'border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300'
+                    : 'border-black/[0.06] dark:border-white/[0.1] text-gray-600 dark:text-gray-300'
                 }`}
                 style={selectedLineId === line.id ? { backgroundColor: line.color } : undefined}
               >
@@ -228,7 +228,7 @@ export default function SubwayTab() {
                   <li key={`${st.romaji}-${i}`}>
                     <button
                       onClick={() => showStationOnMap(st)}
-                      className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left hover:bg-gray-50 dark:hover:bg-gray-900"
+                      className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left hover:bg-black/[0.03] dark:hover:bg-white/[0.05]"
                     >
                       <span
                         className="shrink-0 w-5 h-5 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
@@ -255,11 +255,11 @@ export default function SubwayTab() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">📍 역/장소 검색</p>
         <div className="flex gap-2">
           <input
-            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="역/장소 검색 (예: 신주쿠)"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -268,13 +268,13 @@ export default function SubwayTab() {
           <button
             onClick={search}
             disabled={loading}
-            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
+            className="shrink-0 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             {loading ? '검색중…' : '검색'}
           </button>
           <button
             onClick={goToTokyoStation}
-            className="shrink-0 rounded-lg border border-gray-200 dark:border-gray-800 px-2 text-sm text-gray-500 dark:text-gray-400"
+            className="shrink-0 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-2 text-sm text-gray-500 dark:text-gray-400"
           >
             도쿄역
           </button>
@@ -282,7 +282,7 @@ export default function SubwayTab() {
         {error && <p className="text-xs text-rose-500">{error}</p>}
       </div>
 
-      <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+      <div className="rounded-xl overflow-hidden border border-black/[0.06] dark:border-white/[0.1]">
         <div ref={containerRef} className="h-[45vh] w-full" />
       </div>
 

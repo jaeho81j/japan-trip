@@ -74,8 +74,8 @@ export default function MoreTab({ data, onImport }: Props) {
 
   return (
     <div className="p-4 space-y-4">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
           🆘 긴급 정보
         </div>
         <div className="divide-y divide-gray-100 dark:divide-gray-800">
@@ -112,8 +112,8 @@ export default function MoreTab({ data, onImport }: Props) {
         </p>
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
           🍶 일본 여행 팁
         </div>
         <div className="divide-y divide-gray-100 dark:divide-gray-800">
@@ -131,8 +131,8 @@ export default function MoreTab({ data, onImport }: Props) {
         </p>
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
           💾 데이터 백업/복원
         </div>
         <div className="p-3 space-y-2">
@@ -143,13 +143,13 @@ export default function MoreTab({ data, onImport }: Props) {
           <div className="flex gap-2">
             <button
               onClick={exportData}
-              className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700"
+              className="flex-1 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-2 text-sm font-medium hover:bg-accent-700"
             >
               ⬇️ 백업 파일 내려받기
             </button>
             <button
               onClick={() => fileRef.current?.click()}
-              className="flex-1 rounded-lg border border-accent-300 dark:border-accent-800 text-accent-600 dark:text-accent-400 py-2 text-sm font-medium"
+              className="flex-1 rounded-xl bg-accent-50 dark:bg-accent-500/15 border-0 text-accent-600 dark:text-accent-400 py-2 text-sm font-medium"
             >
               ⬆️ 백업 불러오기
             </button>

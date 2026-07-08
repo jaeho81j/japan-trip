@@ -55,9 +55,9 @@ export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsC
 
   return (
     <div className="p-4 space-y-3 pb-24">
-      <div className="rounded-xl bg-accent-600 text-white p-4 text-center space-y-0.5">
-        <p className="text-3xl font-bold">{dday ? dday.label : '🗾 일본 여행'}</p>
-        <p className="text-xs text-accent-200">
+      <div className="rounded-3xl bg-gradient-to-br from-accent-500 to-accent-700 text-white p-6 text-center space-y-1 shadow-[0_16px_36px_-14px_rgba(0,0,0,0.45)]">
+        <p className="text-[40px] leading-none font-extrabold tracking-tight">{dday ? dday.label : '🗾 일본 여행'}</p>
+        <p className="text-xs text-white/75 pt-0.5">
           {dday ? dday.sub : '여행 날짜를 상단에서 설정해보세요'}
           {data.trip.startDate && ` · ${data.trip.startDate} ~ ${data.trip.endDate || '?'}`}
         </p>
@@ -70,7 +70,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsC
       <div className="grid grid-cols-2 gap-3">
         <button
           onClick={() => onNavigate('guide', 'weather')}
-          className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 text-left"
+          className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 text-left"
         >
           <p className="text-xs text-gray-400">오늘 {data.weather.city} 날씨</p>
           {todayWeather ? (
@@ -88,7 +88,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsC
 
         <button
           onClick={() => onNavigate('money', 'exchange')}
-          className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 text-left"
+          className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 text-left"
         >
           <p className="text-xs text-gray-400">100엔</p>
           {rate != null ? (
@@ -104,7 +104,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsC
 
       <button
         onClick={() => onNavigate('plan', 'itinerary')}
-        className="w-full rounded-xl border border-gray-200 dark:border-gray-800 p-3 text-left"
+        className="w-full rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 text-left"
       >
         <p className="text-xs text-gray-400">
           {todayPlan ? '📍 오늘 일정' : upcoming ? `📍 다음 일정 (${upcoming.date})` : '📍 일정'}
@@ -131,7 +131,7 @@ export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsC
           <button
             key={s.tab}
             onClick={() => onNavigate(s.tab, s.sub)}
-            className="rounded-xl border border-gray-200 dark:border-gray-800 py-3 flex flex-col items-center gap-1"
+            className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none py-3 flex flex-col items-center gap-1"
           >
             <span className="text-xl">{s.icon}</span>
             <span className="text-xs text-gray-500 dark:text-gray-400">{s.label}</span>

@@ -87,8 +87,8 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
   return (
     <div className="p-4 space-y-3 pb-24">
       {SLOTS.map((slot) => (
-        <div key={slot.key} className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-          <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 flex items-center justify-between">
+        <div key={slot.key} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+          <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
             <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">{slot.title}</span>
             {slot.link && (
               <a
@@ -154,8 +154,8 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
         </div>
       ))}
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 flex items-center justify-between">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+        <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
           <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
             📄 문서 보관함 (e티켓·바우처)
           </span>
@@ -184,7 +184,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange }: Pr
                   <img
                     src={doc.image}
                     alt={doc.title}
-                    className="w-14 h-14 object-cover rounded border border-gray-200 dark:border-gray-800 bg-white"
+                    className="w-14 h-14 object-cover rounded border border-black/[0.06] dark:border-white/[0.1] bg-white"
                   />
                 </button>
                 <input

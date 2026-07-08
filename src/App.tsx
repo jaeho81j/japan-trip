@@ -45,7 +45,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-svh bg-gray-50 dark:bg-gray-950 flex flex-col max-w-md mx-auto">
+    <div className="min-h-svh bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
       <TripHeader
         trip={data.trip}
         onChange={(trip) => setData({ ...data, trip })}
@@ -53,7 +53,7 @@ export default function App() {
         onOpenSettings={() => setTab('settings')}
       />
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden">
         {tab === 'home' && (
           <HomeTab
             data={data}
@@ -127,16 +127,22 @@ export default function App() {
         )}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex pb-[env(safe-area-inset-bottom)]">
+      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto border-t border-black/[0.06] dark:border-white/[0.08] bg-white/80 dark:bg-[#1C1C1E]/75 backdrop-blur-xl flex pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] z-20">
         {TABS.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex-1 flex flex-col items-center py-2 text-[11px] gap-0.5 ${
-              tab === t.key ? 'text-accent-600 dark:text-accent-400 font-semibold' : 'text-gray-400'
+            className={`flex-1 flex flex-col items-center gap-1 text-[10.5px] transition-colors ${
+              tab === t.key ? 'text-accent-600 dark:text-accent-400 font-semibold' : 'text-gray-400 dark:text-gray-500'
             }`}
           >
-            <span className="text-lg leading-none">{t.icon}</span>
+            <span
+              className={`h-6 w-9 rounded-full flex items-center justify-center text-[17px] leading-none transition-colors ${
+                tab === t.key ? 'bg-accent-500/15' : ''
+              }`}
+            >
+              {t.icon}
+            </span>
             {t.label}
           </button>
         ))}

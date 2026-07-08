@@ -150,10 +150,10 @@ export default function TranslatorTab() {
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center gap-2 text-sm">
           <select
-            className="flex-1 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5"
+            className="flex-1 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
             value={source}
             onChange={(e) => setSource(e.target.value as LangCode)}
           >
@@ -167,7 +167,7 @@ export default function TranslatorTab() {
             ⇄
           </button>
           <select
-            className="flex-1 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5"
+            className="flex-1 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
             value={target}
             onChange={(e) => setTarget(e.target.value as LangCode)}
           >
@@ -180,7 +180,7 @@ export default function TranslatorTab() {
         </div>
 
         <textarea
-          className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-2 text-sm min-h-20 text-gray-900 dark:text-gray-100"
+          className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-2 text-sm min-h-20 text-gray-900 dark:text-gray-100"
           placeholder="번역할 문장을 입력하세요"
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -192,7 +192,7 @@ export default function TranslatorTab() {
             className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium border ${
               listening
                 ? 'bg-rose-500 border-rose-500 text-white animate-pulse'
-                : 'border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300'
+                : 'border-black/[0.06] dark:border-white/[0.1] text-gray-600 dark:text-gray-300'
             }`}
           >
             {listening ? '🔴 듣는 중… (탭하면 중지)' : '🎤 말하기'}
@@ -200,7 +200,7 @@ export default function TranslatorTab() {
           <button
             onClick={translate}
             disabled={loading || !input.trim()}
-            className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
+            className="flex-1 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             {loading ? '번역중…' : '번역하기'}
           </button>
@@ -209,7 +209,7 @@ export default function TranslatorTab() {
         {error && <p className="text-xs text-rose-500">{error}</p>}
 
         {output && (
-          <div className="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-3 py-2 text-left space-y-1.5">
+          <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.1] px-3 py-2 text-left space-y-1.5">
             <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{output}</p>
             <button
               onClick={() => speak(output, target)}
@@ -221,7 +221,7 @@ export default function TranslatorTab() {
         )}
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">📷 사진 스캔 번역 (일→한)</p>
           <a
@@ -259,7 +259,7 @@ export default function TranslatorTab() {
         />
 
         {scanText && (
-          <div className="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-3 py-2 text-left space-y-1">
+          <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.1] px-3 py-2 text-left space-y-1">
             <p className="text-xs text-gray-400">인식된 일본어</p>
             <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{scanText}</p>
           </div>
@@ -279,8 +279,8 @@ export default function TranslatorTab() {
 
       <div className="space-y-3">
         {categories.map((cat) => (
-          <div key={cat} className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-            <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+          <div key={cat} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+            <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
               {cat}
             </div>
             <div className="divide-y divide-gray-100 dark:divide-gray-800">

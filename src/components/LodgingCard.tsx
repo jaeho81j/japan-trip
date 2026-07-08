@@ -26,13 +26,13 @@ function LodgingForm({
   return (
     <div className="space-y-2 px-3 py-2">
       <input
-        className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+        className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
         placeholder="숙소 이름 (예: 시부야 스트림 호텔)"
         value={draft.name}
         onChange={(e) => set({ name: e.target.value })}
       />
       <textarea
-        className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm min-h-14"
+        className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm min-h-14"
         placeholder="일본어 주소 (택시 기사에게 보여줄 용도) — 예약사이트에서 복사해 붙여넣으세요"
         value={draft.addressJa}
         onChange={(e) => set({ addressJa: e.target.value })}
@@ -41,20 +41,20 @@ function LodgingForm({
         <label className="text-xs text-gray-400 shrink-0">체크인</label>
         <input
           type="date"
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
           value={draft.checkIn}
           onChange={(e) => set({ checkIn: e.target.value })}
         />
         <label className="text-xs text-gray-400 shrink-0">아웃</label>
         <input
           type="date"
-          className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5"
+          className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
           value={draft.checkOut}
           onChange={(e) => set({ checkOut: e.target.value })}
         />
       </div>
       <input
-        className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+        className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
         placeholder="예약 번호 (선택)"
         value={draft.confirmation}
         onChange={(e) => set({ confirmation: e.target.value })}
@@ -62,13 +62,13 @@ function LodgingForm({
       <div className="flex gap-2">
         <button
           onClick={onCancel}
-          className="flex-1 rounded-lg border border-gray-200 dark:border-gray-800 text-gray-500 py-1.5 text-sm"
+          className="flex-1 rounded-xl border border-black/[0.06] dark:border-white/[0.1] text-gray-500 py-1.5 text-sm"
         >
           취소
         </button>
         <button
           onClick={() => draft.name.trim() && onSave(draft)}
-          className="flex-1 rounded-lg bg-accent-600 text-white py-1.5 text-sm font-medium hover:bg-accent-700"
+          className="flex-1 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-1.5 text-sm font-medium hover:bg-accent-700"
         >
           저장
         </button>
@@ -98,8 +98,8 @@ export default function LodgingCard({ lodgings, onChange }: Props) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-      <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 flex items-center justify-between">
+    <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+      <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
         <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">🏨 숙소</span>
         {!adding && (
           <button

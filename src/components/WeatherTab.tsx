@@ -61,10 +61,10 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-2">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex gap-2">
           <input
-            className="flex-1 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1.5 text-sm"
+            className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
             placeholder="도시 (예: Tokyo)"
             value={cityQuery}
             onChange={(e) => setCityQuery(e.target.value)}
@@ -73,7 +73,7 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
           <button
             onClick={searchCity}
             disabled={loading}
-            className="shrink-0 rounded-lg bg-accent-600 text-white px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
+            className="shrink-0 rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] px-3 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
           >
             {loading ? '검색중…' : '검색'}
           </button>
@@ -99,7 +99,7 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
         </p>
       )}
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
         {weather.daily.map((d) => (
           <div key={d.date} className="flex items-center gap-3 px-3 py-2 text-sm">
             <span className="w-16 shrink-0 text-gray-700 dark:text-gray-300">{formatDate(d.date)}</span>

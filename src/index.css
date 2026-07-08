@@ -65,3 +65,12 @@ button {
   height: 6px;
   width: 6px;
 }
+
+/* 본문 스크롤바가 레이아웃 폭을 차지하지 않도록 숨겨서
+   헤더(타이틀·설정)와 그 아래 서브탭의 좌우 폭을 정확히 맞춘다 */
+main {
+  scrollbar-width: none;
+}
+main::-webkit-scrollbar {
+  display: none;
+}

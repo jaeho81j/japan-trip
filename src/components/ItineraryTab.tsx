@@ -113,9 +113,9 @@ export default function ItineraryTab({ days, onChange }: Props) {
       {days.map((day, index) => (
         <div
           key={day.id}
-          className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+          className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden"
         >
-          <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-900 px-3 py-2">
+          <div className="flex items-center gap-2 bg-black/[0.03] dark:bg-white/[0.05] px-3 py-2">
             <div className="flex flex-col">
               <button
                 aria-label="위로"
@@ -228,7 +228,7 @@ export default function ItineraryTab({ days, onChange }: Props) {
                     <input
                       type="number"
                       min={0}
-                      className="w-24 min-w-0 bg-transparent outline-none text-right border border-gray-200 dark:border-gray-800 rounded px-1.5 py-0.5"
+                      className="w-24 min-w-0 bg-transparent outline-none text-right border border-black/[0.06] dark:border-white/[0.1] rounded px-1.5 py-0.5"
                       placeholder="0"
                       value={act.cost || ''}
                       onChange={(e) => updateActivity(day.id, act.id, { cost: Number(e.target.value) || 0 })}

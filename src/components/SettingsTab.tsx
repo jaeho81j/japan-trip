@@ -31,14 +31,14 @@ function OptionRow<K extends string>({
   return (
     <div className="px-3 py-2.5 flex items-center gap-3">
       <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">{label}</p>
-      <div className="flex-1 flex rounded-lg bg-gray-100 dark:bg-gray-800 p-0.5">
+      <div className="flex-1 flex rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5">
         {options.map((o) => (
           <button
             key={o.key}
             onClick={() => onChange(o.key)}
             className={`flex-1 rounded-md py-1.5 text-xs font-medium transition-colors ${
               value === o.key
-                ? 'bg-white dark:bg-gray-950 text-accent-600 dark:text-accent-400 shadow-sm'
+                ? 'bg-white dark:bg-[#1C1C1E] text-accent-600 dark:text-accent-400 shadow-sm'
                 : 'text-gray-500 dark:text-gray-400'
             }`}
           >
@@ -57,8 +57,8 @@ export default function SettingsTab({ settings, onSettingsChange, data, onImport
   return (
     <div className="pb-24">
       <div className="p-4 pb-0 space-y-4">
-        <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-950">
-          <div className="bg-gray-50 dark:bg-gray-900 px-3 py-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+        <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden bg-white dark:bg-[#1C1C1E]">
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
             🎨 디자인 설정
           </div>
 
@@ -74,7 +74,7 @@ export default function SettingsTab({ settings, onSettingsChange, data, onImport
                   title={a.label}
                   className={`h-7 w-7 rounded-full transition-transform ${
                     settings.accent === a.key
-                      ? 'ring-2 ring-offset-2 ring-gray-400 dark:ring-gray-500 dark:ring-offset-gray-950 scale-105'
+                      ? 'ring-2 ring-offset-2 ring-accent-500 ring-offset-white dark:ring-offset-[#1C1C1E] scale-110'
                       : ''
                   }`}
                   style={{ backgroundColor: a.palette[600] }}

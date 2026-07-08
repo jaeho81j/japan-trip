@@ -98,12 +98,12 @@ export default function DayMap({ activities, onActivityMove }: Props) {
       <div ref={containerRef} className="h-56 w-full" />
       <button
         onClick={showMyLocation}
-        className="absolute bottom-2 right-2 z-[1000] bg-white dark:bg-gray-900 shadow rounded-full px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700"
+        className="absolute bottom-2 right-2 z-[1000] bg-white dark:bg-[#2C2C2E] shadow rounded-full px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700"
       >
         📍 내 위치
       </button>
       {!hasLocated && (
-        <p className="absolute inset-0 flex items-center justify-center text-center px-6 text-xs text-gray-400 bg-white/80 dark:bg-gray-950/80 pointer-events-none z-[500]">
+        <p className="absolute inset-0 flex items-center justify-center text-center px-6 text-xs text-gray-400 bg-white/80 dark:bg-black/80 pointer-events-none z-[500]">
           활동의 위치 옆 🔍 버튼으로 검색하면 지도에 핀이 표시돼요
         </p>
       )}

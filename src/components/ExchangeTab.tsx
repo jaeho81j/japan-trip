@@ -82,7 +82,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-1 text-center">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-1 text-center">
         <p className="text-xs text-gray-400">100엔 (JPY)</p>
         <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
           {rate != null ? `${rate.toLocaleString(undefined, { maximumFractionDigits: 2 })}원` : loading ? '조회중…' : '—'}
@@ -100,12 +100,12 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
         {error && <p className="text-xs text-rose-500">{error}</p>}
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-3">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
         <div className="space-y-1">
           <label className="text-xs text-gray-400">엔화 (JPY)</label>
           <input
             type="number"
-            className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
+            className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
             value={jpyInput}
             onChange={(e) => onJpyChange(e.target.value)}
           />
@@ -115,7 +115,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             <button
               key={yen}
               onClick={() => setQuickAmount(yen)}
-              className="rounded-full bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-300 text-xs px-2.5 py-1"
+              className="rounded-full bg-black/[0.05] dark:bg-white/[0.08] text-gray-600 dark:text-gray-300 text-xs px-2.5 py-1"
             >
               {yen.toLocaleString()}엔
             </button>
@@ -126,7 +126,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
           <label className="text-xs text-gray-400">원화 (KRW)</label>
           <input
             type="number"
-            className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
+            className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
             value={krwInput}
             onChange={(e) => onKrwChange(e.target.value)}
           />
@@ -136,7 +136,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
         )}
       </div>
 
-      <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 space-y-3">
+      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
         <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">🧾 면세·할인 계산기</p>
 
         <div className="space-y-1">
@@ -145,7 +145,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             type="number"
             min={0}
             placeholder="예: 11000"
-            className="w-full bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
+            className="w-full bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-3 py-2 text-lg text-right text-gray-900 dark:text-gray-100"
             value={priceInput}
             onChange={(e) => setPriceInput(e.target.value)}
           />
@@ -157,7 +157,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             className={`flex-1 rounded-lg py-1.5 border ${
               taxRate === 10
                 ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
-                : 'border-gray-200 dark:border-gray-800 text-gray-400'
+                : 'border-black/[0.06] dark:border-white/[0.1] text-gray-400'
             }`}
           >
             일반 상품 (소비세 10%)
@@ -167,7 +167,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             className={`flex-1 rounded-lg py-1.5 border ${
               taxRate === 8
                 ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
-                : 'border-gray-200 dark:border-gray-800 text-gray-400'
+                : 'border-black/[0.06] dark:border-white/[0.1] text-gray-400'
             }`}
           >
             식품·소모품 (8%)
@@ -181,7 +181,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             min={0}
             max={100}
             placeholder="0"
-            className="w-16 min-w-0 bg-transparent outline-none border border-gray-200 dark:border-gray-800 rounded px-2 py-1 text-sm text-right"
+            className="w-16 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1 text-sm text-right"
             value={discountInput}
             onChange={(e) => setDiscountInput(e.target.value)}
           />
@@ -190,7 +190,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
             <button
               key={d}
               onClick={() => setDiscountInput(String(d))}
-              className="rounded-full bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-300 text-xs px-2 py-1"
+              className="rounded-full bg-black/[0.05] dark:bg-white/[0.08] text-gray-600 dark:text-gray-300 text-xs px-2 py-1"
             >
               {d}%
             </button>
@@ -198,7 +198,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
         </div>
 
         {price > 0 ? (
-          <div className="rounded-lg bg-gray-50 dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800 text-sm">
+          <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.04] divide-y divide-gray-100 dark:divide-gray-800 text-sm">
             <div className="flex items-center justify-between px-3 py-2">
               <span className="text-gray-500 dark:text-gray-400">🛂 면세 적용가 (소비세 {taxRate}% 제외)</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100 text-right">
