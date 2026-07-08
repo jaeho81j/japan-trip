@@ -74,3 +74,50 @@ main {
 main::-webkit-scrollbar {
   display: none;
 }
+
+/* ===== 디자인 핸드오프: 인터랙션/애니메이션 (확정 이징·타이밍) ===== */
+
+/* 화면(탭) 전환 — 좌우 슬라이드 */
+@keyframes slideInRight {
+  from { opacity: 0.3; transform: translateX(64px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0.3; transform: translateX(-64px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.anim-slide-right { animation: slideInRight 0.34s cubic-bezier(0.32, 0.72, 0.35, 1); }
+.anim-slide-left { animation: slideInLeft 0.34s cubic-bezier(0.32, 0.72, 0.35, 1); }
+
+/* 헤더(타이틀·세그먼트) 동반 슬라이드 */
+@keyframes hdrInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes hdrInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.anim-hdr-right { animation: hdrInRight 0.34s cubic-bezier(0.32, 0.72, 0.35, 1); }
+.anim-hdr-left { animation: hdrInLeft 0.34s cubic-bezier(0.32, 0.72, 0.35, 1); }
+
+/* 탭 아이콘 스프링 팝 */
+@keyframes tabPop {
+  0% { transform: scale(0.62); }
+  55% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.anim-tab-pop { animation: tabPop 0.44s cubic-bezier(0.34, 1.5, 0.5, 1); }
+
+/* 아코디언·펼침 팝오픈 */
+@keyframes popOpen {
+  0% { opacity: 0; transform: scale(0.95) translateY(-5px); }
+  60% { opacity: 1; transform: scale(1.012); }
+  100% { transform: scale(1); }
+}
+.anim-pop-open { animation: popOpen 0.3s cubic-bezier(0.34, 1.3, 0.64, 1); transform-origin: top center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-slide-right, .anim-slide-left, .anim-hdr-right, .anim-hdr-left,
+  .anim-tab-pop, .anim-pop-open { animation: none; }
+}

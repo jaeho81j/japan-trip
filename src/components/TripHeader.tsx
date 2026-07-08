@@ -3,15 +3,17 @@ import { SlidersIcon } from './Icons';
 
 type Props = {
   title: string;
+  headerAnim: string;
+  animKey: number;
   settingsActive: boolean;
   onOpenSettings: () => void;
 };
 
-export default function TripHeader({ title, settingsActive, onOpenSettings }: Props) {
+export default function TripHeader({ title, headerAnim, animKey, settingsActive, onOpenSettings }: Props) {
   return (
     <div className="sticky top-0 z-10 bg-[#F2F2F7]/80 dark:bg-black/70 backdrop-blur-xl px-5 pt-3 pb-2">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-[28px] font-extrabold tracking-tight text-gray-900 dark:text-white flex items-baseline gap-1.5">
+        <h1 key={animKey} className={`text-[28px] font-extrabold tracking-tight text-gray-900 dark:text-white flex items-baseline gap-1.5 ${headerAnim}`}>
           {title}
           <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500">{APP_VERSION}</span>
         </h1>
