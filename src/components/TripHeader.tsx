@@ -1,4 +1,5 @@
 import type { TripInfo } from '../types';
+import { APP_VERSION } from '../version';
 
 type Props = {
   trip: TripInfo;
@@ -60,6 +61,7 @@ export default function TripHeader({ trip, onChange, settingsActive, onOpenSetti
           value={trip.endDate}
           onChange={(e) => onChange({ ...trip, endDate: e.target.value })}
         />
+        <span className="ml-auto self-center text-[10px] text-gray-400 dark:text-gray-500">{APP_VERSION}</span>
       </div>
     </div>
   );

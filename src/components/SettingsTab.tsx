@@ -9,6 +9,7 @@ import {
   defaultSettings,
 } from '../settings';
 import MoreTab from './MoreTab';
+import { APP_VERSION_LABEL, forceUpdate } from '../version';
 
 type Props = {
   settings: AppSettings;
@@ -119,6 +120,30 @@ export default function SettingsTab({ settings, onSettingsChange, data, onImport
               기본값으로
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* 앱 정보 · 업데이트 */}
+      <div className="px-4 pt-4">
+        <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
+            ℹ️ 앱 정보
+          </div>
+          <div className="px-4 py-3 flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm text-gray-800 dark:text-gray-200">현재 버전</p>
+              <p className="text-lg font-bold text-accent-600 dark:text-accent-400">{APP_VERSION_LABEL}</p>
+            </div>
+            <button
+              onClick={forceUpdate}
+              className="shrink-0 rounded-lg bg-accent-600 text-white px-3 py-2 text-sm font-medium hover:bg-accent-700"
+            >
+              최신으로 업데이트
+            </button>
+          </div>
+          <p className="px-4 pb-3 text-[11px] text-gray-400 leading-relaxed">
+            새 디자인이 안 보이면 이 버튼을 누르세요. 캐시만 비우고 새로고침하며, 저장한 여행 데이터는 그대로 유지됩니다.
+          </p>
         </div>
       </div>
 
