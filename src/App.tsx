@@ -244,7 +244,12 @@ export default function App() {
         </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto border-t border-black/[0.06] dark:border-white/[0.08] bg-white/80 dark:bg-[#1C1C1E]/75 backdrop-blur-xl flex pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] z-20">
+      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white dark:bg-[#1C1C1E] flex pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] z-20">
+        {/* 상단 소프트 페이드: 콘텐츠가 탭바 위로 부드럽게 사라지도록 */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-full h-4 bg-gradient-to-t from-white to-transparent dark:from-[#1C1C1E]"
+        />
         {TABS.map((t) => {
           const active = tab === t.key;
           return (
