@@ -284,7 +284,7 @@ export default function SubwayTab() {
       </div>
 
       <div className="rounded-xl overflow-hidden border border-black/[0.06] dark:border-white/[0.1]">
-        <div ref={containerRef} className="h-[45vh] w-full" />
+        <div ref={containerRef} className="h-60 w-full" />
       </div>
 
       <p className="text-xs text-gray-400 text-center">
