@@ -12,6 +12,7 @@ import ChecklistTab, { type ChecklistSub } from './components/ChecklistTab';
 import GuideTab, { type GuideSub } from './components/GuideTab';
 import SettingsTab from './components/SettingsTab';
 import Onboarding from './components/Onboarding';
+import Splash from './components/Splash';
 import { NavIcon } from './components/Icons';
 
 const TABS = [
@@ -148,6 +149,7 @@ export default function App() {
 
   return (
     <div className="h-[100svh] overflow-hidden bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
+      <Splash />
       {!onboardingDone && <Onboarding trip={data.trip} onDone={() => setOnboardingDone(true)} />}
       <TripHeader
         title={TITLES[tab] ?? '홈'}
