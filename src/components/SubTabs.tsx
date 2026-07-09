@@ -6,11 +6,11 @@ type Props<K extends string> = {
 
 export default function SubTabs<K extends string>({ tabs, value, onChange }: Props<K>) {
   return (
-    <div className="sticky top-0 z-10 bg-[#F2F2F7]/85 dark:bg-black/70 backdrop-blur-xl px-4 pt-3 pb-2 relative">
-      {/* 하단 소프트 페이드: 스크롤 시 경계선처럼 보이지 않게 */}
+    <div className="sticky top-0 z-10 bg-[#F2F2F7] dark:bg-black px-4 pt-2.5 pb-2 relative">
+      {/* 하단 소프트 페이드: 콘텐츠가 서브탭 밑으로 부드럽게 사라지도록 */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-full h-5 bg-gradient-to-b from-[#F2F2F7] to-transparent dark:from-black"
+        className="pointer-events-none absolute inset-x-0 top-full h-4 bg-gradient-to-b from-[#F2F2F7] to-transparent dark:from-black"
       />
       <div className="flex rounded-xl bg-black/[0.05] dark:bg-white/[0.08] p-1 gap-1">
         {tabs.map((t) => (

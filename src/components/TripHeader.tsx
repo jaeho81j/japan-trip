@@ -11,11 +11,11 @@ type Props = {
 
 export default function TripHeader({ title, headerAnim, animKey, settingsActive, onOpenSettings }: Props) {
   return (
-    <div className="sticky top-0 z-10 bg-[#F2F2F7]/80 dark:bg-black/70 backdrop-blur-xl px-5 pt-3 pb-2 relative">
-      {/* 하단 소프트 페이드: 스크롤 시 경계선처럼 보이지 않게 */}
+    <div className="relative z-20 shrink-0 bg-[#F2F2F7] dark:bg-black px-5 pt-3 pb-2">
+      {/* 하단 소프트 페이드: 콘텐츠가 헤더 밑으로 부드럽게 사라지도록 */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-full h-5 bg-gradient-to-b from-[#F2F2F7] to-transparent dark:from-black"
+        className="pointer-events-none absolute inset-x-0 top-full h-4 bg-gradient-to-b from-[#F2F2F7] to-transparent dark:from-black"
       />
       <div className="flex items-center justify-between gap-2">
         <h1 key={animKey} className={`text-[28px] font-extrabold tracking-tight text-gray-900 dark:text-white flex items-baseline gap-1.5 ${headerAnim}`}>

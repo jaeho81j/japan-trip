@@ -147,7 +147,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-svh bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
+    <div className="h-[100svh] overflow-hidden bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
       {!onboardingDone && <Onboarding trip={data.trip} onDone={() => setOnboardingDone(true)} />}
       <TripHeader
         title={TITLES[tab] ?? '홈'}
@@ -158,7 +158,7 @@ export default function App() {
       />
 
       <main
-        className="flex-1 overflow-y-auto overflow-x-hidden"
+        className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endSwipe}
