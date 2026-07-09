@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { SplitState } from '../types';
+import { DivideIcon } from './Icons';
 
 type Props = {
   split: SplitState;
@@ -98,7 +99,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
 
   return (
     <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
-      <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">➗ 1/N 계산기</p>
+      <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><DivideIcon className="h-4 w-4" />1/N 계산기</p>
 
       <div className="flex gap-2">
         <input

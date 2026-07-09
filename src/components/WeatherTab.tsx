@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { ItineraryDay, WeatherState } from '../types';
 import { searchPlace } from '../geocode';
 import { fetchForecast, weatherIcon } from '../weather';
+import { RefreshIcon } from './Icons';
 
 type Props = {
   weather: WeatherState;
@@ -85,8 +86,8 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
               : '아직 조회 전이에요'}
           </span>
           {weather.lat != null && (
-            <button onClick={refresh} disabled={loading} className="text-accent-500 hover:text-accent-600">
-              🔄 새로고침
+            <button onClick={refresh} disabled={loading} className="inline-flex items-center gap-1 text-accent-500 hover:text-accent-600">
+              <RefreshIcon className="h-3.5 w-3.5" />새로고침
             </button>
           )}
         </div>

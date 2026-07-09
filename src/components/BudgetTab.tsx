@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { BudgetItem, ItineraryDay } from '../types';
+import { BarChartIcon } from './Icons';
 
 type Props = {
   items: BudgetItem[];
@@ -95,7 +96,7 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
 
       {categoryRows.length > 0 && (
         <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
-          <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">📊 지출 요약</p>
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><BarChartIcon className="h-4 w-4" />지출 요약</p>
           {categoryRows.map(([cat, amount]) => (
             <div key={cat} className="space-y-0.5">
               <div className="flex items-center justify-between text-xs">

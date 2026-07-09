@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type ComponentType } from 'react';
 import type { FlightsState, QrState, TravelDocument } from '../types';
 import { compressImage } from '../imageUtils';
 import BoardingPass from './BoardingPass';
+import { IdIcon, BagIcon, FolderIcon } from './Icons';
 
 type Props = {
   qr: QrState;
@@ -13,16 +14,18 @@ type Props = {
 
 type SlotKey = keyof QrState;
 
-const SLOTS: { key: SlotKey; title: string; hint: string; link?: { label: string; href: string } }[] = [
+const SLOTS: { key: SlotKey; title: string; hint: string; Icon: ComponentType<{ className?: string }>; link?: { label: string; href: string } }[] = [
   {
     key: 'visitJapan',
-    title: '🛂 Visit Japan Web QR',
+    title: 'Visit Japan Web QR',
+    Icon: IdIcon,
     hint: '입국심사·세관 신고 QR 스크린샷을 등록해두세요.',
     link: { label: 'Visit Japan Web 열기', href: 'https://www.vjw.digital.go.jp/' },
   },
   {
     key: 'taxFree',
-    title: '🛍️ 면세 QR (여권 정보)',
+    title: '면세 QR (여권 정보)',
+    Icon: BagIcon,
     hint: '면세 수속용 QR(Visit Japan Web 면세 QR 등)을 등록해두세요.',
   },
 ];
@@ -93,7 +96,10 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
       {SLOTS.map((slot) => (
         <div key={slot.key} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
           <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
-            <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">{slot.title}</span>
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+              <slot.Icon className="h-4 w-4" />
+              {slot.title}
+            </span>
             {slot.link && (
               <a
                 href={slot.link.href}
@@ -160,8 +166,8 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
 
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
         <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
-          <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
-            📄 문서 보관함 (e티켓·바우처)
+          <span className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+            <FolderIcon className="h-4 w-4" />문서 보관함 (e티켓·바우처)
           </span>
           <button
             onClick={() => docFileRef.current?.click()}

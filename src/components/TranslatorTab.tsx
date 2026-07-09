@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LANGUAGES, PHRASEBOOK, translateText, type LangCode } from '../translate';
+import { CameraIcon } from './Icons';
 
 type ScanPhase = 'idle' | 'ocr' | 'translating' | 'done';
 
@@ -223,7 +224,7 @@ export default function TranslatorTab() {
 
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">📷 사진 스캔 번역 (일→한)</p>
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><CameraIcon className="h-4 w-4" />사진 스캔 번역 (일→한)</p>
           <a
             href="https://lens.google.com/"
             target="_blank"

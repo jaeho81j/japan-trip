@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ExchangeState, SplitState } from '../types';
 import { fetchExchangeRate } from '../exchange';
 import SplitCalculator from './SplitCalculator';
+import { CalcIcon, RefreshIcon } from './Icons';
 
 type Props = {
   exchange: ExchangeState;
@@ -93,8 +94,8 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
               ? `업데이트 ${new Date(exchange.fetchedAt).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`
               : '아직 조회 전이에요'}
           </span>
-          <button onClick={refresh} disabled={loading} className="text-accent-500 hover:text-accent-600">
-            🔄 새로고침
+          <button onClick={refresh} disabled={loading} className="inline-flex items-center gap-1 text-accent-500 hover:text-accent-600">
+            <RefreshIcon className="h-3.5 w-3.5" />새로고침
           </button>
         </div>
         {error && <p className="text-xs text-rose-500">{error}</p>}
@@ -137,7 +138,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
       </div>
 
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
-        <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">🧾 면세·할인 계산기</p>
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><CalcIcon className="h-4 w-4" />면세·할인 계산기</p>
 
         <div className="space-y-1">
           <label className="text-xs text-gray-400">상품 가격 (엔, 세금 포함 표시가)</label>

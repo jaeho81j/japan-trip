@@ -3,6 +3,7 @@ import type { Activity, ItineraryDay } from '../types';
 import { searchPlace } from '../geocode';
 import { googleMapsSearchUrl, googleMapsSearchUrlForCoords } from '../googleMaps';
 import DayMap from './DayMap';
+import { MapIcon, SearchIcon, PinIcon, CompassIcon, RefreshIcon } from './Icons';
 
 type Props = {
   days: ItineraryDay[];
@@ -155,9 +156,9 @@ export default function ItineraryTab({ days, onChange }: Props) {
             <span className="ml-auto shrink-0 text-xs text-gray-400">{day.activities.length}개</span>
             <button
               onClick={() => toggleMap(day.id)}
-              className={`shrink-0 whitespace-nowrap text-sm ${mapOpenDays.has(day.id) ? 'text-accent-600 dark:text-accent-400 font-medium' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
+              className={`shrink-0 whitespace-nowrap text-sm inline-flex items-center gap-1 ${mapOpenDays.has(day.id) ? 'text-accent-600 dark:text-accent-400 font-medium' : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}
             >
-              🗺️ 지도
+              <MapIcon className="h-4 w-4" />지도
             </button>
             <button
               onClick={() => removeDay(day.id)}
@@ -213,9 +214,15 @@ export default function ItineraryTab({ days, onChange }: Props) {
                       onClick={() => geocodeActivity(day.id, act)}
                       disabled={geocodingIds.has(act.id) || !act.location.trim()}
                       title="위치 검색"
-                      className="shrink-0 text-sm disabled:opacity-30"
+                      className="shrink-0 disabled:opacity-30 text-gray-400 hover:text-accent-500"
                     >
-                      {geocodingIds.has(act.id) ? '⏳' : act.lat != null ? '📍' : '🔍'}
+                      {geocodingIds.has(act.id) ? (
+                        <RefreshIcon className="h-4 w-4 animate-spin" />
+                      ) : act.lat != null ? (
+                        <PinIcon className="h-4 w-4 text-accent-500" />
+                      ) : (
+                        <SearchIcon className="h-4 w-4" />
+                      )}
                     </button>
                     {act.location.trim() && (
                       <a
@@ -227,9 +234,9 @@ export default function ItineraryTab({ days, onChange }: Props) {
                         target="_blank"
                         rel="noopener noreferrer"
                         title="구글맵에서 열기"
-                        className="shrink-0 text-sm"
+                        className="shrink-0 text-gray-400 hover:text-accent-500"
                       >
-                        🧭
+                        <CompassIcon className="h-4 w-4" />
                       </a>
                     )}
                   </div>

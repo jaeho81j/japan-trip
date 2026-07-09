@@ -4,6 +4,7 @@ import '../leafletSetup';
 import { searchPlace } from '../geocode';
 import { googleMapsTransitUrl } from '../googleMaps';
 import { TOKYO_LINES, type Station } from '../tokyoLines';
+import { SwapIcon, TrainIcon, SearchIcon, CompassIcon } from './Icons';
 
 const TOKYO_STATION: [number, number] = [35.681236, 139.767125];
 
@@ -105,7 +106,7 @@ export default function SubwayTab() {
   return (
     <div className="p-4 space-y-3 pb-24">
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
-        <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">🔀 환승/경로 검색</p>
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><SwapIcon className="h-4 w-4" />환승/경로 검색</p>
         <div className="flex items-center gap-2">
           <input
             className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
@@ -134,9 +135,9 @@ export default function SubwayTab() {
         <button
           onClick={searchRoute}
           disabled={!routeFrom.trim() || !routeTo.trim()}
-          className="w-full rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50"
+          className="w-full rounded-xl bg-accent-600 text-white transition-transform active:scale-[0.97] py-2 text-sm font-medium hover:bg-accent-700 disabled:opacity-50 flex items-center justify-center gap-1.5"
         >
-          🧭 소요시간·환승 검색 (구글맵)
+          <CompassIcon className="h-4 w-4" />소요시간·환승 검색 (구글맵)
         </button>
         <p className="text-[11px] text-gray-400">
           구글맵 대중교통 길찾기가 열려서 소요시간, 환승 노선, 요금까지 바로 확인할 수 있어요.
@@ -146,7 +147,7 @@ export default function SubwayTab() {
 
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
         <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300 flex items-center justify-between">
-          <span>🚇 도쿄 지하철 노선도</span>
+          <span className="flex items-center gap-1.5"><TrainIcon className="h-3.5 w-3.5" />도쿄 지하철 노선도</span>
           <a
             href={SUBWAY_MAP_IMAGE_URL}
             target="_blank"
@@ -192,8 +193,8 @@ export default function SubwayTab() {
       </div>
 
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
-        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
-          🚈 노선별 역 목록 (오프라인)
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
+          <TrainIcon className="h-3.5 w-3.5" />노선별 역 목록 (오프라인)
         </div>
         <div className="p-3 space-y-2">
           <div className="flex flex-wrap gap-1.5">
@@ -256,7 +257,7 @@ export default function SubwayTab() {
       </div>
 
       <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
-        <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">📍 역/장소 검색</p>
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><SearchIcon className="h-4 w-4" />역/장소 검색</p>
         <div className="flex gap-2">
           <input
             className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"

@@ -4,6 +4,7 @@ import '../leafletSetup';
 import { searchPlace } from '../geocode';
 import { fetchNearbyPlaces, tabelogSearchUrl, type Place, type PlaceCategory } from '../places';
 import { googleMapsSearchUrlForCoords } from '../googleMaps';
+import { PinIcon, RefreshIcon } from './Icons';
 
 const CATEGORY_META: Record<PlaceCategory, { label: string; emoji: string }> = {
   meal: { label: '식사', emoji: '🍽️' },
@@ -169,9 +170,9 @@ export default function FoodTab() {
           <button
             onClick={useMyLocation}
             disabled={loading}
-            className="shrink-0 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-50"
+            className="shrink-0 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-50 inline-flex items-center gap-1"
           >
-            📍 내 위치
+            <PinIcon className="h-4 w-4" />내 위치
           </button>
         </div>
 
@@ -194,9 +195,9 @@ export default function FoodTab() {
             <button
               onClick={() => runSearch(origin)}
               disabled={loading}
-              className="ml-auto text-accent-500 hover:text-accent-600 disabled:opacity-50"
+              className="ml-auto inline-flex items-center gap-1 text-accent-500 hover:text-accent-600 disabled:opacity-50"
             >
-              🔄 다시 검색
+              <RefreshIcon className="h-3.5 w-3.5" />다시 검색
             </button>
           )}
         </div>

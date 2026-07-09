@@ -2,7 +2,8 @@ import type { FlightsState, LodgingInfo, TripData } from '../types';
 import { weatherIcon } from '../weather';
 import FlightsCard from './FlightsCard';
 import LodgingCard from './LodgingCard';
-import { ChevronRight } from './Icons';
+import { ChevronRight, TicketIcon, ChatIcon, TrainIcon, AlertIcon } from './Icons';
+import type { ComponentType } from 'react';
 
 type Props = {
   data: TripData;
@@ -173,14 +174,18 @@ export default function HomeTab({ data, onNavigate, onFlightsChange, onLodgingsC
 
       {/* 바로가기 */}
       <div className="grid grid-cols-4 gap-2.5">
-        {[
-          { tab: 'wallet', sub: undefined, icon: '🎫', label: 'QR·문서' },
-          { tab: 'guide', sub: 'translator', icon: '💬', label: '번역기' },
-          { tab: 'guide', sub: 'subway', icon: '🚈', label: '환승검색' },
-          { tab: 'settings', sub: undefined, icon: '🆘', label: '긴급정보' },
-        ].map((s) => (
+        {(
+          [
+            { tab: 'wallet', sub: undefined, Icon: TicketIcon, label: 'QR·문서' },
+            { tab: 'guide', sub: 'translator', Icon: ChatIcon, label: '번역기' },
+            { tab: 'guide', sub: 'subway', Icon: TrainIcon, label: '환승검색' },
+            { tab: 'settings', sub: undefined, Icon: AlertIcon, label: '긴급정보' },
+          ] as { tab: string; sub?: string; Icon: ComponentType<{ className?: string }>; label: string }[]
+        ).map((s) => (
           <button key={s.label} onClick={() => onNavigate(s.tab, s.sub)} className={`${CARD} py-3 flex flex-col items-center gap-1.5`}>
-            <span className="text-xl leading-none">{s.icon}</span>
+            <span className="h-9 w-9 rounded-full bg-accent-50 dark:bg-accent-900/40 text-accent-600 dark:text-accent-300 flex items-center justify-center">
+              <s.Icon className="h-[18px] w-[18px]" />
+            </span>
             <span className="text-[11px] text-gray-500 dark:text-gray-400">{s.label}</span>
           </button>
         ))}

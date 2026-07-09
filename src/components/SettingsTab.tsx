@@ -10,6 +10,7 @@ import {
 } from '../settings';
 import MoreTab from './MoreTab';
 import { APP_VERSION_LABEL, forceUpdate } from '../version';
+import { PinIcon, PaletteIcon, InfoIcon } from './Icons';
 
 type Props = {
   settings: AppSettings;
@@ -64,8 +65,8 @@ export default function SettingsTab({ settings, onSettingsChange, trip, onTripCh
     <div className="pb-24">
       <div className="p-4 pb-0 space-y-4">
         <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
-          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
-            ✈️ 여행 정보
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
+            <PinIcon className="h-3.5 w-3.5" />여행 정보
           </div>
           <div className="px-3 py-2.5 flex items-center gap-3 border-b border-gray-100 dark:border-gray-800">
             <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">여행지</p>
@@ -95,8 +96,8 @@ export default function SettingsTab({ settings, onSettingsChange, trip, onTripCh
         </div>
 
         <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
-          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
-            🎨 디자인 설정
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
+            <PaletteIcon className="h-3.5 w-3.5" />디자인 설정
           </div>
 
           {/* 포인트 컬러 */}
@@ -190,8 +191,8 @@ export default function SettingsTab({ settings, onSettingsChange, trip, onTripCh
       {/* 앱 정보 · 업데이트 */}
       <div className="px-4 pt-4">
         <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
-          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
-            ℹ️ 앱 정보
+          <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
+            <InfoIcon className="h-3.5 w-3.5" />앱 정보
           </div>
           <div className="px-4 py-3 flex items-center justify-between gap-3">
             <div>

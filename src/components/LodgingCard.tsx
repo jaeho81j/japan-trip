@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { LodgingInfo } from '../types';
 import { googleMapsSearchUrl } from '../googleMaps';
+import { BedIcon } from './Icons';
 
 type Props = {
   lodgings: LodgingInfo[];
@@ -100,7 +101,9 @@ export default function LodgingCard({ lodgings, onChange }: Props) {
   return (
     <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
       <div className="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1.5 flex items-center justify-between">
-        <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">🏨 숙소</span>
+        <span className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
+          <BedIcon className="h-4 w-4" />숙소
+        </span>
         {!adding && (
           <button
             onClick={() => setAdding(true)}
