@@ -4,17 +4,22 @@ import '../leafletSetup';
 import { searchPlace } from '../geocode';
 import { fetchNearbyPlaces, tabelogSearchUrl, type Place, type PlaceCategory } from '../places';
 import { googleMapsSearchUrlForCoords } from '../googleMaps';
-import { PinIcon, RefreshIcon } from './Icons';
+import type { ComponentType } from 'react';
+import {
+  PinIcon, RefreshIcon,
+  ForkIcon, CupIcon, CakeIcon, StoreIcon, AtmIcon, PillIcon, ToiletIcon, LockerIcon,
+} from './Icons';
 
-const CATEGORY_META: Record<PlaceCategory, { label: string; emoji: string }> = {
-  meal: { label: '식사', emoji: '🍽️' },
-  cafe: { label: '카페', emoji: '☕' },
-  dessert: { label: '디저트', emoji: '🍰' },
-  convenience: { label: '편의점', emoji: '🏪' },
-  atm: { label: 'ATM', emoji: '🏧' },
-  pharmacy: { label: '약국', emoji: '💊' },
-  toilet: { label: '화장실', emoji: '🚻' },
-  locker: { label: '코인락커', emoji: '🧳' },
+type CatMeta = { label: string; emoji: string; Icon: ComponentType<{ className?: string }> };
+const CATEGORY_META: Record<PlaceCategory, CatMeta> = {
+  meal: { label: '식사', emoji: '🍽️', Icon: ForkIcon },
+  cafe: { label: '카페', emoji: '☕', Icon: CupIcon },
+  dessert: { label: '디저트', emoji: '🍰', Icon: CakeIcon },
+  convenience: { label: '편의점', emoji: '🏪', Icon: StoreIcon },
+  atm: { label: 'ATM', emoji: '🏧', Icon: AtmIcon },
+  pharmacy: { label: '약국', emoji: '💊', Icon: PillIcon },
+  toilet: { label: '화장실', emoji: '🚻', Icon: ToiletIcon },
+  locker: { label: '코인락커', emoji: '🧳', Icon: LockerIcon },
 };
 
 const FOOD_CATEGORIES: PlaceCategory[] = ['meal', 'cafe', 'dessert'];
@@ -207,13 +212,17 @@ export default function FoodTab() {
             <button
               key={cat}
               onClick={() => toggleCategory(cat)}
-              className={`rounded-full px-2.5 py-1 border ${
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 border ${
                 categories.has(cat)
                   ? 'border-accent-400 bg-accent-50 dark:bg-accent-950 text-accent-600 dark:text-accent-300'
                   : 'border-black/[0.06] dark:border-white/[0.1] text-gray-400'
               }`}
             >
-              {CATEGORY_META[cat].emoji} {CATEGORY_META[cat].label}
+              {(() => {
+                const Icon = CATEGORY_META[cat].Icon;
+                return <Icon className="h-3.5 w-3.5" />;
+              })()}
+              {CATEGORY_META[cat].label}
             </button>
           ))}
         </div>
@@ -235,7 +244,12 @@ export default function FoodTab() {
         {shown.map((p) => (
           <div key={p.id} className="px-3 py-2 text-sm space-y-1">
             <div className="flex items-center gap-2">
-              <span>{CATEGORY_META[p.category].emoji}</span>
+              <span className="shrink-0 text-gray-400">
+                {(() => {
+                  const Icon = CATEGORY_META[p.category].Icon;
+                  return <Icon className="h-4 w-4" />;
+                })()}
+              </span>
               <span className="flex-1 min-w-0 truncate text-left font-medium text-gray-900 dark:text-gray-100">
                 {p.name}
               </span>

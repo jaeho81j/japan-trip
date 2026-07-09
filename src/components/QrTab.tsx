@@ -2,7 +2,7 @@ import { useRef, useState, type ComponentType } from 'react';
 import type { FlightsState, QrState, TravelDocument } from '../types';
 import { compressImage } from '../imageUtils';
 import BoardingPass from './BoardingPass';
-import { IdIcon, BagIcon, FolderIcon } from './Icons';
+import { IdIcon, BagIcon, FolderIcon, SearchIcon, PlusIcon } from './Icons';
 
 type Props = {
   qr: QrState;
@@ -124,9 +124,9 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
               <div className="flex divide-x divide-gray-100 dark:divide-gray-800 border-t border-gray-100 dark:border-gray-800">
                 <button
                   onClick={() => setZoomedImage(qr[slot.key])}
-                  className="flex-1 py-2 text-sm text-accent-600 dark:text-accent-500 font-medium"
+                  className="flex-1 py-2 inline-flex items-center justify-center gap-1 text-sm text-accent-600 dark:text-accent-500 font-medium"
                 >
-                  🔍 크게 보기
+                  <SearchIcon className="h-4 w-4" />크게 보기
                 </button>
                 <button
                   onClick={() => fileRefs[slot.key].current?.click()}
@@ -144,7 +144,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
               onClick={() => fileRefs[slot.key].current?.click()}
               className="w-full h-[26vh] flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-accent-500"
             >
-              <span className="text-3xl">➕</span>
+              <PlusIcon className="h-8 w-8" />
               <span className="text-sm">QR 스크린샷 등록</span>
               <span className="text-xs px-6">{slot.hint}</span>
             </button>
@@ -182,7 +182,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
             onClick={() => docFileRef.current?.click()}
             className="w-full py-8 flex flex-col items-center gap-1 text-gray-400 hover:text-accent-500"
           >
-            <span className="text-2xl">➕</span>
+            <PlusIcon className="h-7 w-7" />
             <span className="text-sm">항공권·숙소 바우처 스크린샷 등록</span>
             <span className="text-xs">오프라인에서도 바로 꺼내볼 수 있어요 (5~10장 권장)</span>
           </button>
@@ -205,9 +205,9 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
                 />
                 <button
                   onClick={() => setZoomedImage(doc.image)}
-                  className="shrink-0 text-sm text-accent-500"
+                  className="shrink-0 text-accent-500"
                 >
-                  🔍
+                  <SearchIcon className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => removeDocument(doc.id)}
@@ -235,7 +235,7 @@ export default function QrTab({ qr, onChange, documents, onDocumentsChange, flig
 
       {error && <p className="text-xs text-rose-500">{error}</p>}
       <p className="text-center text-xs text-gray-400">
-        등록한 QR·문서는 이 기기에만 저장되고 오프라인에서도 열려요. 공항에서는 🔍 크게 보기로 띄워서 스캔받으세요.
+        등록한 QR·문서는 이 기기에만 저장되고 오프라인에서도 열려요. 공항에서는 크게 보기로 띄워서 스캔받으세요.
       </p>
     </div>
   );

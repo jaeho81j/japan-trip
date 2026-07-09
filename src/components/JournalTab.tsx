@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { MOODS, type JournalEntry } from '../types';
 import { compressImage } from '../imageUtils';
+import { CameraIcon } from './Icons';
 
 type Props = {
   entries: JournalEntry[];
@@ -101,9 +102,9 @@ export default function JournalTab({ entries, onChange }: Props) {
           <button
             onClick={() => photoRef.current?.click()}
             disabled={photos.length >= MAX_PHOTOS}
-            className="shrink-0 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-3 py-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-40"
+            className="shrink-0 inline-flex items-center gap-1 rounded-xl border border-black/[0.06] dark:border-white/[0.1] px-3 py-2 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-40"
           >
-            📷 사진 ({photos.length}/{MAX_PHOTOS})
+            <CameraIcon className="h-4 w-4" />사진 ({photos.length}/{MAX_PHOTOS})
           </button>
           <button
             onClick={add}

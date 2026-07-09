@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LANGUAGES, PHRASEBOOK, translateText, type LangCode } from '../translate';
-import { CameraIcon } from './Icons';
+import { CameraIcon, MicIcon, SpeakerIcon } from './Icons';
 
 type ScanPhase = 'idle' | 'ocr' | 'translating' | 'done';
 
@@ -190,13 +190,14 @@ export default function TranslatorTab() {
         <div className="flex gap-2">
           <button
             onClick={toggleListening}
-            className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium border ${
+            className={`shrink-0 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium border ${
               listening
                 ? 'bg-rose-500 border-rose-500 text-white animate-pulse'
                 : 'border-black/[0.06] dark:border-white/[0.1] text-gray-600 dark:text-gray-300'
             }`}
           >
-            {listening ? '🔴 듣는 중… (탭하면 중지)' : '🎤 말하기'}
+            <MicIcon className="h-4 w-4" />
+            {listening ? '듣는 중… (탭하면 중지)' : '말하기'}
           </button>
           <button
             onClick={translate}
@@ -214,9 +215,9 @@ export default function TranslatorTab() {
             <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{output}</p>
             <button
               onClick={() => speak(output, target)}
-              className="text-xs text-accent-500 hover:text-accent-600 font-medium"
+              className="inline-flex items-center gap-1 text-xs text-accent-500 hover:text-accent-600 font-medium"
             >
-              🔊 소리내어 읽기 ({LANGUAGES.find((l) => l.code === target)?.label})
+              <SpeakerIcon className="h-3.5 w-3.5" />소리내어 읽기 ({LANGUAGES.find((l) => l.code === target)?.label})
             </button>
           </div>
         )}
@@ -238,13 +239,14 @@ export default function TranslatorTab() {
         <button
           onClick={() => scanFileRef.current?.click()}
           disabled={scanPhase === 'ocr' || scanPhase === 'translating'}
-          className="w-full rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500 disabled:opacity-50"
+          className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500 disabled:opacity-50"
         >
+          <CameraIcon className="h-4 w-4" />
           {scanPhase === 'ocr'
-            ? `📖 글자 인식 중… ${scanProgress}%`
+            ? `글자 인식 중… ${scanProgress}%`
             : scanPhase === 'translating'
-              ? '🔄 번역 중…'
-              : '📸 메뉴판·간판 사진 찍기 / 선택'}
+              ? '번역 중…'
+              : '메뉴판·간판 사진 찍기 / 선택'}
         </button>
         <input
           ref={scanFileRef}

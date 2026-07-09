@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { ShoppingItem } from '../types';
+import { BulbIcon } from './Icons';
 
 type Props = {
   items: ShoppingItem[];
@@ -56,8 +57,9 @@ export default function ShoppingTab({ items, onChange, currency }: Props) {
         </div>
         <div className="col-span-2 text-xs text-gray-400">
           면세 대상 구매액: {taxFreeSpent.toLocaleString()} {currency}
-          <span className="block mt-0.5">
-            💡 면세는 매장·구매액 기준이 다를 수 있으니 계산 전 여권을 꼭 지참하고 매장에서 확인하세요.
+          <span className="flex gap-1 mt-0.5">
+            <BulbIcon className="h-3.5 w-3.5 shrink-0 mt-px" />
+            <span>면세는 매장·구매액 기준이 다를 수 있으니 계산 전 여권을 꼭 지참하고 매장에서 확인하세요.</span>
           </span>
         </div>
       </div>

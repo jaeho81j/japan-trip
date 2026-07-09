@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ExchangeState, SplitState } from '../types';
 import { fetchExchangeRate } from '../exchange';
 import SplitCalculator from './SplitCalculator';
-import { CalcIcon, RefreshIcon } from './Icons';
+import { CalcIcon, RefreshIcon, BulbIcon } from './Icons';
 
 type Props = {
   exchange: ExchangeState;
@@ -235,9 +235,9 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
           </p>
         )}
 
-        <p className="text-[11px] text-gray-400">
-          💡 면세는 보통 같은 매장에서 5,000엔 이상 구매 시 가능하고 여권이 필요해요. 매장·조건에 따라
-          다를 수 있으니 계산 전 확인하세요.
+        <p className="flex gap-1.5 text-[11px] text-gray-400">
+          <BulbIcon className="h-3.5 w-3.5 shrink-0 mt-px" />
+          <span>면세는 보통 같은 매장에서 5,000엔 이상 구매 시 가능하고 여권이 필요해요. 매장·조건에 따라 다를 수 있으니 계산 전 확인하세요.</span>
         </p>
       </div>
 

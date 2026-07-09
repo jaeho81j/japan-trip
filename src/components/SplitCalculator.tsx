@@ -213,7 +213,7 @@ export default function SplitCalculator({ split, onChange, rate }: Props) {
                     </p>
                     {krw != null && (
                       <p className="text-emerald-700 dark:text-emerald-300">
-                        🇰🇷 원화로 정산 시 <b>{krw.toLocaleString()}원</b> 보내기
+원화로 정산 시 <b>{krw.toLocaleString()}원</b> 보내기
                       </p>
                     )}
                   </div>

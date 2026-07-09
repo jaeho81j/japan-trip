@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ItineraryDay, WeatherState } from '../types';
 import { searchPlace } from '../geocode';
 import { fetchForecast, weatherIcon } from '../weather';
-import { RefreshIcon } from './Icons';
+import { RefreshIcon, DropIcon } from './Icons';
 
 type Props = {
   weather: WeatherState;
@@ -109,7 +109,7 @@ export default function WeatherTab({ weather, onChange, itineraryDays }: Props) 
               <span className="font-medium">{Math.round(d.tempMax)}°</span>
               <span className="text-gray-400"> / {Math.round(d.tempMin)}°</span>
             </span>
-            <span className="w-14 shrink-0 text-right text-xs text-sky-500">💧{d.precipitationProb}%</span>
+            <span className="w-14 shrink-0 inline-flex items-center justify-end gap-0.5 text-xs text-sky-500"><DropIcon className="h-3 w-3" />{d.precipitationProb}%</span>
             {tripDates.has(d.date) && (
               <span className="shrink-0 text-xs bg-accent-100 dark:bg-accent-900/50 text-accent-600 dark:text-accent-300 rounded-full px-2 py-0.5">
                 일정

@@ -3,7 +3,7 @@ import type { Activity, ItineraryDay } from '../types';
 import { searchPlace } from '../geocode';
 import { googleMapsSearchUrl, googleMapsSearchUrlForCoords } from '../googleMaps';
 import DayMap from './DayMap';
-import { MapIcon, SearchIcon, PinIcon, CompassIcon, RefreshIcon } from './Icons';
+import { MapIcon, SearchIcon, PinIcon, CompassIcon, RefreshIcon, YenIcon } from './Icons';
 
 type Props = {
   days: ItineraryDay[];
@@ -250,7 +250,7 @@ export default function ItineraryTab({ days, onChange }: Props) {
                     onChange={(e) => updateActivity(day.id, act.id, { notes: e.target.value })}
                   />
                   <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <span>💴 비용</span>
+                    <span className="inline-flex items-center gap-0.5"><YenIcon className="h-3.5 w-3.5" />비용</span>
                     <input
                       type="number"
                       min={0}

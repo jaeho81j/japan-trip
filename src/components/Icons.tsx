@@ -283,6 +283,96 @@ export function PlusIcon({ className }: IconProps) {
   );
 }
 
+export function ForkIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M7 3v7a2 2 0 0 0 4 0V3M9 12v9M17 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4 2.5-1 2.5-4-1-5-2.5-5zM17 16v5" />
+    </svg>
+  );
+}
+export function CupIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M5 8h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z" />
+      <path d="M16 9h2.5a2 2 0 0 1 0 4H16M5 21h11" />
+    </svg>
+  );
+}
+export function CakeIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M4 21v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6zM4 17h16M12 13V9M12 6v.2" />
+    </svg>
+  );
+}
+export function StoreIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M4 9l1-4h14l1 4M4 9v11h16V9M4 9h16M9 20v-5h6v5" />
+    </svg>
+  );
+}
+export function AtmIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M3 10h18M7 14.5h3" />
+    </svg>
+  );
+}
+export function PillIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <rect x="3.5" y="8" width="17" height="8" rx="4" transform="rotate(-45 12 12)" />
+      <path d="M9 9l6 6" />
+    </svg>
+  );
+}
+export function ToiletIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M12 3v18M6 5.5v.2M6 8l-1.3 6h2.6L6 8zM18 5.5v.2M18 8l-1.3 6h2.6L18 8z" />
+    </svg>
+  );
+}
+export function LockerIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <rect x="6" y="6" width="12" height="15" rx="2" />
+      <path d="M9 3.5A2.5 2.5 0 0 1 15 3.5V6M12 11v2" />
+    </svg>
+  );
+}
+export function MicIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
+    </svg>
+  );
+}
+export function SpeakerIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M4 9v6h4l5 4V5L8 9zM16.5 9.5a3.5 3.5 0 0 1 0 5M19 7a7 7 0 0 1 0 10" />
+    </svg>
+  );
+}
+export function BulbIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M9 18h6M10 21h4M8.5 15a6 6 0 1 1 7 0c-.6.5-1 1.2-1 2H9.5c0-.8-.4-1.5-1-2z" />
+    </svg>
+  );
+}
+export function DropIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M12 3s6 6.5 6 10.5a6 6 0 0 1-12 0C6 9.5 12 3 12 3z" />
+    </svg>
+  );
+}
+
 export type NavIconName = 'home' | 'plan' | 'wallet' | 'money' | 'lists' | 'guide';
 
 export function NavIcon({ name, active, className }: { name: NavIconName; active: boolean; className?: string }) {

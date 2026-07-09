@@ -90,7 +90,7 @@ export default function LodgingCard({ lodgings, onChange }: Props) {
         className="fixed inset-0 z-[2000] bg-white text-gray-900 flex flex-col items-center justify-center p-6 text-center"
         onClick={() => setTaxiAddress(null)}
       >
-        <p className="text-sm text-gray-500 mb-4">🚕 이 화면을 택시 기사에게 보여주세요</p>
+        <p className="text-sm text-gray-500 mb-4">이 화면을 택시 기사에게 보여주세요</p>
         <p className="text-2xl font-bold mb-2">{taxiAddress.name}</p>
         <p className="text-3xl leading-relaxed font-semibold">{taxiAddress.addressJa || '(주소 미입력)'}</p>
         <p className="text-sm text-gray-400 mt-8">화면을 탭하면 돌아가요</p>
@@ -163,7 +163,7 @@ export default function LodgingCard({ lodgings, onChange }: Props) {
                   onClick={() => setTaxiAddress(lodging)}
                   className="text-accent-500 hover:text-accent-600 font-medium"
                 >
-                  🚕 택시 기사에게 보여주기
+                  택시 기사에게 보여주기
                 </button>
                 {lodging.addressJa && (
                   <a
@@ -194,9 +194,9 @@ export default function LodgingCard({ lodgings, onChange }: Props) {
         {lodgings.length === 0 && !adding && (
           <button
             onClick={() => setAdding(true)}
-            className="w-full text-left px-3 py-3 text-sm text-gray-400 hover:text-accent-500"
+            className="w-full inline-flex items-center gap-1.5 text-left px-3 py-3 text-sm text-gray-400 hover:text-accent-500"
           >
-            🏨 숙소 등록 (일본어 주소를 넣으면 택시에서 유용해요) +
+            <BedIcon className="h-4 w-4 shrink-0" />숙소 등록 (일본어 주소를 넣으면 택시에서 유용해요) +
           </button>
         )}
       </div>
