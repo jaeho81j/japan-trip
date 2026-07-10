@@ -184,6 +184,7 @@ export default function App() {
               onDaysChange={(itinerary) => setData({ ...data, itinerary })}
               journal={data.journal}
               onJournalChange={(journal) => setData({ ...data, journal })}
+              trip={data.trip}
             />
           )}
           {tab === 'wallet' && (
