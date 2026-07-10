@@ -25,7 +25,7 @@ const CAT_STYLE: Record<TokyoEvent['category'], string> = {
 };
 
 const CARD =
-  'rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none';
+  'rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none';
 const FIELD = 'bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2.5 py-1.5 text-sm';
 
 const searchUrl = (q: string) => `https://www.google.com/search?q=${encodeURIComponent(q)}`;

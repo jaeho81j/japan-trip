@@ -83,6 +83,14 @@ main::-webkit-scrollbar {
   background-color: rgba(0, 0, 0, var(--subtab-alpha, 1));
 }
 
+/* 카드(창) 배경: 설정의 '카드 투명도' 슬라이더가 --card-alpha 를 조절 */
+.card-surface {
+  background-color: rgba(255, 255, 255, var(--card-alpha, 1));
+}
+:root.dark .card-surface {
+  background-color: rgba(28, 28, 30, var(--card-alpha, 1));
+}
+
 /* ===== 디자인 핸드오프: 인터랙션/애니메이션 (확정 이징·타이밍) ===== */
 
 /* 화면(탭) 전환 — 좌우 슬라이드 */

@@ -70,7 +70,7 @@ export default function FlightsCard({ flights, onChange, onBoardingPass }: Props
   const anyFilled = flights.outbound.flightNo.trim() !== '' || flights.inbound.flightNo.trim() !== '';
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+    <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
       <div className="flex items-center justify-between px-4 pt-3 pb-1">
         <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">항공편</span>
         {anyFilled && onBoardingPass && (

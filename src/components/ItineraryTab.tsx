@@ -144,7 +144,7 @@ export default function ItineraryTab({ days, onChange }: Props) {
       {days.map((day, index) => (
         <div
           key={day.id}
-          className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden"
+          className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden"
         >
           <div className="flex items-center gap-2 bg-black/[0.03] dark:bg-white/[0.05] px-3 py-2">
             <div className="flex flex-col">

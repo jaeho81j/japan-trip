@@ -156,7 +156,7 @@ export default function FoodTab() {
 
   return (
     <div className="p-4 space-y-3 pb-24">
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex gap-2">
           <input
             className="flex-1 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
@@ -240,7 +240,7 @@ export default function FoodTab() {
         </p>
       )}
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
         {shown.map((p) => (
           <div key={p.id} className="px-3 py-2 text-sm space-y-1">
             <div className="flex items-center gap-2">

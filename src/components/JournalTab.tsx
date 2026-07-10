@@ -55,7 +55,7 @@ export default function JournalTab({ entries, onChange }: Props) {
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center gap-2">
           <input
             type="date"
@@ -132,7 +132,7 @@ export default function JournalTab({ entries, onChange }: Props) {
 
       <div className="space-y-3">
         {sorted.map((e) => (
-          <div key={e.id} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3">
+          <div key={e.id} className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3">
             <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-1">
               <span>
                 {e.mood} {e.date || '날짜 미지정'}

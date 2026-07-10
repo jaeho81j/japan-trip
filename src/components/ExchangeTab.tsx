@@ -83,7 +83,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-1 text-center">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-1 text-center">
         <p className="text-xs text-gray-400">100엔 (JPY)</p>
         <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
           {rate != null ? `${rate.toLocaleString(undefined, { maximumFractionDigits: 2 })}원` : loading ? '조회중…' : '—'}
@@ -101,7 +101,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
         {error && <p className="text-xs text-rose-500">{error}</p>}
       </div>
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
         <div className="space-y-1">
           <label className="text-xs text-gray-400">엔화 (JPY)</label>
           <input
@@ -137,7 +137,7 @@ export default function ExchangeTab({ exchange, onChange, split, onSplitChange }
         )}
       </div>
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-3">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><CalcIcon className="h-4 w-4" />면세·할인 계산기</p>
 
         <div className="space-y-1">

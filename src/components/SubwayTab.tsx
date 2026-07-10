@@ -105,7 +105,7 @@ export default function SubwayTab() {
 
   return (
     <div className="p-4 space-y-3 pb-24">
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><SwapIcon className="h-4 w-4" />환승/경로 검색</p>
         <div className="flex items-center gap-2">
           <input
@@ -145,7 +145,7 @@ export default function SubwayTab() {
         </p>
       </div>
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
         <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300 flex items-center justify-between">
           <span className="flex items-center gap-1.5"><TrainIcon className="h-3.5 w-3.5" />도쿄 지하철 노선도</span>
           <a
@@ -192,7 +192,7 @@ export default function SubwayTab() {
         </p>
       </div>
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
         <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
           <TrainIcon className="h-3.5 w-3.5" />노선별 역 목록 (오프라인)
         </div>
@@ -256,7 +256,7 @@ export default function SubwayTab() {
         </div>
       </div>
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><SearchIcon className="h-4 w-4" />역/장소 검색</p>
         <div className="flex gap-2">
           <input

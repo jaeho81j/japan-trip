@@ -151,7 +151,7 @@ export default function TranslatorTab() {
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center gap-2 text-sm">
           <select
             className="flex-1 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5"
@@ -223,7 +223,7 @@ export default function TranslatorTab() {
         )}
       </div>
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex items-center justify-between">
           <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><CameraIcon className="h-4 w-4" />사진 스캔 번역 (일→한)</p>
           <a
@@ -282,7 +282,7 @@ export default function TranslatorTab() {
 
       <div className="space-y-3">
         {categories.map((cat) => (
-          <div key={cat} className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
+          <div key={cat} className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
             <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300">
               {cat}
             </div>

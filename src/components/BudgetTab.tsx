@@ -60,7 +60,7 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
 
   return (
     <div className="p-4 space-y-4 pb-24">
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 grid grid-cols-2 gap-2 text-sm">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 grid grid-cols-2 gap-2 text-sm">
         <div>
           <p className="text-gray-400">예산 합계</p>
           <p className="font-semibold text-gray-900 dark:text-gray-100">{format(totalPlanned, currency)}</p>
@@ -95,7 +95,7 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
       </div>
 
       {categoryRows.length > 0 && (
-        <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+        <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
           <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300"><BarChartIcon className="h-4 w-4" />지출 요약</p>
           {categoryRows.map(([cat, amount]) => (
             <div key={cat} className="space-y-0.5">
@@ -117,7 +117,7 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
         </div>
       )}
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
         <div className="flex gap-2">
           <input
             className="w-16 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
@@ -152,7 +152,7 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
         <p className="text-center text-gray-400 text-sm py-4">아직 예산 항목이 없어요.</p>
       )}
 
-      <div className="rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
+      <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden">
         {items.map((i) => (
           <div key={i.id} className="px-3 py-2 text-sm space-y-1">
             <div className="flex items-center gap-2">
