@@ -148,7 +148,7 @@ export default function App() {
   };
 
   return (
-    <div className="h-[100svh] overflow-hidden bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
+    <div className="app-shell h-[100svh] overflow-hidden bg-[#F2F2F7] dark:bg-black flex flex-col max-w-md mx-auto">
       <Splash />
       {!onboardingDone && <Onboarding trip={data.trip} onDone={() => setOnboardingDone(true)} />}
       <TripHeader

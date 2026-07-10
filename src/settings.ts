@@ -187,8 +187,9 @@ function applySettings(s: AppSettings, systemDark: boolean) {
 
   // 서브탭 바 투명도 (0=불투명 → 알파 1)
   root.style.setProperty('--subtab-alpha', String(1 - (s.subtabTransparency ?? 0) / 100));
-  // 카드(창) 투명도
+  // 카드(창) 투명도 + 글래스(블러) 모드
   root.style.setProperty('--card-alpha', String(1 - (s.cardTransparency ?? 0) / 100));
+  root.classList.toggle('card-glass', (s.cardTransparency ?? 0) > 0);
 
   // 글꼴 · 크기 · 모서리
   root.style.setProperty('--app-font', FONT_STACKS[s.font]);

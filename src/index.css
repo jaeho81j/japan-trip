@@ -91,6 +91,29 @@ main::-webkit-scrollbar {
   background-color: rgba(28, 28, 30, var(--card-alpha, 1));
 }
 
+/* 글래스 모드: 카드 투명도가 0보다 크면 root에 .card-glass 부여.
+   카드에 backdrop blur를 걸고, 카드 뒤에 은은한 컬러 배경을 깔아 효과가 잘 보이게 한다. */
+.card-glass .card-surface {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+:root.dark.card-glass .card-surface {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.card-glass .app-shell {
+  background-image:
+    radial-gradient(115% 75% at 0% 0%, rgba(59, 130, 246, 0.22), transparent 60%),
+    radial-gradient(100% 70% at 100% 100%, rgba(139, 92, 246, 0.18), transparent 55%);
+  background-attachment: fixed;
+}
+:root.dark.card-glass .app-shell {
+  background-image:
+    radial-gradient(115% 75% at 0% 0%, rgba(59, 130, 246, 0.28), transparent 60%),
+    radial-gradient(100% 70% at 100% 100%, rgba(139, 92, 246, 0.24), transparent 55%);
+  background-attachment: fixed;
+}
+
 /* ===== 디자인 핸드오프: 인터랙션/애니메이션 (확정 이징·타이밍) ===== */
 
 /* 화면(탭) 전환 — 좌우 슬라이드 */
