@@ -147,6 +147,18 @@ export default function SettingsTab({ settings, onSettingsChange, trip, onTripCh
               />
               <span className="w-10 text-right text-xs text-gray-400 tabular-nums">{settings.lightPct}%</span>
             </div>
+            <div className="flex items-center gap-3">
+              <p className="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-300">서브탭<br />투명도</p>
+              <input
+                type="range"
+                min={0}
+                max={60}
+                value={settings.subtabTransparency}
+                onChange={(e) => set('subtabTransparency', Number(e.target.value))}
+                className="flex-1 accent-accent-600"
+              />
+              <span className="w-10 text-right text-xs text-gray-400 tabular-nums">{settings.subtabTransparency}%</span>
+            </div>
           </div>
 
           <div className="divide-y divide-gray-100 dark:divide-gray-800">

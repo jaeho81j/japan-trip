@@ -6,7 +6,7 @@ type Props<K extends string> = {
 
 export default function SubTabs<K extends string>({ tabs, value, onChange }: Props<K>) {
   return (
-    <div className="sticky top-0 z-10 bg-[#F2F2F7] dark:bg-black px-4 pt-2.5 pb-2 relative">
+    <div className="sticky top-0 z-10 subtab-surface backdrop-blur-xl px-4 pt-2.5 pb-2 relative">
       {/* 하단 소프트 페이드: 콘텐츠가 서브탭 밑으로 부드럽게 사라지도록 */}
       <div
         aria-hidden

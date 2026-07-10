@@ -16,6 +16,8 @@ export type AppSettings = {
   // 포인트 컬러 채도(40–140) · 명도(60–130) 조정 (%)
   satPct: number;
   lightPct: number;
+  // 서브탭 바 투명도 (0=불투명 … 60=많이 비침) %
+  subtabTransparency: number;
 };
 
 export const defaultSettings: AppSettings = {
@@ -26,6 +28,7 @@ export const defaultSettings: AppSettings = {
   radius: 'normal',
   satPct: 100,
   lightPct: 100,
+  subtabTransparency: 0,
 };
 
 type Palette = Record<50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950, string>;
@@ -179,6 +182,9 @@ function applySettings(s: AppSettings, systemDark: boolean) {
   root.classList.toggle('dark', dark);
   root.classList.toggle('light', !dark);
 
+  // 서브탭 바 투명도 (0=불투명 → 알파 1)
+  root.style.setProperty('--subtab-alpha', String(1 - (s.subtabTransparency ?? 0) / 100));
+
   // 글꼴 · 크기 · 모서리
   root.style.setProperty('--app-font', FONT_STACKS[s.font]);
   root.style.setProperty('--app-font-size', FONT_SIZES[s.fontSize]);
@@ -198,7 +204,7 @@ export function useSettings() {
     mq.addEventListener('change', apply);
     return () => mq.removeEventListener('change', apply);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [merged.accent, merged.darkMode, merged.fontSize, merged.font, merged.radius, merged.satPct, merged.lightPct]);
+  }, [merged.accent, merged.darkMode, merged.fontSize, merged.font, merged.radius, merged.satPct, merged.lightPct, merged.subtabTransparency]);
 
   return [merged, setSettings] as const;
 }

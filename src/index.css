@@ -75,6 +75,14 @@ main::-webkit-scrollbar {
   display: none;
 }
 
+/* 서브탭 바 배경: 설정의 '서브탭 투명도' 슬라이더가 --subtab-alpha 를 조절 */
+.subtab-surface {
+  background-color: rgba(242, 242, 247, var(--subtab-alpha, 1));
+}
+:root.dark .subtab-surface {
+  background-color: rgba(0, 0, 0, var(--subtab-alpha, 1));
+}
+
 /* ===== 디자인 핸드오프: 인터랙션/애니메이션 (확정 이징·타이밍) ===== */
 
 /* 화면(탭) 전환 — 좌우 슬라이드 */
