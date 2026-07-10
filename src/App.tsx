@@ -185,6 +185,8 @@ export default function App() {
               journal={data.journal}
               onJournalChange={(journal) => setData({ ...data, journal })}
               trip={data.trip}
+              customEvents={data.customEvents}
+              onCustomEventsChange={(customEvents) => setData({ ...data, customEvents })}
             />
           )}
           {tab === 'wallet' && (

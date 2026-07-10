@@ -1,8 +1,13 @@
-import type { TripInfo } from '../types';
+import { useState } from 'react';
+import type { CustomEvent, TripInfo } from '../types';
 import { type TokyoEvent, eventsForTrip } from '../tokyoEvents';
-import { PinIcon, SearchIcon, CalendarIcon, SparkleIcon } from './Icons';
+import { PinIcon, SearchIcon, CalendarIcon, SparkleIcon, PlusIcon } from './Icons';
 
-type Props = { trip: TripInfo };
+type Props = {
+  trip: TripInfo;
+  customEvents: CustomEvent[];
+  onCustomChange: (events: CustomEvent[]) => void;
+};
 
 const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 function formatMD(dateStr: string): string {
@@ -21,8 +26,12 @@ const CAT_STYLE: Record<TokyoEvent['category'], string> = {
 
 const CARD =
   'rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none';
+const FIELD = 'bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2.5 py-1.5 text-sm';
 
 const searchUrl = (q: string) => `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+
+const AREAS = ['우에노', '신주쿠', '시부야', '긴자', '도쿄 황궁(고쿄)', '아키하바라', '아사쿠사', '롯폰기', '하라주쿠', '오다이바', '이케부쿠로', '도쿄역'];
+const CATEGORIES = ['전시·미술관', '박물관', '공연·콘서트', '축제', '스포츠', '쇼핑·팝업', '명소', '기타'];
 
 const CALENDARS = [
   { label: 'Time Out Tokyo', href: 'https://www.timeout.com/tokyo/things-to-do' },
@@ -30,7 +39,7 @@ const CALENDARS = [
   { label: 'Tokyo Cheapo', href: 'https://tokyocheapo.com/events/' },
 ];
 
-function EventCard({ ev, highlight }: { ev: TokyoEvent; highlight?: boolean }) {
+function CuratedCard({ ev, highlight }: { ev: TokyoEvent; highlight?: boolean }) {
   return (
     <div className={`${CARD} p-3.5 space-y-1.5 ${highlight ? 'ring-1 ring-accent-400/60' : ''}`}>
       <div className="flex items-center gap-2">
@@ -56,9 +65,34 @@ function EventCard({ ev, highlight }: { ev: TokyoEvent; highlight?: boolean }) {
   );
 }
 
-export default function EventsTab({ trip }: Props) {
+export default function EventsTab({ trip, customEvents, onCustomChange }: Props) {
   const hasDates = !!trip.startDate;
   const { during, nearby } = eventsForTrip(trip.startDate, trip.endDate);
+
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [area, setArea] = useState('');
+  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [memo, setMemo] = useState('');
+  const [url, setUrl] = useState('');
+
+  const reset = () => {
+    setName(''); setDate(''); setEndDate(''); setArea(''); setCategory(CATEGORIES[0]); setMemo(''); setUrl('');
+  };
+  const add = () => {
+    if (!name.trim()) return;
+    onCustomChange([
+      ...customEvents,
+      { id: crypto.randomUUID(), name: name.trim(), date, endDate: endDate || undefined, area: area.trim(), category, memo: memo.trim(), url: url.trim() || undefined },
+    ]);
+    reset();
+    setOpen(false);
+  };
+  const remove = (id: string) => onCustomChange(customEvents.filter((e) => e.id !== id));
+
+  const sortedCustom = [...customEvents].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'));
 
   return (
     <div className="p-4 space-y-4 pb-24">
@@ -77,14 +111,98 @@ export default function EventsTab({ trip }: Props) {
         </div>
       )}
 
-      {/* 여행 기간 이벤트 */}
+      {/* 내 이벤트 (직접 추가) */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between px-1">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-500 dark:text-gray-400">
+            <SparkleIcon className="h-3.5 w-3.5" />내 이벤트
+          </p>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex items-center gap-1 text-xs font-medium text-accent-600 dark:text-accent-400"
+          >
+            <PlusIcon className="h-3.5 w-3.5" />직접 추가
+          </button>
+        </div>
+
+        {open && (
+          <div className={`${CARD} p-3 space-y-2`}>
+            <input className={`w-full ${FIELD}`} placeholder="이벤트 이름 (예: 팀랩 플래닛, ○○ 전시)" value={name} onChange={(e) => setName(e.target.value)} />
+            <div className="flex gap-2">
+              <input type="date" className={`flex-1 min-w-0 ${FIELD}`} value={date} onChange={(e) => setDate(e.target.value)} />
+              <span className="self-center text-gray-400 text-xs">~</span>
+              <input type="date" className={`flex-1 min-w-0 ${FIELD}`} value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            </div>
+            <div className="flex gap-2">
+              <input list="area-suggestions" className={`flex-1 min-w-0 ${FIELD}`} placeholder="장소/지역" value={area} onChange={(e) => setArea(e.target.value)} />
+              <datalist id="area-suggestions">
+                {AREAS.map((a) => (
+                  <option key={a} value={a} />
+                ))}
+              </datalist>
+              <select className={`w-28 shrink-0 ${FIELD}`} value={category} onChange={(e) => setCategory(e.target.value)}>
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <input className={`w-full ${FIELD}`} placeholder="메모 (예: 사전 예매 필요, 09:00 오픈)" value={memo} onChange={(e) => setMemo(e.target.value)} />
+            <input className={`w-full ${FIELD}`} placeholder="링크 (선택 · 공식 사이트/예매)" value={url} onChange={(e) => setUrl(e.target.value)} />
+            <div className="flex gap-2 pt-0.5">
+              <button onClick={() => { reset(); setOpen(false); }} className="flex-1 rounded-lg bg-black/[0.05] dark:bg-white/[0.08] text-gray-500 py-2 text-sm font-medium">
+                취소
+              </button>
+              <button onClick={add} className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium active:scale-[0.98] transition-transform">
+                추가
+              </button>
+            </div>
+          </div>
+        )}
+
+        {sortedCustom.length === 0 && !open && (
+          <p className={`${CARD} p-4 text-sm text-gray-400`}>
+            가고 싶은 전시·박물관·미술관·공연을 직접 추가해보세요. 날짜를 넣으면 여행 순서대로 정렬돼요.
+          </p>
+        )}
+
+        {sortedCustom.map((ev) => (
+          <div key={ev.id} className={`${CARD} p-3.5 space-y-1.5`}>
+            <div className="flex items-center gap-2">
+              <span className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold bg-accent-50 text-accent-600 dark:bg-accent-500/15 dark:text-accent-300">
+                {ev.category}
+              </span>
+              <span className="flex-1 min-w-0 font-semibold text-gray-900 dark:text-gray-100 truncate">{ev.name}</span>
+              <button onClick={() => remove(ev.id)} className="shrink-0 text-gray-300 hover:text-rose-500">
+                ✕
+              </button>
+            </div>
+            {(ev.date || ev.area) && (
+              <p className="flex items-center gap-1 text-xs text-gray-400">
+                <PinIcon className="h-3.5 w-3.5 shrink-0" />
+                {ev.area || '장소 미정'}
+                {ev.date && ` · ${formatMD(ev.date)}${ev.endDate ? `~${formatMD(ev.endDate)}` : ''}`}
+              </p>
+            )}
+            {ev.memo && <p className="text-[13px] text-gray-600 dark:text-gray-300 leading-relaxed">{ev.memo}</p>}
+            {ev.url && (
+              <a href={ev.url} target="_blank" rel="noopener noreferrer" className="inline-block text-xs font-medium text-accent-600 dark:text-accent-400 truncate max-w-full">
+                링크 열기 →
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* 여행 기간 이벤트 (큐레이션) */}
       {hasDates && (
         <div className="space-y-2">
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-500 dark:text-gray-400 px-1">
             <SparkleIcon className="h-3.5 w-3.5" />여행 기간 이벤트
           </p>
           {during.length > 0 ? (
-            during.map((ev) => <EventCard key={ev.id} ev={ev} highlight />)
+            during.map((ev) => <CuratedCard key={ev.id} ev={ev} highlight />)
           ) : (
             <p className={`${CARD} p-4 text-sm text-gray-400`}>
               여행 날짜에 딱 겹치는 정기 축제가 없어요. 아래 실시간 캘린더에서 그날의 콘서트·전시·팝업도 확인해보세요.
@@ -100,7 +218,7 @@ export default function EventsTab({ trip }: Props) {
             <CalendarIcon className="h-3.5 w-3.5" />그 무렵 이벤트 (같은 달)
           </p>
           {nearby.map((ev) => (
-            <EventCard key={ev.id} ev={ev} />
+            <CuratedCard key={ev.id} ev={ev} />
           ))}
         </div>
       )}
@@ -127,8 +245,8 @@ export default function EventsTab({ trip }: Props) {
       </div>
 
       <p className="text-[11px] text-gray-400 leading-relaxed px-1">
-        ※ 표시된 날짜는 <b>예년 기준</b>이에요. 마츠리·불꽃놀이도 해마다 하루 이틀 달라지거나 우천 취소될 수 있으니,
-        각 이벤트의 <b>‘정확한 날짜 확인’</b> 링크로 꼭 확정된 일정을 확인하세요.
+        ※ 큐레이션된 축제·불꽃놀이 날짜는 <b>예년 기준</b>이에요. 해마다 하루 이틀 달라지거나 우천 취소될 수 있으니
+        각 이벤트의 <b>‘정확한 날짜 확인’</b> 링크로 확정 일정을 확인하세요.
       </p>
     </div>
   );

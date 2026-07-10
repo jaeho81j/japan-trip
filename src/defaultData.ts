@@ -101,4 +101,5 @@ export const defaultData: TripData = {
     { id: crypto.randomUUID(), when: 'D-1', task: '여권·카드·충전기 최종 확인', done: false },
     { id: crypto.randomUUID(), when: '당일', task: '공항 3시간 전 도착', done: false },
   ],
+  customEvents: [],
 };

@@ -134,6 +134,18 @@ export type PrepItem = {
   done: boolean;
 };
 
+// 사용자가 직접 추가하는 이벤트 (전시·박물관·콘서트·팝업 등)
+export type CustomEvent = {
+  id: string;
+  name: string;
+  date: string; // ISO yyyy-mm-dd (시작일)
+  endDate?: string; // 선택 (종료일)
+  area: string; // 장소/지역
+  category: string; // 전시·미술관 / 박물관 / 공연 / 팝업 등
+  memo: string;
+  url?: string;
+};
+
 export type TripData = {
   trip: TripInfo;
   itinerary: ItineraryDay[];
@@ -149,6 +161,7 @@ export type TripData = {
   flights: FlightsState;
   lodgings: LodgingInfo[];
   prep: PrepItem[];
+  customEvents: CustomEvent[];
 };
 
 export const MOODS = ['😄', '🙂', '😐', '😫', '🤩'] as const;

@@ -1,4 +1,4 @@
-import type { ItineraryDay, JournalEntry, TripInfo } from '../types';
+import type { CustomEvent, ItineraryDay, JournalEntry, TripInfo } from '../types';
 import SubTabs from './SubTabs';
 import ItineraryTab from './ItineraryTab';
 import JournalTab from './JournalTab';
@@ -14,6 +14,8 @@ type Props = {
   journal: JournalEntry[];
   onJournalChange: (journal: JournalEntry[]) => void;
   trip: TripInfo;
+  customEvents: CustomEvent[];
+  onCustomEventsChange: (events: CustomEvent[]) => void;
 };
 
 const SUBS = [
@@ -22,12 +24,12 @@ const SUBS = [
   { key: 'journal', label: '일지' },
 ] as const;
 
-export default function PlanTab({ sub, onSubChange, days, onDaysChange, journal, onJournalChange, trip }: Props) {
+export default function PlanTab({ sub, onSubChange, days, onDaysChange, journal, onJournalChange, trip, customEvents, onCustomEventsChange }: Props) {
   return (
     <div>
       <SubTabs tabs={SUBS} value={sub} onChange={onSubChange} />
       {sub === 'itinerary' && <ItineraryTab days={days} onChange={onDaysChange} />}
-      {sub === 'events' && <EventsTab trip={trip} />}
+      {sub === 'events' && <EventsTab trip={trip} customEvents={customEvents} onCustomChange={onCustomEventsChange} />}
       {sub === 'journal' && <JournalTab entries={journal} onChange={onJournalChange} />}
     </div>
   );
