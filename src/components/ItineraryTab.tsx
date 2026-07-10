@@ -1,9 +1,30 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import type { Activity, ItineraryDay } from '../types';
 import { searchPlace } from '../geocode';
-import { googleMapsSearchUrl, googleMapsSearchUrlForCoords } from '../googleMaps';
+import { googleMapsSearchUrl, googleMapsSearchUrlForCoords, googleMapsTransitUrl } from '../googleMaps';
 import DayMap from './DayMap';
-import { MapIcon, SearchIcon, PinIcon, CompassIcon, RefreshIcon, YenIcon } from './Icons';
+import { MapIcon, SearchIcon, PinIcon, CompassIcon, RefreshIcon, YenIcon, TrainIcon } from './Icons';
+
+// 두 좌표 사이 직선거리(km)
+function haversineKm(aLat: number, aLng: number, bLat: number, bLng: number): number {
+  const R = 6371;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(bLat - aLat);
+  const dLng = toRad(bLng - aLng);
+  const s =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(aLat)) * Math.cos(toRad(bLat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+// 구글맵 길찾기용 출발/도착 식별자 (좌표 우선, 없으면 장소/이름 텍스트)
+function endpoint(act: Activity): string | null {
+  if (act.lat != null && act.lng != null) return `${act.lat},${act.lng}`;
+  const t = (act.location || act.title || '').trim();
+  return t || null;
+}
+function distLabel(km: number): string {
+  return km < 1 ? `${Math.round(km * 1000)}m` : `${km.toFixed(1)}km`;
+}
 
 type Props = {
   days: ItineraryDay[];
@@ -185,8 +206,33 @@ export default function ItineraryTab({ days, onChange }: Props) {
           )}
 
           <div className="divide-y divide-gray-100 dark:divide-gray-800">
-            {day.activities.map((act) => (
-              <div key={act.id} className="flex flex-wrap items-start gap-2 px-3 py-2">
+            {day.activities.map((act, ai) => {
+              const prev = ai > 0 ? day.activities[ai - 1] : null;
+              const oFrom = prev ? endpoint(prev) : null;
+              const oTo = endpoint(act);
+              const km =
+                prev && prev.lat != null && prev.lng != null && act.lat != null && act.lng != null
+                  ? haversineKm(prev.lat, prev.lng, act.lat, act.lng)
+                  : null;
+              return (
+              <Fragment key={act.id}>
+              {prev && oFrom && oTo && (
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-black/[0.015] dark:bg-white/[0.03]">
+                  <TrainIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                  <span className="text-[11px] text-gray-400">
+                    {km != null ? `직선 약 ${distLabel(km)}` : '다음 장소로 이동'}
+                  </span>
+                  <a
+                    href={googleMapsTransitUrl(oFrom, oTo)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-auto text-[11px] font-medium text-accent-500 hover:text-accent-600"
+                  >
+                    경로·시간 →
+                  </a>
+                </div>
+              )}
+              <div className="flex flex-wrap items-start gap-2 px-3 py-2">
                 <input
                   type="time"
                   className="bg-transparent outline-none text-sm w-24 text-gray-700 dark:text-gray-300"
@@ -269,7 +315,9 @@ export default function ItineraryTab({ days, onChange }: Props) {
                   ✕
                 </button>
               </div>
-            ))}
+              </Fragment>
+              );
+            })}
             <button
               onClick={() => addActivity(day.id)}
               className="w-full text-left px-3 py-2 text-sm text-accent-600 dark:text-accent-400 hover:bg-accent-50 dark:hover:bg-accent-950"
