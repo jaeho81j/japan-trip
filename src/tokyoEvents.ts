@@ -192,6 +192,110 @@ export const TOKYO_EVENTS: TokyoEvent[] = [
   },
 ];
 
+// 상설 박물관·미술관 (날짜 없이 항상 표시). 개장/휴관/요금은 바뀔 수 있어 확인 링크 제공.
+export type TokyoSpot = {
+  id: string;
+  name: string;
+  area: string;
+  category: '박물관' | '미술관' | '체험';
+  desc: string;
+  hours: string;
+  closed: string;
+  searchQuery: string;
+  mapQuery: string;
+};
+
+export const TOKYO_MUSEUMS: TokyoSpot[] = [
+  {
+    id: 'tnm',
+    name: '도쿄 국립박물관',
+    area: '우에노 공원',
+    category: '박물관',
+    desc: '일본 최대 규모의 박물관. 국보·중요문화재 등 도자기·불상·사무라이 갑옷·우키요에를 볼 수 있어요.',
+    hours: '대체로 9:30–17:00',
+    closed: '월요일 휴관(공휴일이면 다음 평일)',
+    searchQuery: '東京国立博物館 開館時間 料金',
+    mapQuery: '東京国立博物館',
+  },
+  {
+    id: 'nmwa',
+    name: '국립 서양미술관',
+    area: '우에노 공원',
+    category: '미술관',
+    desc: '르코르뷔지에가 설계한 세계문화유산 건물. 모네·로댕 등 서양 근대 명작을 소장.',
+    hours: '대체로 9:30–17:30 (금·토 야간연장)',
+    closed: '월요일 휴관',
+    searchQuery: '国立西洋美術館 開館時間 料金',
+    mapQuery: '国立西洋美術館',
+  },
+  {
+    id: 'kahaku',
+    name: '국립 과학박물관',
+    area: '우에노 공원',
+    category: '박물관',
+    desc: '공룡 화석·자연사·일본 과학기술 전시. 아이와 함께 가기 좋아요.',
+    hours: '대체로 9:00–17:00',
+    closed: '월요일 휴관',
+    searchQuery: '国立科学博物館 開館時間 料金',
+    mapQuery: '国立科学博物館',
+  },
+  {
+    id: 'mori',
+    name: '모리미술관',
+    area: '롯폰기 힐스',
+    category: '미술관',
+    desc: '롯폰기 힐스 53층의 현대미술관. 대체로 밤 늦게까지 열고, 도쿄 시티뷰 전망대와 함께 즐겨요.',
+    hours: '대체로 10:00–22:00 (야간개장)',
+    closed: '전시 교체기 외 대체로 연중무휴',
+    searchQuery: '森美術館 開館時間 チケット',
+    mapQuery: '森美術館 六本木ヒルズ',
+  },
+  {
+    id: 'teamlab',
+    name: 'teamLab (팀랩)',
+    area: '도요스 / 아자부다이',
+    category: '체험',
+    desc: '몸으로 걷는 디지털 아트 체험. teamLab Planets(도요스)·Borderless(아자부다이 힐스) 두 곳. 예약 필수·인기 많음.',
+    hours: '위치별 상이 · 시간지정 예약제',
+    closed: '위치별 상이 (예약 사이트 확인)',
+    searchQuery: 'teamLab Planets Borderless 예약 티켓',
+    mapQuery: 'teamLab Planets TOKYO',
+  },
+  {
+    id: 'nezu',
+    name: '네즈미술관',
+    area: '오모테산도',
+    category: '미술관',
+    desc: '동양 고미술 컬렉션과 도심 속 일본 정원이 아름다운 미술관. 산책하기 좋아요.',
+    hours: '대체로 10:00–17:00',
+    closed: '월요일 휴관',
+    searchQuery: '根津美術館 開館時間 料金',
+    mapQuery: '根津美術館',
+  },
+  {
+    id: 'mot',
+    name: '도쿄도 현대미술관 (MOT)',
+    area: '기바 (고토구)',
+    category: '미술관',
+    desc: '대규모 현대미술 기획전으로 유명. 넓고 쾌적해 미술 좋아하면 강추.',
+    hours: '대체로 10:00–18:00',
+    closed: '월요일 휴관',
+    searchQuery: '東京都現代美術館 開館時間 チケット',
+    mapQuery: '東京都現代美術館',
+  },
+  {
+    id: 'suntory',
+    name: '산토리미술관',
+    area: '롯폰기 (도쿄 미드타운)',
+    category: '미술관',
+    desc: '일본 전통 공예·회화 중심의 우아한 기획전. 도쿄 미드타운 안이라 접근성 좋아요.',
+    hours: '대체로 10:00–18:00',
+    closed: '화요일 휴관',
+    searchQuery: 'サントリー美術館 開館時間 チケット',
+    mapQuery: 'サントリー美術館 東京ミッドタウン',
+  },
+];
+
 export type TripEvents = {
   during: TokyoEvent[]; // 여행 기간과 겹침
   nearby: TokyoEvent[]; // 같은 달·비슷한 시기지만 안 겹침

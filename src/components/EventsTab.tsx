@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { CustomEvent, TripInfo } from '../types';
-import { type TokyoEvent, eventsForTrip } from '../tokyoEvents';
-import { PinIcon, SearchIcon, CalendarIcon, SparkleIcon, PlusIcon } from './Icons';
+import { type TokyoEvent, type TokyoSpot, TOKYO_MUSEUMS, eventsForTrip } from '../tokyoEvents';
+import { PinIcon, SearchIcon, CalendarIcon, SparkleIcon, PlusIcon, MapIcon, InfoIcon } from './Icons';
 
 type Props = {
   trip: TripInfo;
@@ -29,6 +29,40 @@ const CARD =
 const FIELD = 'bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2.5 py-1.5 text-sm';
 
 const searchUrl = (q: string) => `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+const mapsUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+
+const SPOT_STYLE: Record<TokyoSpot['category'], string> = {
+  박물관: 'bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-300',
+  미술관: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-300',
+  체험: 'bg-teal-50 text-teal-600 dark:bg-teal-500/15 dark:text-teal-300',
+};
+
+function SpotCard({ s }: { s: TokyoSpot }) {
+  return (
+    <div className={`${CARD} p-3.5 space-y-1.5`}>
+      <div className="flex items-center gap-2">
+        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold ${SPOT_STYLE[s.category]}`}>
+          {s.category}
+        </span>
+        <span className="flex-1 min-w-0 font-semibold text-gray-900 dark:text-gray-100">{s.name}</span>
+      </div>
+      <p className="flex items-center gap-1 text-xs text-gray-400">
+        <PinIcon className="h-3.5 w-3.5 shrink-0" />
+        {s.area}
+      </p>
+      <p className="text-[13px] text-gray-600 dark:text-gray-300 leading-relaxed">{s.desc}</p>
+      <p className="text-[11px] text-gray-400">{s.hours} · {s.closed}</p>
+      <div className="flex gap-3 pt-0.5">
+        <a href={searchUrl(s.searchQuery)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-accent-600 dark:text-accent-400">
+          <InfoIcon className="h-3.5 w-3.5" />정보·예약
+        </a>
+        <a href={mapsUrl(s.mapQuery)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-accent-600 dark:text-accent-400">
+          <MapIcon className="h-3.5 w-3.5" />지도
+        </a>
+      </div>
+    </div>
+  );
+}
 
 const AREAS = ['우에노', '신주쿠', '시부야', '긴자', '도쿄 황궁(고쿄)', '아키하바라', '아사쿠사', '롯폰기', '하라주쿠', '오다이바', '이케부쿠로', '도쿄역'];
 const CATEGORIES = ['전시·미술관', '박물관', '공연·콘서트', '축제', '스포츠', '쇼핑·팝업', '명소', '기타'];
@@ -222,6 +256,17 @@ export default function EventsTab({ trip, customEvents, onCustomChange }: Props)
           ))}
         </div>
       )}
+
+      {/* 박물관·미술관 (상설) */}
+      <div className="space-y-2">
+        <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-500 dark:text-gray-400 px-1">
+          <InfoIcon className="h-3.5 w-3.5" />박물관·미술관 (상설)
+        </p>
+        {TOKYO_MUSEUMS.map((s) => (
+          <SpotCard key={s.id} s={s} />
+        ))}
+        <p className="text-[11px] text-gray-400 px-1">마음에 드는 곳은 위 “내 이벤트”에 날짜와 함께 담아두면 편해요.</p>
+      </div>
 
       {/* 실시간 이벤트 캘린더 링크 */}
       <div className={`${CARD} p-3.5 space-y-2`}>
