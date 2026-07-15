@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { BudgetItem, ItineraryDay } from '../types';
 import { BarChartIcon, MapIcon } from './Icons';
+import ReceiptScan from './ReceiptScan';
 
 type Props = {
   items: BudgetItem[];
@@ -93,6 +94,16 @@ export default function BudgetTab({ items, onChange, currency, onCurrencyChange,
           </select>
         </div>
       </div>
+
+      <ReceiptScan
+        currency={currency}
+        onAdd={({ category: cat, description, amount }) =>
+          onChange([
+            ...items,
+            { id: crypto.randomUUID(), category: cat, description, planned: 0, actual: amount },
+          ])
+        }
+      />
 
       {categoryRows.length > 0 && (
         <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
