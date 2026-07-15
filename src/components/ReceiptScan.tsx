@@ -25,7 +25,6 @@ function parseReceipt(text: string): { amount: number | null; store: string } {
     .split(/\n+/)
     .map((l) => l.trim())
     .filter(Boolean);
-  // 합계로 신뢰할 만한 키워드 (お預り/현금 등 '낸 돈'은 제외 — 잔돈 포함 가능)
   const TOTAL = /(合\s*計|お会計|ご請求|総額|総計|税込合計|お買上げ計)/;
   const totalAmts: number[] = [];
   for (const line of lines) {
@@ -40,22 +39,41 @@ function parseReceipt(text: string): { amount: number | null; store: string } {
   return { amount, store };
 }
 
+// 상호/품목 키워드로 분류 자동 추정
+const STORE_CAT: { re: RegExp; cat: string }[] = [
+  { re: /(セブン|ローソン|ファミ|ミニストップ|デイリー|7[-\s]?eleven|lawson|familymart|コンビニ)/i, cat: '편의점' },
+  { re: /(スタバ|スターバックス|starbucks|ドトール|タリーズ|コメダ|コーヒー|カフェ|cafe|珈琲)/i, cat: '카페' },
+  { re: /(マクドナルド|mcdonald|すき家|吉野家|松屋|ラーメン|寿司|そば|うどん|居酒屋|焼肉|食堂|レストラン|定食|restaurant|牛丼|カレー|天ぷら|うなぎ)/i, cat: '식비' },
+  { re: /(ユニクロ|uniqlo|\bgu\b|無印|muji|ドン・?キホーテ|ドンキ|ビックカメラ|ヨドバシ|イオン|aeon|百貨店|マート|市場|土産|みやげ)/i, cat: '쇼핑' },
+  { re: /(薬|ドラッグ|マツモトキヨシ|ウエルシア|サンドラッグ|pharmacy|drug|コスメ)/i, cat: '약·생필품' },
+  { re: /(\bjr\b|メトロ|地下鉄|suica|pasmo|タクシー|taxi|切符|乗車|運賃|鉄道|バス|\bbus\b)/i, cat: '교통' },
+];
+function guessCategory(text: string): string {
+  for (const { re, cat } of STORE_CAT) if (re.test(text)) return cat;
+  return '식비';
+}
+
 export default function ReceiptScan({ currency, onAdd }: Props) {
-  const fileRef = useRef<HTMLInputElement>(null);
+  const camRef = useRef<HTMLInputElement>(null);
+  const galRef = useRef<HTMLInputElement>(null);
   const [phase, setPhase] = useState<Phase>('idle');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
   const [rawText, setRawText] = useState('');
   const [showRaw, setShowRaw] = useState(false);
+  // 연속 스캔 큐
+  const [queue, setQueue] = useState<File[]>([]);
+  const [total, setTotal] = useState(0); // 이번 배치 총 장수
+  const [added, setAdded] = useState(0);
   // 검토용 편집 필드
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('식비');
 
-  const reset = () => {
+  const idle = () => {
     setPhase('idle');
     setProgress(0);
-    setError(null);
     setRawText('');
     setShowRaw(false);
     setAmount('');
@@ -63,7 +81,7 @@ export default function ReceiptScan({ currency, onAdd }: Props) {
     setCategory('식비');
   };
 
-  const scan = async (file: File) => {
+  const processFile = async (file: File) => {
     setPhase('ocr');
     setProgress(0);
     setError(null);
@@ -79,14 +97,17 @@ export default function ReceiptScan({ currency, onAdd }: Props) {
       const text = data.text.replace(/[ \t]+/g, ' ').trim();
       setRawText(text);
       if (!text) {
-        setError('글자를 찾지 못했어요. 영수증이 크고 또렷하게 나오게 다시 찍어보세요.');
-        setPhase('idle');
+        setError('글자를 찾지 못했어요. 이 장은 건너뛰거나 다시 찍어보세요.');
+        setPhase('review'); // 검토 화면에서 수동 입력/건너뛰기 가능
+        setAmount('');
+        setDescription('');
+        setCategory('식비');
         return;
       }
       const { amount: amt, store } = parseReceipt(text);
       setAmount(amt != null ? String(amt) : '');
+      setCategory(guessCategory(text));
       setPhase('parsing');
-      // 상호(첫 줄) 한국어 번역 → 내용으로 사용 (실패해도 원문 사용)
       let desc = store;
       try {
         if (store) desc = await translateText(store, 'ja', 'ko');
@@ -101,33 +122,89 @@ export default function ReceiptScan({ currency, onAdd }: Props) {
     }
   };
 
+  const start = (files: File[]) => {
+    if (!files.length) return;
+    setNote(null);
+    setAdded(0);
+    setTotal(files.length);
+    setQueue(files.slice(1));
+    processFile(files[0]);
+  };
+
+  const goNext = () => {
+    setQueue((q) => {
+      if (q.length > 0) {
+        const [nextFile, ...rest] = q;
+        processFile(nextFile);
+        return rest;
+      }
+      // 배치 끝
+      idle();
+      setTotal(0);
+      return q;
+    });
+  };
+
   const confirm = () => {
     const n = Number(amount) || 0;
     if (n <= 0) {
-      setError('금액을 확인해주세요.');
+      setError('금액을 확인해주세요. (또는 건너뛰기)');
       return;
     }
     onAdd({ category: category.trim() || '기타', description: description.trim() || '영수증', amount: n });
-    reset();
+    const nextAdded = added + 1;
+    setAdded(nextAdded);
+    setError(null);
+    const remaining = queue.length;
+    setNote(remaining > 0 ? `추가됨 · 다음 영수증 (${remaining}장 남음)` : `${nextAdded}장 지출 추가 완료 ✓`);
+    goNext();
   };
+
+  const skip = () => {
+    setError(null);
+    const remaining = queue.length;
+    setNote(remaining > 0 ? `건너뜀 · 다음 영수증 (${remaining}장 남음)` : added > 0 ? `${added}장 추가 완료 ✓` : null);
+    goNext();
+  };
+
+  const cancelAll = () => {
+    setQueue([]);
+    setTotal(0);
+    setError(null);
+    idle();
+  };
+
+  const cur = total > 0 ? total - queue.length : 0; // 현재 몇 번째
 
   return (
     <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none p-3 space-y-2">
       <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300">
         <CameraIcon className="h-4 w-4" />영수증 스캔으로 지출 추가
+        {total > 1 && phase !== 'idle' && (
+          <span className="ml-auto text-[11px] font-medium text-accent-500">{cur}/{total}장</span>
+        )}
       </p>
 
       {phase === 'idle' && (
         <>
-          <button
-            onClick={() => fileRef.current?.click()}
-            className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500"
-          >
-            <CameraIcon className="h-4 w-4" />영수증 찍기 / 선택
-          </button>
+          {note && <p className="text-xs text-emerald-600 dark:text-emerald-400">{note}</p>}
+          <div className="flex gap-2">
+            <button
+              onClick={() => camRef.current?.click()}
+              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500"
+            >
+              <CameraIcon className="h-4 w-4" />촬영
+            </button>
+            <button
+              onClick={() => galRef.current?.click()}
+              className="flex-1 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 py-3 text-sm text-gray-500 dark:text-gray-400 hover:border-accent-400 hover:text-accent-500"
+            >
+              여러 장 선택
+            </button>
+          </div>
           <p className="text-[11px] text-gray-400">
-            일본어 영수증을 인식해 <b>합계 금액</b>을 뽑고 상호를 한국어로 번역해 지출로 넣어드려요. (첫 사용 시 인식
-            엔진 ~20MB 다운로드)
+            일본어 영수증의 <b>합계 금액</b>을 뽑고 상호를 번역·분류해 지출로 넣어드려요. 여러 장을 골라 <b>연속 스캔</b>도
+            돼요. (첫 사용 시 인식 엔진 ~20MB 다운로드)
           </p>
         </>
       )}
@@ -142,7 +219,7 @@ export default function ReceiptScan({ currency, onAdd }: Props) {
         <div className="space-y-2">
           <div className="flex gap-2">
             <input
-              className="w-16 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
+              className="w-20 min-w-0 bg-black/[0.04] dark:bg-white/[0.06] outline-none border-0 rounded-lg px-2 py-1.5 text-sm"
               placeholder="분류"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -164,20 +241,25 @@ export default function ReceiptScan({ currency, onAdd }: Props) {
             />
             <span className="shrink-0 text-sm text-gray-400">{currency}</span>
           </div>
-          <button onClick={() => setShowRaw((v) => !v)} className="text-[11px] text-gray-400 underline underline-offset-2">
-            인식된 원문 {showRaw ? '숨기기' : '보기'}
-          </button>
+          <div className="flex items-center justify-between">
+            <button onClick={() => setShowRaw((v) => !v)} className="text-[11px] text-gray-400 underline underline-offset-2">
+              인식된 원문 {showRaw ? '숨기기' : '보기'}
+            </button>
+            <button onClick={cancelAll} className="text-[11px] text-gray-400">
+              전체 취소
+            </button>
+          </div>
           {showRaw && (
             <pre className="max-h-28 overflow-auto whitespace-pre-wrap text-[11px] text-gray-400 bg-black/[0.03] dark:bg-white/[0.05] rounded-lg p-2">
               {rawText}
             </pre>
           )}
           <div className="flex gap-2 pt-0.5">
-            <button onClick={reset} className="flex-1 rounded-lg bg-black/[0.05] dark:bg-white/[0.08] text-gray-500 py-2 text-sm font-medium">
-              취소
+            <button onClick={skip} className="flex-1 rounded-lg bg-black/[0.05] dark:bg-white/[0.08] text-gray-500 py-2 text-sm font-medium">
+              {queue.length > 0 ? '건너뛰기' : '건너뛰고 닫기'}
             </button>
             <button onClick={confirm} className="flex-1 rounded-lg bg-accent-600 text-white py-2 text-sm font-medium active:scale-[0.98] transition-transform">
-              지출에 추가
+              지출에 추가{queue.length > 0 ? ' · 다음' : ''}
             </button>
           </div>
         </div>
@@ -186,14 +268,26 @@ export default function ReceiptScan({ currency, onAdd }: Props) {
       {error && <p className="text-xs text-rose-500">{error}</p>}
 
       <input
-        ref={fileRef}
+        ref={camRef}
         type="file"
         accept="image/*"
         capture="environment"
         className="hidden"
         onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) scan(file);
+          const f = e.target.files?.[0];
+          if (f) start([f]);
+          e.target.value = '';
+        }}
+      />
+      <input
+        ref={galRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => {
+          const files = e.target.files ? Array.from(e.target.files) : [];
+          if (files.length) start(files);
           e.target.value = '';
         }}
       />
