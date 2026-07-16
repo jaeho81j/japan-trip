@@ -77,7 +77,6 @@ export const defaultData: TripData = {
   },
   qr: {
     visitJapan: null,
-    taxFree: null,
   },
   documents: [],
   split: {

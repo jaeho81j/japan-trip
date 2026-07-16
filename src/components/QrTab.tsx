@@ -2,7 +2,7 @@ import { useRef, useState, type ComponentType } from 'react';
 import type { FlightsState, QrState, TravelDocument } from '../types';
 import { compressImage } from '../imageUtils';
 import BoardingPass from './BoardingPass';
-import { IdIcon, BagIcon, FolderIcon, SearchIcon, PlusIcon } from './Icons';
+import { IdIcon, FolderIcon, SearchIcon, PlusIcon } from './Icons';
 
 type Props = {
   qr: QrState;
@@ -19,21 +19,14 @@ const SLOTS: { key: SlotKey; title: string; hint: string; Icon: ComponentType<{ 
     key: 'visitJapan',
     title: 'Visit Japan Web QR',
     Icon: IdIcon,
-    hint: '입국심사·세관 신고 QR 스크린샷을 등록해두세요.',
+    hint: '입국심사·세관 신고 QR 스크린샷을 등록해두세요. 면세 수속 때도 이 QR을 그대로 쓰면 돼요.',
     link: { label: 'Visit Japan Web 열기', href: 'https://www.vjw.digital.go.jp/' },
-  },
-  {
-    key: 'taxFree',
-    title: '면세 QR (여권 정보)',
-    Icon: BagIcon,
-    hint: '면세 수속용 QR(Visit Japan Web 면세 QR 등)을 등록해두세요.',
   },
 ];
 
 export default function QrTab({ qr, onChange, documents, onDocumentsChange, flights }: Props) {
   const fileRefs = {
     visitJapan: useRef<HTMLInputElement>(null),
-    taxFree: useRef<HTMLInputElement>(null),
   };
   const docFileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);

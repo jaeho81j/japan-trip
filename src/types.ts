@@ -83,7 +83,6 @@ export type ExchangeState = {
 export type QrState = {
   // compressed data URLs of uploaded QR screenshots
   visitJapan: string | null;
-  taxFree: string | null;
 };
 
 export type TravelDocument = {
