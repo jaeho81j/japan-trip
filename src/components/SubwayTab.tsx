@@ -4,15 +4,11 @@ import '../leafletSetup';
 import { searchPlace } from '../geocode';
 import { googleMapsTransitUrl } from '../googleMaps';
 import { TOKYO_LINES, type Station } from '../tokyoLines';
+import SubwayMapSvg from './SubwayMapSvg';
 import { SwapIcon, TrainIcon, SearchIcon, CompassIcon } from './Icons';
 
 const TOKYO_STATION: [number, number] = [35.681236, 139.767125];
 
-// Tokyo Metro + Toei + JR Yamanote schematic map, Wikimedia Commons, CC BY-SA 3.0.
-// Special:FilePath always resolves to the current file without needing the hashed upload path.
-const SUBWAY_MAP_IMAGE_URL =
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Tokyo_subway_map.PNG';
-const SUBWAY_MAP_SOURCE_URL = 'https://commons.wikimedia.org/wiki/File:Tokyo_subway_map.PNG';
 // Official always-up-to-date maps (link out; these are copyrighted so we don't embed them)
 const OFFICIAL_METRO_MAP_KR = 'https://www.tokyometro.jp/kr/subwaymap/index.html';
 const OFFICIAL_JR_MAP = 'https://www.jreast.co.jp/e/downloads/pdf/routemap_majorrailsub.pdf';
@@ -146,24 +142,10 @@ export default function SubwayTab() {
       </div>
 
       <div className="rounded-2xl card-surface border border-black/[0.04] dark:border-white/[0.08] shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] dark:shadow-none overflow-hidden">
-        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300 flex items-center justify-between">
-          <span className="flex items-center gap-1.5"><TrainIcon className="h-3.5 w-3.5" />도쿄 지하철 노선도</span>
-          <a
-            href={SUBWAY_MAP_IMAGE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-normal text-accent-500 hover:text-accent-600"
-          >
-            원본 크게 보기
-          </a>
+        <div className="bg-black/[0.02] dark:bg-white/[0.04] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-gray-600 dark:text-gray-300 flex items-center gap-1.5">
+          <TrainIcon className="h-3.5 w-3.5" />도쿄 지하철 노선도 (한글 · 오프라인)
         </div>
-        <div className="overflow-auto bg-white p-2 max-h-[50vh]">
-          <img
-            src={SUBWAY_MAP_IMAGE_URL}
-            alt="도쿄 지하철 노선도 (메트로·도에이·JR 야마노테선)"
-            className="min-w-[600px] w-full"
-          />
-        </div>
+        <SubwayMapSvg />
         <div className="px-3 py-2 border-t border-gray-100 dark:border-gray-800 flex flex-wrap gap-x-3 gap-y-1 text-xs">
           <a
             href={OFFICIAL_METRO_MAP_KR}
@@ -183,12 +165,8 @@ export default function SubwayTab() {
           </a>
         </div>
         <p className="px-3 py-1.5 text-[11px] text-gray-400 border-t border-gray-100 dark:border-gray-800">
-          위 요약 지도는 메트로·도에이·야마노테선만 표시돼요. 전체 노선은 공식 노선도 링크에서 확인하세요.
-          지도:{' '}
-          <a href={SUBWAY_MAP_SOURCE_URL} target="_blank" rel="noopener noreferrer" className="underline">
-            Wikimedia Commons
-          </a>{' '}
-          (CC BY-SA 3.0)
+          여행자용 핵심 4개 노선(야마노테·긴자·마루노우치·히비야)을 표시해요. 인터넷 없이도 열려요.
+          전체 노선은 공식 노선도 링크에서 확인하세요.
         </p>
       </div>
 
